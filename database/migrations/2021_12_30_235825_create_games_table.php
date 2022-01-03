@@ -25,7 +25,6 @@ class CreateGamesTable extends Migration
             $table->foreign('id_restriccion')->references('id')->on('age_restrictions');
             $table->integer('precio');
             $table->date('fecha_de_lanzamiento');
-            $table->string('idioma', 20);
             $table->integer('descuento');
             $table->string('imagen', 500);
             $table->string('descripcion', 600);

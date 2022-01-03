@@ -19,7 +19,6 @@ class CreateInvoicesTable extends Migration
             $table->foreign('id_usuario')->references('id')->on('users');
             $table->unsignedBigInteger('id_metodo')->nullable();
             $table->foreign('id_metodo')->references('id')->on('methods');
-            $table->string('juego', 200);
             $table->integer('precio');
             $table->timestamps();
         });
