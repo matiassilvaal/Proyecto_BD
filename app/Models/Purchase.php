@@ -13,4 +13,8 @@ class Purchase extends Model
     {
         return $this->belongsTo('App\Models\Invoice');
     }
+    public function game()
+    {
+        return $this->belongsTo('App\Models\Game');
+    }
 }

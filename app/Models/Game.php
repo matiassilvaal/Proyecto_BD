@@ -45,4 +45,8 @@ class Game extends Model
     {
         return $this->HasMany('App\Models\Wish_Game');
     }
+    public function purchase()
+    {
+        return $this->hasMany('App\Models\Purchase');
+    }
 }
