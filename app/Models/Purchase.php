@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Purchase extends Model
 {
     use HasFactory;
+
+    public function invoice()
+    {
+        return $this->belongsTo('App\Models\Invoice');
+    }
 }

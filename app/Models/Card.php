@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Card extends Model
 {
     use HasFactory;
+
+    public function method()
+    {
+        return $this->hasOne('App\Models\Method');
+    }
 }

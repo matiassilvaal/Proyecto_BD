@@ -4,7 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class UserFactory extends Factory
+class Age_restrictionFactory extends Factory
 {
     /**
      * Define the model's default state.

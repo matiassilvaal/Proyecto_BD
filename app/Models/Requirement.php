@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Requirement extends Model
 {
     use HasFactory;
+    public function game()
+    {
+        return $this->hasOne('App\Models\Game');
+    }
 }
