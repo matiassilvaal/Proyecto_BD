@@ -2,6 +2,10 @@
 
 namespace Database\Factories;
 
+use App\Models\Address;
+use App\Models\Role;
+use App\Models\Currency;
+use App\Models\Wallet;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class UserFactory extends Factory
@@ -14,7 +18,20 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'id_direccion' => Address::all()->random()->id,
+            'id_rol' => Role::all()->random()->id,
+            'id_moneda' => Currency::all()->random()->id,
+            'id_billetera' => Wallet::all()->random()->id,
+            'nombre' => $this->faker->userName,
+            'fecha_de_nacimiento' => $this->faker->date($format = 'Y-m-d', $max = 'now'),
+            'moneda' => $this->faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = NULL),
+            /**
+             * Que es moneda?
+             * Porque en el modelo de wallet hay un cantidad
+             * Pero aqui hay un moneda y no se que es
+             */
+            'correo' => $this->faker->email,
+            'contrasena' => $this->faker->password
         ];
     }
 }

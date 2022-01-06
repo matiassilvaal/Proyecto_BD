@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Game;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class LibraryFactory extends Factory
@@ -14,7 +16,9 @@ class LibraryFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'id_juego' => Game::all()->random()->id,
+            'id_usuario' => User::all()->random()->id,
+            'horas_jugadas' => $this->faker->randomFloat($nbMaxDecimals = 1, $min = 0, $max = NULL)
         ];
     }
 }

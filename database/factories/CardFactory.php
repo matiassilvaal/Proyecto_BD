@@ -14,7 +14,7 @@ class CardFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'Tipo' => $this->faker->boolean
         ];
     }
 }

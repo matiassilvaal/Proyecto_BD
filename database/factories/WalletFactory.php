@@ -14,7 +14,7 @@ class WalletFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'Cantidad' => $this->faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = NULL)
         ];
     }
 }

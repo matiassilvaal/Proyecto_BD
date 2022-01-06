@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class FriendFactory extends Factory
@@ -14,7 +15,8 @@ class FriendFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'id_usuario1' => User::all()->random()->id,
+            'id_usuario2' => User::all()->random()->id
         ];
     }
 }
