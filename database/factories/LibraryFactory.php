@@ -18,7 +18,7 @@ class LibraryFactory extends Factory
         return [
             'id_juego' => Game::all()->random()->id,
             'id_usuario' => User::all()->random()->id,
-            'horas_jugadas' => $this->faker->randomFloat($nbMaxDecimals = 1, $min = 0, $max = NULL)
+            'horas_jugadas' => $this->faker->numberBetween($min = 0, $max = NULL)
         ];
     }
 }

@@ -18,7 +18,7 @@ class GameFactory extends Factory
     public function definition()
     {
         return [
-            'id_publiser' => User::all()->random()->id,
+            'id_publisher' => User::all()->random()->id,
             'id_requisito' => Requirement::all()->random()->id,
             'id_ubicacion' => Address::all()->random()->id,
             'id_restriccion' => Age_restriction::all()->random()->id,

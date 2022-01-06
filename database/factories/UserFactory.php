@@ -24,7 +24,7 @@ class UserFactory extends Factory
             'id_billetera' => Wallet::all()->random()->id,
             'nombre' => $this->faker->userName,
             'fecha_de_nacimiento' => $this->faker->date($format = 'Y-m-d', $max = 'now'),
-            'moneda' => $this->faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = NULL),
+            'moneda' => $this->faker->numberBetween($min = 0, $max = NULL),
             /**
              * Que es moneda?
              * Porque en el modelo de wallet hay un cantidad

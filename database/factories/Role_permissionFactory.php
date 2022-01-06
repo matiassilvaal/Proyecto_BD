@@ -16,8 +16,8 @@ class Role_permissionFactory extends Factory
     public function definition()
     {
         return [
-            'id_rol' => Role::all()->random->id,
-            'id_permiso' => Permission::all()->random->id
+            'id_rol' => Role::all()->random()->id,
+            'id_permiso' => Permission::all()->random()->id
         ];
     }
 }

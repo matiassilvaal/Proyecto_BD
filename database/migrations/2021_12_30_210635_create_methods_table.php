@@ -17,7 +17,7 @@ class CreateMethodsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('id_tarjeta')->nullable();
             $table->foreign('id_tarjeta')->references('id')->on('cards');
-            $table->integer('numero');
+            $table->biginteger('numero');
             $table->string('nombre', 200);
             $table->date('fecha_de_vencimiento');
             $table->timestamps();
