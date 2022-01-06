@@ -22,7 +22,7 @@ class UserFactory extends Factory
             'id_rol' => Role::all()->random()->id,
             'id_moneda' => Currency::all()->random()->id,
             'id_billetera' => Wallet::all()->random()->id,
-            'nombre' => $this->faker->userName,
+            'nombre' => $this->faker->unique()->userName,
             'fecha_de_nacimiento' => $this->faker->date($format = 'Y-m-d', $max = 'now'),
             'moneda' => $this->faker->numberBetween($min = 0, $max = NULL),
             /**

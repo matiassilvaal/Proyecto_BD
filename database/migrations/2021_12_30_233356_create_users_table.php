@@ -23,10 +23,10 @@ class CreateUsersTable extends Migration
             $table->foreign('id_moneda')->references('id')->on('currencies');
             $table->unsignedBigInteger('id_billetera')->nullable();
             $table->foreign('id_billetera')->references('id')->on('wallets');
-            $table->string('nombre', 200);
+            $table->string('nombre', 200)->unique();
             $table->date('fecha_de_nacimiento');
             $table->integer('moneda');
-            $table->string('correo', 200);
+            $table->string('correo', 200)->unique();
             $table->string('contrasena', 20);
             $table->timestamps();
         });

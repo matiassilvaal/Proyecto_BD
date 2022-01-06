@@ -16,7 +16,7 @@ class MethodFactory extends Factory
     {
         return [
             'id_tarjeta' => Card::all()->random()->id,
-            'numero' => $this->faker->creditCardNumber,
+            'numero' => $this->faker->unique()->creditCardNumber,
             'nombre' => $this->faker->name,
             'fecha_de_vencimiento' => $this->faker->creditCardExpirationDate
         ];

@@ -15,7 +15,7 @@ class CreateAgeRestrictionsTable extends Migration
     {
         Schema::create('age_restrictions', function (Blueprint $table) {
             $table->id();
-            $table->integer("Restriccion");
+            $table->integer("Restriccion")->unique();
             $table->timestamps();
         });
     }

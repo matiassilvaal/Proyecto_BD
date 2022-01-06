@@ -17,7 +17,7 @@ class CreateAddressesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('id_pais')->nullable();
             $table->foreign('id_pais')->references('id')->on('countries');
-            $table->string('ciudad', 100);
+            $table->string('ciudad', 100)->unique();
             $table->timestamps();
         });
     }

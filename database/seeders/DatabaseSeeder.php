@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
         \App\Models\Language::factory(100)->create();
         \App\Models\Genre::factory(100)->create();
         \App\Models\Requirement::factory(100)->create();
-        \App\Models\Age_restriction::factory(100)->create();
+        \App\Models\Age_restriction::factory(4)->create();
         \App\Models\Currency::factory(100)->create();
         \App\Models\Wallet::factory(100)->create();
         \App\Models\Country::factory(100)->create();

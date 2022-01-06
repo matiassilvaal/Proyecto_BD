@@ -14,7 +14,7 @@ class LanguageFactory extends Factory
     public function definition()
     {
         return [
-            'Idioma' => $this->faker->languageCode
+            'Idioma' => $this->faker->unique()->languageCode
         ];
     }
 }

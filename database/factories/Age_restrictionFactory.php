@@ -14,7 +14,8 @@ class Age_restrictionFactory extends Factory
     public function definition()
     {
         return [
-            'Restriccion' => $this->faker->numberBetween($min = 0, $max = 4)
+            'Restriccion' => $this->faker->unique()->numberBetween($min = 0, $max = 4)
+
             /**
              * 0 = 3 años o más
              * 1 = 7 o más

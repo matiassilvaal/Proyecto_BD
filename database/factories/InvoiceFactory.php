@@ -18,7 +18,7 @@ class InvoiceFactory extends Factory
         return [
             'id_usuario' => User::all()->random()->id,
             'id_metodo' => Method::all()->random()->id,
-            'precio' => $this->faker->randomNumber
+            'precio' => $this->faker->randomNumber(5)
         ];
     }
 }

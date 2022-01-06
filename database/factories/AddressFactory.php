@@ -15,7 +15,7 @@ class AddressFactory extends Factory
     public function definition()
     {
         return [
-            'ciudad' => $this->faker->city,
+            'ciudad' => $this->faker->unique()->city,
             'id_pais' => Country::all()->random()->id
         ];
     }
