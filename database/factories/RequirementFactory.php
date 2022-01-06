@@ -20,7 +20,7 @@ class RequirementFactory extends Factory
             'GPU' => $this->faker->text($maxNbChars = 100),
             'DirectX' => $this->faker->randomDigitNotNull,
             'RED' => $this->faker->text($maxNbChars = 100),
-            'Uso de disco' => $this->faker->randomFloat($nbMaxDecimals = 1, $min = 0, $max = NULL)
+            'Uso de disco' => $this->faker->numberBetween($min = 10, $max = 120)
         ];
     }
 }
