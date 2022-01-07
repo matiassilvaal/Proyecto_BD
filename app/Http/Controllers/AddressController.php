@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Address;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class AddressController extends Controller
 {
@@ -38,7 +39,33 @@ class AddressController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'id_pais' => 'required',
+                'ciudad' => 'required|min:4|max:100|unique:App\Models\Address,ciudad',
+            ],
+            [
+                'id_pais.required' => 'Debes ingresar un id del pais',
+                'ciudad.required' => 'Debes ingresar una ciudad',
+                'ciudad.min' => 'La ciudad debe ser almenos de 4 caracteres',
+                'ciudad.max' => 'La ciudad debe ser de maximo 100 caracteres',
+                'ciudad.unique' => 'La ciudad ya existe',
+            ]
+        );
+        //Caso falla la validación
+        if($validator->fails()){
+            return response($validator->errors(), 400);
+        }
+        $newAddress = new Address();
+        $newAddress->id_pais = $request->id_pais;
+        $newAddress->ciudad = $request->ciudad;
+        $newAddress->save();
+
+        return response()->json([
+            'msg' => 'New address has been created',
+            'id' => $newAddress->id,
+        ], 201);
     }
 
     /**
@@ -78,6 +105,33 @@ class AddressController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'ciudad' => 'required|min:4|max:100|unique:App\Models\Address,ciudad',
+            ],
+            [
+                'ciudad.required' => 'Debes ingresar una ciudad',
+                'ciudad.min' => 'La ciudad debe ser almenos de 4 caracteres',
+                'ciudad.max' => 'La ciudad debe ser de maximo 100 caracteres',
+                'ciudad.unique' => 'La ciudad ya existe',
+            ]
+        );
+        //Caso falla la validación
+        if($validator->fails()){
+            return response($validator->errors());
+        }
+        $address = Address::find($id);
+        if(empty($address)){
+            return response()->json([], 204);
+        }
+
+        $address->ciudad = $request->ciudad;
+        $address->save();
+        return response()->json([
+            'msg' => 'Address has been edited',
+            'id' => $address->id,
+        ], 200);
     }
 
     /**
@@ -89,5 +143,16 @@ class AddressController extends Controller
     public function destroy($id)
     {
         //
+        $address = Address::find($id);
+        echo $address;
+
+        if(empty($address)){
+            return response()->json([], 204);
+        }
+        $address->delete();
+        return response()->json([
+            'msg' => 'Address has been deleted',
+            'id' => $address->id,
+        ], 200);
     }
 }

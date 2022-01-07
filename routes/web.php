@@ -19,3 +19,6 @@ Route::get('/', function () {
 
 Route::get('/addresses','AddressController@index');
 Route::get('/address/{id}','AddressController@show');
+Route::post('/address/create','AddressController@store');
+Route::put('/address/update/{id}','AddressController@update');
+Route::delete('/address/delete/{id}','AddressController@destroy');
