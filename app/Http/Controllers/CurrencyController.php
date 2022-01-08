@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Currency;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class CurrencyController extends Controller
 {
@@ -13,7 +15,11 @@ class CurrencyController extends Controller
      */
     public function index()
     {
-        //
+        $currencies = Currency::all();
+        if($currencies->isEmpty()){
+            return response()->json([], 204);
+        }
+        return response($currencies, 200);
     }
 
     /**
@@ -34,7 +40,31 @@ class CurrencyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'Nombre' => 'required|string|min:1|max:50',
+                'Transformacion' => 'required|integer'
+            ],
+            [
+                'Nombre.required' => 'Debes ingresar un nombre de moneda',
+                'Nombre.string' => 'Debe ser un string',
+                'Nombre.min' => 'El string no puede ser vacio',
+                'Nombre.max' => 'El string no puede ser mayor a 50 caracteres'
+            ]
+        );
+        if($validator->fails()){
+            return response($validator->errors(), 400);
+        }
+        $newCurrency = new Currency();
+        $newCurrency->Nombre = $request->Nombre;
+        $newCurrency->Transformacion = $request->Transformacion;
+        $newCurrency->save();
+
+        return response()->json([
+            'msg' => 'New currency has been created',
+            'id' => $newCurrency->id
+        ], 201);
     }
 
     /**
@@ -45,7 +75,11 @@ class CurrencyController extends Controller
      */
     public function show($id)
     {
-        //
+        $currency = Currency::find($id);
+        if(empty($currency)){
+            return response()->json([], 204);
+        }
+        return response($currency, 200);
     }
 
     /**
@@ -68,7 +102,34 @@ class CurrencyController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'Nombre' => 'required|string|min:1|max:50',
+                'Transformacion' => 'required|integer'
+            ],
+            [
+                'Nombre.required' => 'Debes ingresar un nombre de moneda',
+                'Nombre.string' => 'Debe ser un string',
+                'Nombre.min' => 'El string no puede ser vacio',
+                'Nombre.max' => 'El string no puede ser mayor a 50 caracteres'
+            ]
+        );
+        if($validator->fails()){
+            return response($validator->errors());
+        }
+        $currency = Currency::find($id);
+        if(empty($currency)){
+            return response()->json([], 204);
+        }
+
+        $currency->Nombre = $request->Nombre;
+        $currency->Transformacion = $request->Transformacion;
+        $currency->save();
+        return response()->json([
+            'msg' => 'Currency has been edited',
+            'id' => $currency->id
+        ], 200);
     }
 
     /**
@@ -79,6 +140,14 @@ class CurrencyController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $currency = Currency::find($id);
+        if(empty($ageRestriction)){
+            return response()->json([], 204);
+        }
+        $currency->delete();
+        return response()->json([
+            'msg' => 'Currency has been deleted',
+            'id' => $currency->id
+        ], 200);
     }
 }

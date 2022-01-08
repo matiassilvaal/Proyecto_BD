@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Friend;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class FriendController extends Controller
 {
@@ -13,7 +15,11 @@ class FriendController extends Controller
      */
     public function index()
     {
-        //
+        $friends = Friend::all();
+        if($friends->isEmpty()){
+            return response()->json([], 204);
+        }
+        return response($friends, 200);
     }
 
     /**
@@ -34,7 +40,13 @@ class FriendController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $newFriend = new Friend();
+        $newFriend->save();
+
+        return response()->json([
+            'msg' => 'New friend has been created',
+            'id' => $newFriend->id
+        ], 201);
     }
 
     /**
@@ -45,7 +57,11 @@ class FriendController extends Controller
      */
     public function show($id)
     {
-        //
+        $friend = Friend::find($id);
+        if(empty($friend)){
+            return response()->json([], 204);
+        }
+        return response($friend, 200);
     }
 
     /**
@@ -68,7 +84,10 @@ class FriendController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        /**
+         * Como hacer un update de una
+         * tabla con 2 llaves foraneas?
+         */
     }
 
     /**
@@ -79,6 +98,14 @@ class FriendController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $friend = Friend::find($id);
+        if(empty($friend)){
+            return response()->json([], 204);
+        }
+        $friend->delete();
+        return response()->json([
+            'msg' => 'Friend has been deleted',
+            'id' => $friend->id
+        ], 200);
     }
 }
