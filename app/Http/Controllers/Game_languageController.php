@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Game_language;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class Game_languageController extends Controller
 {
@@ -13,7 +15,11 @@ class Game_languageController extends Controller
      */
     public function index()
     {
-        //
+        $game_languages = Game_language::all();
+        if($game_languages->isEmpty()){
+            return response()->json([], 204);
+        }
+        return response($game_languages, 200);
     }
 
     /**
@@ -34,7 +40,33 @@ class Game_languageController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'id_juego' => 'required|exists:App\Models\Game,id|integer',
+                'id_idioma' => 'required|exists:App\Models\Language,id|integer'
+            ],
+            [
+                'id_juego.required' => 'Debes ingresar una id de juego',
+                'id_juego.exists' => 'La id juego ya existe',
+                'id_juego.integer' => 'La id juego debe ser entera',
+                'id_idioma.required' => 'Debes ingresar una id de idioma',
+                'id_idioma.exists' => 'La id idioma ya existe',
+                'id_idioma.integer' => 'La id idioma debe ser entera'
+            ]
+        );
+        if($validator->fails()){
+            return response($validator->errors(), 400);
+        }
+        $newGameLanguage = new Game_language();
+        $newGameLanguage->id_juego = $request->id_juego;
+        $newGameLanguage->id_idioma = $request->id_idioma;
+        $newGameLanguage->save();
+
+        return response()->json([
+            'msg' => 'New game_language has been created',
+            'id' => $newGameLanguage->id
+        ], 201);
     }
 
     /**
@@ -45,7 +77,11 @@ class Game_languageController extends Controller
      */
     public function show($id)
     {
-        //
+        $gameLanguage = Game_language::find($id);
+        if(empty($gameLanguage)){
+            return response()->json([], 204);
+        }
+        return response($gameLanguage, 200);
     }
 
     /**
@@ -68,7 +104,36 @@ class Game_languageController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'id_juego' => 'required|exists:App\Models\Game,id|integer',
+                'id_idioma' => 'required|exists:App\Models\Language,id|integer'
+            ],
+            [
+                'id_juego.required' => 'Debes ingresar una id de juego',
+                'id_juego.exists' => 'La id juego ya existe',
+                'id_juego.integer' => 'La id juego debe ser entera',
+                'id_idioma.required' => 'Debes ingresar una id de idioma',
+                'id_idioma.exists' => 'La id idioma ya existe',
+                'id_idioma.integer' => 'La id idioma debe ser entera'
+            ]
+        );
+        if($validator->fails()){
+            return response($validator->errors());
+        }
+        $gameLanguage = Game_language::find($id);
+        if(empty($gameLanguage)){
+            return response()->json([], 204);
+        }
+
+        $gameLanguage->id_juego = $request->id_juego;
+        $gameLanguage->id_idioma = $request->id_idioma;
+        $gameLanguage->save();
+        return response()->json([
+            'msg' => 'Game_language has been edited',
+            'id' => $gameLanguage->id
+        ], 200);
     }
 
     /**
@@ -79,6 +144,14 @@ class Game_languageController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $gameLanguage = Game_language::find($id);
+        if(empty($gameLanguage)){
+            return response()->json([], 204);
+        }
+        $gameLanguage->delete();
+        return response()->json([
+            'msg' => 'Game_language has been deleted',
+            'id' => $gameLanguage->id
+        ], 200);
     }
 }

@@ -52,3 +52,27 @@ Route::get('/country/{id}', 'CountryController@show');
 Route::post('/country/create', 'CountryController@store');
 Route::put('/country/update/{id}', 'CountryController@update');
 Route::delete('/country/delete/{id}', 'CountryController@destroy');
+
+Route::get('/friend', 'FriendController@index');
+Route::get('/friend/{id}', 'FriendController@show');
+Route::post('/friend/create', 'FriendController@store');
+Route::put('/friend/update/{id}', 'FriendController@update');
+Route::delete('/friend/delete/{id}', 'FriendController@destroy');
+
+Route::get('/game_genre', 'Game_genreController@index');
+Route::get('/game_genre/{id}', 'Game_genreController@show');
+Route::post('/game_genre/create', 'Game_genreController@store');
+Route::put('/game_genre/update/{id}', 'Game_genreController@update');
+Route::delete('/game_genre/delete/{id}', 'Game_genreController@destroy');
+
+Route::get('/game_language', 'Game_languageController@index');
+Route::get('/game_language/{id}', 'Game_languageController@show');
+Route::post('/game_language/create', 'Game_languageController@store');
+Route::put('/game_language/update/{id}', 'Game_languageController@update');
+Route::delete('/game_language/delete/{id}', 'Game_languageController@destroy');
+
+Route::get('/game', 'GameController@index');
+Route::get('/game/{id}', 'GameController@show');
+Route::post('/game/create', 'GameController@store');
+Route::put('/game/update/{id}', 'GameController@update');
+Route::delete('/game/delete/{id}', 'GameController@destroy');
