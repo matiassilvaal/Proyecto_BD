@@ -43,12 +43,13 @@ class Age_restrictionController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'Restriccion' => 'required|min:3|max:18'
+                'Restriccion' => 'required|unique:App\Models\Age_restriction,Restriccion|integer|between:3,80'
             ],
             [
                 'Restriccion.required' => 'Debes ingresar una edad de restriccion',
-                'Restriccion.min' => 'La restriccion minima es 3 anos o mas',
-                'Restriccion.max' => 'La restriccion maxima es 18 anos o mas'
+                'Restriccion.unique' => 'Esta restricción ya existe',
+                'Restriccion.integer' => 'La restriccion debe ser entera',
+                'Restriccion.between' => 'La restriccion debe ser entre 3 y 55 años',
             ]
         );
         if($validator->fails()){
@@ -60,7 +61,7 @@ class Age_restrictionController extends Controller
 
         return response()->json([
             'msg' => 'New age restriction has been created',
-            'id' => $newAgerestriction->id
+            'id' => $newAgeRestriction->id
         ], 201);
     }
 
@@ -102,16 +103,17 @@ class Age_restrictionController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'Restriccion' => 'required|min:3|max:18'
+                'Restriccion' => 'required|unique:App\Models\Age_restriction,Restriccion|integer|between:3,80'
             ],
             [
                 'Restriccion.required' => 'Debes ingresar una edad de restriccion',
-                'Restriccion.min' => 'La restriccion minima es 3 anos o mas',
-                'Restriccion.max' => 'La restriccion maxima es 18 anos o mas'
+                'Restriccion.unique' => 'Esta restricción ya existe',
+                'Restriccion.integer' => 'La restriccion debe ser entera',
+                'Restriccion.between' => 'La restriccion debe ser entre 3 y 55 años',
             ]
         );
         if($validator->fails()){
-            return response($validator->errors());
+            return response($validator->errors(), 400);
         }
         $ageRestriction = Age_restriction::find($id);
         if(empty($ageRestriction)){

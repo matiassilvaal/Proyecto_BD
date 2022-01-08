@@ -12,7 +12,7 @@ class AddressController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index() // mostrar todo
     {
         $addresses = Address::all();
         if($addresses->isEmpty()){
@@ -42,11 +42,13 @@ class AddressController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'id_pais' => 'required',
+                'id_pais' => 'required|exists:App\Models\Country,id|integer',
                 'ciudad' => 'required|min:4|max:100|unique:App\Models\Address,ciudad',
             ],
             [
                 'id_pais.required' => 'Debes ingresar un id del pais',
+                'id_pais.exists' => 'La llave foranea no existe',
+                'id_pais.integer' => 'La llave foranea debe ser un entero',
                 'ciudad.required' => 'Debes ingresar una ciudad',
                 'ciudad.min' => 'La ciudad debe ser almenos de 4 caracteres',
                 'ciudad.max' => 'La ciudad debe ser de maximo 100 caracteres',
@@ -108,9 +110,13 @@ class AddressController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
+                'id_pais' => 'required|exists:App\Models\Country,id|integer',
                 'ciudad' => 'required|min:4|max:100|unique:App\Models\Address,ciudad',
             ],
             [
+                'id_pais.required' => 'Debes ingresar un id del pais',
+                'id_pais.exists' => 'La llave foranea no existe',
+                'id_pais.integer' => 'La llave foranea debe ser un entero',
                 'ciudad.required' => 'Debes ingresar una ciudad',
                 'ciudad.min' => 'La ciudad debe ser almenos de 4 caracteres',
                 'ciudad.max' => 'La ciudad debe ser de maximo 100 caracteres',
@@ -127,6 +133,7 @@ class AddressController extends Controller
         }
 
         $address->ciudad = $request->ciudad;
+        $address->id_pais = $request->id_pais;
         $address->save();
         return response()->json([
             'msg' => 'Address has been edited',
@@ -144,8 +151,6 @@ class AddressController extends Controller
     {
         //
         $address = Address::find($id);
-        echo $address;
-
         if(empty($address)){
             return response()->json([], 204);
         }
