@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Genre;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class GenreController extends Controller
 {
@@ -13,9 +15,12 @@ class GenreController extends Controller
      */
     public function index()
     {
-        //
+        $genres = Genre::all();
+        if($genres->isEmpty()){
+            return response()->json([], 204);
+        }
+        return response($genres, 200);
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -34,7 +39,30 @@ class GenreController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'Nombre' => 'required|min:4|max:100|unique:App\Models\Genre,Nombre',
+            ],
+            [
+                'Nombre.required' => 'Debes ingresar un nombre',
+                'Nombre.min' => 'El genero debe ser almenos de 4 caracteres',
+                'Nombre.max' => 'El genero debe ser de maximo 100 caracteres',
+                'Nombre.unique' => 'El genero ya existe',
+            ]
+        );
+        //Caso falla la validación
+        if($validator->fails()){
+            return response($validator->errors(), 400);
+        }
+        $newGenre = new Genre();
+        $newGenre->Nombre = $request->Nombre;
+        $newGenre->save();
+
+        return response()->json([
+            'msg' => 'New genre has been created',
+            'id' => $newGenre->id,
+        ], 201);
     }
 
     /**
@@ -46,6 +74,11 @@ class GenreController extends Controller
     public function show($id)
     {
         //
+        $genre = Genre::find($id);
+        if(empty($genre)){
+            return response()->json([], 204);
+        }
+        return response($genre, 200);
     }
 
     /**
@@ -69,6 +102,33 @@ class GenreController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'Nombre' => 'required|min:4|max:100|unique:App\Models\Genre,Nombre',
+            ],
+            [
+                'Nombre.required' => 'Debes ingresar un nombre',
+                'Nombre.min' => 'El genero debe ser almenos de 4 caracteres',
+                'Nombre.max' => 'El genero debe ser de maximo 100 caracteres',
+                'Nombre.unique' => 'El genero ya existe',
+            ]
+        );
+        //Caso falla la validación
+        if($validator->fails()){
+            return response($validator->errors(), 400);
+        }
+        $genre = Genre::find($id);
+        if(empty($genre)){
+            return response()->json([], 204);
+        }
+
+        $genre->Nombre = $request->Nombre;
+        $genre->save();
+        return response()->json([
+            'msg' => 'Genre has been edited',
+            'id' => $genre->id,
+        ], 200);
     }
 
     /**
@@ -77,8 +137,18 @@ class GenreController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
     public function destroy($id)
     {
         //
+        $genre = Genre::find($id);
+        if(empty($genre)){
+            return response()->json([], 204);
+        }
+        $genre->delete();
+        return response()->json([
+            'msg' => 'Genre has been deleted',
+            'id' => $genre->id,
+        ], 200);
     }
 }

@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Game;
 use App\Models\User;
+use App\Models\Comment_type;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class CommentFactory extends Factory
@@ -18,6 +19,7 @@ class CommentFactory extends Factory
         return [
             'id_juego' => Game::all()->random()->id,
             'id_usuario' => User::all()->random()->id,
+            'id_comment_type' => Comment_type::all()->random()->id,
             'texto' => $this->faker->realText($maxNbChars = 1000)
             /**
              * Le quité el segundo parámetro

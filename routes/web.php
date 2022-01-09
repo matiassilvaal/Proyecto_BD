@@ -77,3 +77,15 @@ Route::get('/game/{id}', 'GameController@show');
 Route::post('/game/create', 'GameController@store');
 Route::put('/game/update/{id}', 'GameController@update');
 Route::delete('/game/delete/{id}', 'GameController@destroy');
+
+Route::get('/genres', 'GenreController@index');
+Route::get('/genre/{id}', 'GenreController@show');
+Route::post('/genre/create', 'GenreController@store');
+Route::put('/genre/update/{id}', 'GenreController@update');
+Route::delete('/genre/delete/{id}', 'GenreController@destroy');
+
+Route::get('/invoices', 'InvoiceController@index');
+Route::get('/invoice/{id}', 'InvoiceController@show');
+Route::post('/invoice/create', 'InvoiceController@store');
+Route::put('/invoice/update/{id}', 'InvoiceController@update');
+Route::delete('/invoice/delete/{id}', 'InvoiceController@destroy');

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Invoice;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class InvoiceController extends Controller
 {
@@ -13,9 +15,12 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-        //
+        $invoices = Invoice::all();
+        if($invoices->isEmpty()){
+            return response()->json([], 204);
+        }
+        return response($invoices, 200);
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -34,7 +39,37 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'id_usuario' => 'required|exists:App\Models\User,id',
+                'id_metodo' => 'required|exists:App\Models\Method,id',
+                'precio' => 'required|integer|min:0',
+            ],
+            [
+                'id_usuario.required' => 'Debes ingresar una id de usuario',
+                'id_usuario.exists' => 'No existe la foranea de id de usuario',
+                'id_metodo.required' => 'Debes ingresar una id de metodo',
+                'id_metodo.exists' => 'No existe la foranea de id de metodo',
+                'precio.required' => 'Se requiere un precio',
+                'precio.min' => 'El precio debe ser minimo de 0',
+                'precio.integer' => 'El precio debe ser un entero',
+            ]
+        );
+        //Caso falla la validación
+        if($validator->fails()){
+            return response($validator->errors(), 400);
+        }
+        $newInvoice = new Invoice();
+        $newInvoice->id_usuario = $request->id_usuario;
+        $newInvoice->id_metodo = $request->id_metodo;
+        $newInvoice->precio = $request->precio;
+        $newInvoice->save();
+
+        return response()->json([
+            'msg' => 'New invoice has been created',
+            'id' => $newInvoice->id,
+        ], 201);
     }
 
     /**
@@ -46,6 +81,11 @@ class InvoiceController extends Controller
     public function show($id)
     {
         //
+        $invoice = Invoice::find($id);
+        if(empty($invoice)){
+            return response()->json([], 204);
+        }
+        return response($invoice, 200);
     }
 
     /**
@@ -69,6 +109,42 @@ class InvoiceController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'id_usuario' => 'required|numeric|exists:App\Models\User,id',
+                'id_metodo' => 'required|numeric|exists:App\Models\Method,id',
+                'precio' => 'required|numeric|min:0',
+            ],
+            [
+                'id_usuario.required' => 'Debes ingresar una id de usuario',
+                'id_usuario.exists' => 'No existe la foranea de id de usuario',
+                'id_usuario.numeric' => 'El id de usuario debe ser un numero',
+                'id_metodo.numeric' => 'El id del metodo debe ser un numero',
+                'id_metodo.required' => 'Debes ingresar una id de metodo',
+                'id_metodo.exists' => 'No existe la foranea de id de metodo',
+                'precio.required' => 'Se requiere un precio',
+                'precio.min' => 'El precio debe ser minimo de 0',
+                'precio.numeric' => 'El precio debe ser un entero',
+            ]
+        );
+        //Caso falla la validación
+        if($validator->fails()){
+            return response($validator->errors(), 400);
+        }
+        $invoice = Invoice::find($id);
+        if(empty($invoice)){
+            return response()->json([], 204);
+        }
+
+        $invoice->id_usuario = $request->id_usuario;
+        $invoice->id_metodo = $request->id_metodo;
+        $invoice->precio = $request->precio;
+        $invoice->save();
+        return response()->json([
+            'msg' => 'Invoice has been edited',
+            'id' => $invoice->id,
+        ], 200);
     }
 
     /**
@@ -77,8 +153,18 @@ class InvoiceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
     public function destroy($id)
     {
         //
+        $invoice = Invoice::find($id);
+        if(empty($invoice)){
+            return response()->json([], 204);
+        }
+        $invoice->delete();
+        return response()->json([
+            'msg' => 'Invoice has been deleted',
+            'id' => $invoice->id,
+        ], 200);
     }
 }

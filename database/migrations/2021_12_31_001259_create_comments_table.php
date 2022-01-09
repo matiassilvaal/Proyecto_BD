@@ -19,6 +19,8 @@ class CreateCommentsTable extends Migration
             $table->foreign('id_juego')->references('id')->on('games');
             $table->unsignedBigInteger('id_usuario')->nullable();
             $table->foreign('id_usuario')->references('id')->on('users');
+            $table->unsignedBigInteger('id_comment_type')->nullable();
+            $table->foreign('id_comment_type')->references('id')->on('comment_types');
             $table->string('texto', 1000);
             $table->date('fecha_de_creacion');
             $table->timestamps();
