@@ -22,6 +22,7 @@ Route::get('/address/{id}','AddressController@show');
 Route::post('/address/create','AddressController@store');
 Route::put('/address/update/{id}','AddressController@update');
 Route::delete('/address/delete/{id}','AddressController@destroy');
+Route::get('/address/softdelete/{id}','AddressController@soft');
 
 Route::get('/age_restrictions', 'Age_restrictionController@index');
 Route::get('/age_restriction/{id}', 'Age_restrictionController@show');

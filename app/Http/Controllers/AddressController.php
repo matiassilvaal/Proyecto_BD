@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Address;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class AddressController extends Controller
 {
@@ -147,6 +148,7 @@ class AddressController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
     public function destroy($id)
     {
         //
@@ -160,4 +162,57 @@ class AddressController extends Controller
             'id' => $address->id,
         ], 200);
     }
+    public function soft($id)
+    {
+        $address = Address::find($id);
+        if(empty($address)){
+            return response()->json([], 204);
+        }
+        if($address->soft == true){
+          return response()->json([
+            'msg' => 'La direccion ya esta borrada (softdelete)',
+            'id' => $address->id,
+          ], 200);
+        }
+
+        $address->soft = true;
+        $address->save();
+        return response()->json([
+            'msg' => 'Address has been softdeleted',
+            'id' => $address->id,
+        ], 200);
+    }
+    public function restore($id)
+    {
+        $address = Address::find($id);
+        if(empty($address)){
+            return response()->json([], 204);
+        }
+        if($address->soft == false){
+          return response()->json([
+            'msg' => 'La direccion no esta borrada',
+            'id' => $address->id,
+          ], 200);
+        }
+
+        $address->soft = false;
+        $address->save();
+        return response()->json([
+            'msg' => 'Address has been restored',
+            'id' => $address->id,
+        ], 200);
+    }
+    /*public function restore($id)
+    {
+        //
+        $address = Address::withTrashed()->find($id);
+        if(empty($address)){
+            return response()->json([], 204);
+        }
+        $address->restore();
+        return response()->json([
+            'msg' => 'Address has been restored',
+            'id' => $address->id,
+        ], 200);
+    }*/
 }

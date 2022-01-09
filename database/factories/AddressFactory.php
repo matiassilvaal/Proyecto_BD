@@ -16,7 +16,8 @@ class AddressFactory extends Factory
     {
         return [
             'ciudad' => $this->faker->unique()->city,
-            'id_pais' => Country::all()->random()->id
+            'id_pais' => Country::all()->random()->id,
+            'soft' => false
         ];
     }
 }
