@@ -46,7 +46,7 @@ class Comment_typeController extends Controller
                 'Tipo' => 'required|boolean'
             ],
             [
-                'Tipo.required' => 'Debes ingresar un tipo de comentario',
+                'Tipo.required' => 'Debes ingresar un tipo de comentario (1: like o 0: dislike)',
                 'Tipo.boolean' => 'El tipo debe ser un booleano (true/false, 1/0, "1"/"0")'
             ]
         );
@@ -104,12 +104,12 @@ class Comment_typeController extends Controller
                 'Tipo' => 'required|boolean'
             ],
             [
-                'Tipo.required' => 'Debes ingresar un tipo de comentario',
+                'Tipo.required' => 'Debes ingresar un tipo de comentario (1: like o 0: dislike)',
                 'Tipo.boolean' => 'El tipo debe ser un booleano (true/false, 1/0, "1"/"0")'
             ]
         );
         if($validator->fails()){
-            return repsonse($validator->errors());
+            return response($validator->errors());
         }
         $commentType = Comment_type::find($id);
         if(empty($commentType)){

@@ -44,13 +44,15 @@ class CurrencyController extends Controller
             $request->all(),
             [
                 'Nombre' => 'required|string|min:1|max:50',
-                'Transformacion' => 'required|integer'
+                'Transformacion' => 'required|numeric'
             ],
             [
                 'Nombre.required' => 'Debes ingresar un nombre de moneda',
                 'Nombre.string' => 'Debe ser un string',
                 'Nombre.min' => 'El string no puede ser vacio',
-                'Nombre.max' => 'El string no puede ser mayor a 50 caracteres'
+                'Nombre.max' => 'El string no puede ser mayor a 50 caracteres',
+                'Transformacion.required' => 'Debes ingresar una tasa de transformacion',
+                'Transformacion.numeric' => 'La tasa de transformacion debe ser flotante (2 decimales)'
             ]
         );
         if($validator->fails()){
@@ -102,17 +104,19 @@ class CurrencyController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validator = Validator::make(
+       $validator = Validator::make(
             $request->all(),
             [
                 'Nombre' => 'required|string|min:1|max:50',
-                'Transformacion' => 'required|integer'
+                'Transformacion' => 'required|numeric'
             ],
             [
                 'Nombre.required' => 'Debes ingresar un nombre de moneda',
                 'Nombre.string' => 'Debe ser un string',
                 'Nombre.min' => 'El string no puede ser vacio',
-                'Nombre.max' => 'El string no puede ser mayor a 50 caracteres'
+                'Nombre.max' => 'El string no puede ser mayor a 50 caracteres',
+                'Transformacion.required' => 'Debes ingresar una tasa de transformacion',
+                'Transformacion.numeric' => 'La tasa de transformacion debe ser flotante (2 decimales)'
             ]
         );
         if($validator->fails()){

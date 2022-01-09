@@ -43,10 +43,11 @@ class CountryController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'Pais' => 'required|string|min:1|max:100'
+                'Pais' => 'required|unique:App\Models\Country,Pais|string|min:1|max:100'
             ],
             [
                 'Pais.required' => 'Debe ingresar un pais',
+                'Pais.unique' => 'Este pais ya existe en la base de datos',
                 'Pais.string' => 'Pais debe ser un string',
                 'Pais.min' => 'Pais no puede ser vacio',
                 'Pais.max' => 'Pais no puede ser mayor de 100 caracteres'
@@ -103,10 +104,11 @@ class CountryController extends Controller
        $validator = Validator::make(
             $request->all(),
             [
-                'Pais' => 'required|string|min:1|max:100'
+                'Pais' => 'required|unique:App\Models\Country,Pais|string|min:1|max:100'
             ],
             [
                 'Pais.required' => 'Debe ingresar un pais',
+                'Pais.unique' => 'Este pais ya existe en la base de datos',
                 'Pais.string' => 'Pais debe ser un string',
                 'Pais.min' => 'Pais no puede ser vacio',
                 'Pais.max' => 'Pais no puede ser mayor de 100 caracteres'

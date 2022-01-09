@@ -155,6 +155,7 @@ class CommentController extends Controller
 
         $comment->id_juego = $request->id_juego;
         $comment->id_usuario = $request->id_usuario;
+        $comment->id_comment_type = $request->id_comment_type;
         $comment->texto = $request->texto;
         $comment->fecha_de_creacion = $request->fecha_de_creacion;
         $comment->save();
