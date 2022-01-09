@@ -45,6 +45,7 @@ class CommentController extends Controller
             [
                 'id_juego' => 'required|exists:App\Models\Game,id|integer',
                 'id_usuario' => 'required|exists:App\Models\User,id|integer',
+                'id_comment_type' => 'required|exists:App\Models\Comment_type,id|integer',
                 'texto' => 'required|string|min:1|max:1000',
                 'fecha_de_creacion' => 'required|date'
             ],
@@ -55,6 +56,9 @@ class CommentController extends Controller
                 'id_usuario.required' => 'Debes ingresar una id de usuario',
                 'id_usuario.exists' => 'La id usuario ya existe',
                 'id_usuario.integer' => 'La id usuario debe ser entera',
+                'id_comment_type.required' => 'Debes ingresar una id de tipo de comentario',
+                'id_comment_type.exists' => 'La id tipo de comentario ya existe',
+                'id_comment_type.integer' => 'La id tipo de comentario debe ser entera',
                 'texto.required' => 'Debes ingresar texto',
                 'texto.string' => 'El comentario debe ser un string',
                 'texto.min' => 'El comentario no puede ser vacío',
@@ -119,11 +123,21 @@ class CommentController extends Controller
             [
                 'id_juego' => 'required|exists:App\Models\Game,id|integer',
                 'id_usuario' => 'required|exists:App\Models\User,id|integer',
+                'id_comment_type' => 'required|exists:App\Models\Comment_type,id|integer',
                 'texto' => 'required|string|min:1|max:1000',
                 'fecha_de_creacion' => 'required|date'
             ],
             [
-                'texto.required' => 'Debes ingresar texto'.
+                'id_juego.required' => 'Debes ingresar una id de juego',
+                'id_juego.exists' => 'La id juego ya existe',
+                'id_juego.integer' => 'La id juego debe ser entera',
+                'id_usuario.required' => 'Debes ingresar una id de usuario',
+                'id_usuario.exists' => 'La id usuario ya existe',
+                'id_usuario.integer' => 'La id usuario debe ser entera',
+                'id_comment_type.required' => 'Debes ingresar una id de tipo de comentario',
+                'id_comment_type.exists' => 'La id tipo de comentario ya existe',
+                'id_comment_type.integer' => 'La id tipo de comentario debe ser entera',
+                'texto.required' => 'Debes ingresar texto',
                 'texto.string' => 'El comentario debe ser un string',
                 'texto.min' => 'El comentario no puede ser vacío',
                 'texto.max' => 'El comentario no puede pasarse de los 1000 caracteres',

@@ -40,7 +40,7 @@ Route::get('/comment_type', 'Comment_typeController@index');
 Route::get('/comment_type/{id}', 'Comment_typeController@show');
 Route::post('/comment_type/create', 'Comment_typeController@store');
 Route::put('/comment_type/update/{id}', 'Comment_typeController@update');
-Route::delete('/card/delete/{id}', 'Comment_typeController@destroy');
+Route::delete('/comment_type/delete/{id}', 'Comment_typeController@destroy');
 
 Route::get('/comment', 'CommentController@index');
 Route::get('/comment/{id}', 'CommentController@show');

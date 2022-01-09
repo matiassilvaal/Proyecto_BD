@@ -19,7 +19,7 @@ class CardController extends Controller
         if($cards->isEmpty()){
             return response()->json([], 204);
         }
-        return response()->json([], 200);
+        return response($cards, 200);
     }
 
     /**
@@ -105,7 +105,7 @@ class CardController extends Controller
             ],
             [
                 'Tipo.required' => 'Debes ingresar un tipo de tarjeta',
-                'Tipo.boolean' => 'Debe ser un booleano (true/false, 1/0, "1"/"0")'
+                'Tipo.boolean' => 'Debe ser un booleano (1 o 0)'
             ]
         );
         if($validator->fails()){
