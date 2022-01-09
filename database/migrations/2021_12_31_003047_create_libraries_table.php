@@ -20,6 +20,7 @@ class CreateLibrariesTable extends Migration
             $table->unsignedBigInteger('id_usuario')->nullable();
             $table->foreign('id_usuario')->references('id')->on('users');
             $table->integer('horas_jugadas');
+            $table->boolean('soft');
             $table->timestamps();
         });
     }

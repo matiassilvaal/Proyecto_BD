@@ -20,6 +20,7 @@ class CreateInvoicesTable extends Migration
             $table->unsignedBigInteger('id_metodo')->nullable();
             $table->foreign('id_metodo')->references('id')->on('methods');
             $table->integer('precio');
+            $table->boolean('soft');
             $table->timestamps();
         });
     }

@@ -15,7 +15,8 @@ class CurrencyFactory extends Factory
     {
         return [
             'Nombre' => $this->faker->unique()->currencyCode,
-            'Transformacion' => $this->faker->randomDigit
+            'Transformacion' => $this->faker->randomDigit,
+            'soft' => false
         ];
     }
 }

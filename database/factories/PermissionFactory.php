@@ -14,7 +14,8 @@ class PermissionFactory extends Factory
     public function definition()
     {
         return [
-            'Permiso' => $this->faker->unique()->realText($maxNbChars = 200)
+            'Permiso' => $this->faker->unique()->realText($maxNbChars = 200),
+            'soft' => false
         ];
     }
 }

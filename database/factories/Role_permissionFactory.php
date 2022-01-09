@@ -17,7 +17,8 @@ class Role_permissionFactory extends Factory
     {
         return [
             'id_rol' => Role::all()->random()->id,
-            'id_permiso' => Permission::all()->random()->id
+            'id_permiso' => Permission::all()->random()->id,
+            'soft' => false
         ];
     }
 }

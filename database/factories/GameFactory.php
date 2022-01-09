@@ -35,7 +35,8 @@ class GameFactory extends Factory
             'imagen' => $this->faker->imageUrl($width = 640, $height = 480),
             'descripcion' => $this->faker->realText($maxNbChars = 600),
             'descarga' => $this->faker->url,
-            'demo' => $this->faker->url
+            'demo' => $this->faker->url,
+            'soft' => false
         ];
     }
 }

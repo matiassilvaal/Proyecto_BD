@@ -19,7 +19,8 @@ class User_gameFactory extends Factory
             'id_juego' => Game::all()->random()->id,
             'id_usuario' => User::all()->random()->id,
             'like' => $this->faker->boolean,
-            'valoracion' => $this->faker->numberBetween($min = 0, $max = 5)
+            'valoracion' => $this->faker->numberBetween($min = 0, $max = 5),
+            'soft' => false
         ];
     }
 }

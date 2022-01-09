@@ -16,6 +16,7 @@ class CreateCommentTypesTable extends Migration
         Schema::create('comment_types', function (Blueprint $table) {
             $table->id();
             $table->boolean("Tipo");
+            $table->boolean('soft');
             $table->timestamps();
         });
     }

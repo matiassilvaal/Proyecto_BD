@@ -14,7 +14,8 @@ class WalletFactory extends Factory
     public function definition()
     {
         return [
-            'Cantidad' => $this->faker->numberBetween($min = 0, $max = NULL)
+            'Cantidad' => $this->faker->numberBetween($min = 0, $max = NULL),
+            'soft' => false
         ];
     }
 }

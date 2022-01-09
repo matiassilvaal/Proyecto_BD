@@ -19,6 +19,7 @@ class CreateUserMethodsTable extends Migration
             $table->foreign('id_usuario')->references('id')->on('users');
             $table->unsignedBigInteger('id_tarjeta')->nullable();
             $table->foreign('id_tarjeta')->references('id')->on('methods');
+            $table->boolean('soft');
             $table->timestamps();
         });
     }

@@ -17,7 +17,8 @@ class Game_languageFactory extends Factory
     {
         return [
             'id_juego' => Game::all()->random()->id,
-            'id_idioma' => Language::all()->random()->id
+            'id_idioma' => Language::all()->random()->id,
+            'soft' => false
         ];
     }
 }

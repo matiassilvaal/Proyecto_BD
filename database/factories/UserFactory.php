@@ -31,7 +31,8 @@ class UserFactory extends Factory
              * Pero aqui hay un moneda y no se que es
              */
             'correo' => $this->faker->email,
-            'contrasena' => $this->faker->password
+            'contrasena' => $this->faker->password,
+            'soft' => false
         ];
     }
 }

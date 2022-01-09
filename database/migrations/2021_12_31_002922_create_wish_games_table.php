@@ -19,6 +19,7 @@ class CreateWishGamesTable extends Migration
             $table->foreign('id_juego')->references('id')->on('games');
             $table->unsignedBigInteger('id_usuario')->nullable();
             $table->foreign('id_usuario')->references('id')->on('users');
+            $table->boolean('soft');
             $table->timestamps();
         });
     }

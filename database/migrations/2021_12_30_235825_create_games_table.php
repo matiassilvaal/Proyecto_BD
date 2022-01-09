@@ -28,8 +28,9 @@ class CreateGamesTable extends Migration
             $table->integer('descuento');
             $table->string('imagen', 500);
             $table->string('descripcion', 600);
-			$table->string('descarga', 600);
-			$table->string('demo', 600);
+			         $table->string('descarga', 600);
+			            $table->string('demo', 600);
+                  $table->boolean('soft');
             $table->timestamps();
         });
     }

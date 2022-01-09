@@ -14,7 +14,8 @@ class GenreFactory extends Factory
     public function definition()
     {
         return [
-            'Nombre' => $this->faker->unique()->realText($maxNbChars = 100, $indexSize = 3)
+            'Nombre' => $this->faker->unique()->realText($maxNbChars = 100, $indexSize = 3),
+            'soft' => false
         ];
     }
 }

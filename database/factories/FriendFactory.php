@@ -16,7 +16,8 @@ class FriendFactory extends Factory
     {
         return [
             'id_usuario1' => User::all()->random()->id,
-            'id_usuario2' => User::all()->random()->id
+            'id_usuario2' => User::all()->random()->id,
+            'soft' => false
         ];
     }
 }

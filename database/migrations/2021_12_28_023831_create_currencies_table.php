@@ -17,6 +17,7 @@ class CreateCurrenciesTable extends Migration
             $table->id();
             $table->string("Nombre", 50)->unique();
             $table->integer("Transformacion");
+            $table->boolean('soft');
             $table->timestamps();
         });
     }

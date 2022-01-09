@@ -17,7 +17,8 @@ class PurchaseFactory extends Factory
     {
         return [
             'id_juego' => Game::all()->random()->id,
-            'id_boleta' => Invoice::all()->random()->id
+            'id_boleta' => Invoice::all()->random()->id,
+            'soft' => false
         ];
     }
 }

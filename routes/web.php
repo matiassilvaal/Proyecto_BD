@@ -23,6 +23,7 @@ Route::post('/address/create','AddressController@store');
 Route::put('/address/update/{id}','AddressController@update');
 Route::delete('/address/delete/{id}','AddressController@destroy');
 Route::get('/address/softdelete/{id}','AddressController@soft');
+Route::put('/address/restore/{id}','AddressController@restore');
 
 Route::get('/age_restrictions', 'Age_restrictionController@index');
 Route::get('/age_restriction/{id}', 'Age_restrictionController@show');
@@ -40,7 +41,7 @@ Route::get('/comment_type', 'Comment_typeController@index');
 Route::get('/comment_type/{id}', 'Comment_typeController@show');
 Route::post('/comment_type/create', 'Comment_typeController@store');
 Route::put('/comment_type/update/{id}', 'Comment_typeController@update');
-Route::delete('/comment_type/delete/{id}', 'Comment_typeController@destroy');
+Route::delete('/card/delete/{id}', 'Comment_typeController@destroy');
 
 Route::get('/comment', 'CommentController@index');
 Route::get('/comment/{id}', 'CommentController@show');
@@ -89,3 +90,61 @@ Route::get('/invoice/{id}', 'InvoiceController@show');
 Route::post('/invoice/create', 'InvoiceController@store');
 Route::put('/invoice/update/{id}', 'InvoiceController@update');
 Route::delete('/invoice/delete/{id}', 'InvoiceController@destroy');
+
+Route::get('/languages', 'LanguageController@index');
+Route::get('/language/{id}', 'LanguageController@show');
+Route::post('/language/create', 'LanguageController@store');
+Route::put('/language/update/{id}', 'LanguageController@update');
+Route::delete('/language/delete/{id}', 'LanguageController@destroy');
+
+Route::get('/libraries', 'LibraryController@index');
+Route::get('/library/{id}', 'LibraryController@show');
+Route::post('/library/create', 'LibraryController@store');
+Route::put('/library/update/{id}', 'LibraryController@update');
+Route::delete('/library/delete/{id}', 'LibraryController@destroy');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Route::get('/user_games', 'User_gameController@index');
+Route::get('/user_game/{id}', 'User_gameController@show');
+Route::post('/user_game/create', 'User_gameController@store');
+Route::put('/user_game/update/{id}', 'User_gameController@update');
+Route::delete('/user_game/delete/{id}', 'User_gameController@destroy');
+Route::get('/user_game/softdelete/{id}','User_gameController@soft');
+Route::put('/user_game/restore/{id}','User_gameController@restore');

@@ -19,7 +19,6 @@ class CreateAddressesTable extends Migration
             $table->foreign('id_pais')->references('id')->on('countries');
             $table->string('ciudad', 100)->unique();
             $table->boolean('soft');
-            /*$table->softDeletes();*/
             $table->timestamps();
         });
     }

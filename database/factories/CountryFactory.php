@@ -14,7 +14,8 @@ class CountryFactory extends Factory
     public function definition()
     {
         return [
-            'Pais' => $this->faker->unique()->country
+            'Pais' => $this->faker->unique()->country,
+            'soft' => false
         ];
     }
 }

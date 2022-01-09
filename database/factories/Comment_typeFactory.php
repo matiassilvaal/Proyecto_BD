@@ -14,7 +14,8 @@ class Comment_typeFactory extends Factory
     public function definition()
     {
         return [
-            'Tipo' => $this->faker->boolean
+            'Tipo' => $this->faker->boolean,
+            'soft' => false
         ];
     }
 }

@@ -14,7 +14,8 @@ class RoleFactory extends Factory
     public function definition()
     {
         return [
-            'Nombre' => $this->faker->unique()->realText($maxNbChars = 10)
+            'Nombre' => $this->faker->unique()->realText($maxNbChars = 10),
+            'soft' => false
         ];
     }
 }

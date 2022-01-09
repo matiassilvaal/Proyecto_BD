@@ -19,6 +19,7 @@ class CreateGameLanguagesTable extends Migration
             $table->foreign('id_juego')->references('id')->on('games');
             $table->unsignedBigInteger('id_idioma')->nullable();
             $table->foreign('id_idioma')->references('id')->on('languages');
+            $table->boolean('soft');
             $table->timestamps();
         });
     }

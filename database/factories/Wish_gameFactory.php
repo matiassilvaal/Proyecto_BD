@@ -17,7 +17,8 @@ class Wish_gameFactory extends Factory
     {
         return [
             'id_juego' => Game::all()->random()->id,
-            'id_usuario' => User::all()->random()->id
+            'id_usuario' => User::all()->random()->id,
+            'soft' => false
         ];
     }
 }

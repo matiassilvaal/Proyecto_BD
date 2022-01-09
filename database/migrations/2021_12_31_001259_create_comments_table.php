@@ -23,6 +23,7 @@ class CreateCommentsTable extends Migration
             $table->foreign('id_comment_type')->references('id')->on('comment_types');
             $table->string('texto', 1000);
             $table->date('fecha_de_creacion');
+            $table->boolean('soft');
             $table->timestamps();
         });
     }

@@ -19,6 +19,7 @@ class CreatePurchasesTable extends Migration
             $table->foreign('id_juego')->references('id')->on('games');
 			$table->unsignedBigInteger('id_boleta')->nullable();
             $table->foreign('id_boleta')->references('id')->on('invoices');
+            $table->boolean('soft');
             $table->timestamps();
         });
     }

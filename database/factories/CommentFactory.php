@@ -25,7 +25,8 @@ class CommentFactory extends Factory
              * Le quité el segundo parámetro
              * que era $indexSize
              */,
-            'fecha_de_creacion' => $this->faker->dateTime($max = 'now')
+            'fecha_de_creacion' => $this->faker->dateTime($max = 'now'),
+            'soft' => false
             /**
              * Le quité el segundo parámetro
              * que era $timezone

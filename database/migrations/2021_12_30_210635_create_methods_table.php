@@ -20,6 +20,7 @@ class CreateMethodsTable extends Migration
             $table->biginteger('numero')->unique();
             $table->string('nombre', 200);
             $table->date('fecha_de_vencimiento');
+            $table->boolean('soft');
             $table->timestamps();
         });
     }

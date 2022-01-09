@@ -19,6 +19,7 @@ class CreateGameGenresTable extends Migration
             $table->foreign('id_juego')->references('id')->on('games');
             $table->unsignedBigInteger('id_genero')->nullable();
             $table->foreign('id_genero')->references('id')->on('genres');
+            $table->boolean('soft');
             $table->timestamps();
         });
     }

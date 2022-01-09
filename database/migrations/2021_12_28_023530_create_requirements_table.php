@@ -22,6 +22,7 @@ class CreateRequirementsTable extends Migration
             $table->integer("DirectX");
             $table->string("RED", 100);
             $table->integer("Uso de disco");
+            $table->boolean('soft');
             $table->timestamps();
         });
     }

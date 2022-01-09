@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\User_game;
 use Illuminate\Http\Request;
 
 class User_gameController extends Controller
@@ -80,5 +80,54 @@ class User_gameController extends Controller
     public function destroy($id)
     {
         //
+        $user_game = User_game::find($id);
+        if(empty($user_game)){
+            return response()->json([], 204);
+        }
+        $user_game->delete();
+        return response()->json([
+            'msg' => 'User_game has been deleted',
+            'id' => $user_game->id,
+        ], 200);
+    }
+    public function soft($id)
+    {
+        $user_game = User_game::find($id);
+        if(empty($user_game)){
+            return response()->json([], 204);
+        }
+        if($user_game->soft == true){
+          return response()->json([
+            'msg' => 'La direccion ya esta borrada (soft deleted)',
+            'id' => $user_game->id,
+          ], 200);
+        }
+
+        $user_game->soft = true;
+        $user_game->save();
+        return response()->json([
+            'msg' => 'User_game has been soft deleted',
+            'id' => $user_game->id,
+        ], 200);
+    }
+    public function restore($id)
+    {
+        $user_game = User_game::find($id);
+        if(empty($user_game)){
+            return response()->json([], 204);
+        }
+        if($user_game->soft == false){
+          return response()->json([
+            'msg' => 'La direccion no esta borrada',
+            'id' => $user_game->id,
+          ], 200);
+        }
+
+        $user_game->soft = false;
+        $user_game->save();
+        return response()->json([
+            'msg' => 'User_game has been restored',
+            'id' => $user_game->id,
+        ], 200);
     }
 }

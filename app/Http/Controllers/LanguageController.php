@@ -42,12 +42,11 @@ class LanguageController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'Idioma' => 'required|min:4|max:30|unique:App\Models\Language,Idioma',
+                'Idioma' => 'required|size:2|unique:App\Models\Language,Idioma',
             ],
             [
                 'Idioma.required' => 'Debes ingresar un idioma',
-                'Idioma.min' => 'El idioma debe ser almenos de 4 caracteres',
-                'Idioma.max' => 'El idioma debe ser de maximo 30 caracteres',
+                'Idioma.size' => 'El idioma debe ser de 2 caracteres',
                 'Idioma.unique' => 'El idioma ya existe',
             ]
         );
@@ -105,12 +104,11 @@ class LanguageController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'Idioma' => 'required|min:4|max:30|unique:App\Models\Language,Idioma',
+                'Idioma' => 'required|size:2|unique:App\Models\Language,Idioma',
             ],
             [
                 'Idioma.required' => 'Debes ingresar un idioma',
-                'Idioma.min' => 'El idioma debe ser almenos de 4 caracteres',
-                'Idioma.max' => 'El idioma debe ser de maximo 30 caracteres',
+                'Idioma.size' => 'El idioma debe ser de 2 caracteres',
                 'Idioma.unique' => 'El idioma ya existe',
             ]
         );
@@ -127,7 +125,7 @@ class LanguageController extends Controller
         $language->save();
         return response()->json([
             'msg' => 'Language has been edited',
-            'id' => $genre->id,
+            'id' => $language->id,
         ], 200);
     }
 

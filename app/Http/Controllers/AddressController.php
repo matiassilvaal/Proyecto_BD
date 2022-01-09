@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Address;
+use App\Models\Country;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 //use Illuminate\Database\Eloquent\SoftDeletes;
@@ -111,17 +112,13 @@ class AddressController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'id_pais' => 'required|exists:App\Models\Country,id|integer',
-                'ciudad' => 'required|min:4|max:100|unique:App\Models\Address,ciudad',
+                'id_pais' => 'nullable|integer',
+                'ciudad' => 'nullable|min:4|max:100',
             ],
             [
-                'id_pais.required' => 'Debes ingresar un id del pais',
-                'id_pais.exists' => 'La llave foranea no existe',
-                'id_pais.integer' => 'La llave foranea debe ser un entero',
-                'ciudad.required' => 'Debes ingresar una ciudad',
+                'id_pais.integer' => 'id_pais debe ser un numero',
                 'ciudad.min' => 'La ciudad debe ser almenos de 4 caracteres',
                 'ciudad.max' => 'La ciudad debe ser de maximo 100 caracteres',
-                'ciudad.unique' => 'La ciudad ya existe',
             ]
         );
         //Caso falla la validación
@@ -129,12 +126,31 @@ class AddressController extends Controller
             return response($validator->errors());
         }
         $address = Address::find($id);
+        // Si la address esta vacia
         if(empty($address)){
             return response()->json([], 204);
         }
+        // Si lo ingresado es lo mismo que lo actual
+        if ($request->id_pais == $address->id_pais && $request->ciudad == $address->ciudad){
 
-        $address->ciudad = $request->ciudad;
-        $address->id_pais = $request->id_pais;
+            return response()->json([
+                "message" => "Los datos ingresados son iguales a los actuales."
+            ], 404);
+        }
+        // Aca revisas si esta empty o no
+        if (!empty($request->id_pais)){ // Esto es para las foraneas, revisar si en otra tabla existe, acordarse de importar dicha tabla arriba
+            $country = Country::find($request->id_pais);
+            if(empty($country)){
+                return response()->json([
+                    "message" => "No se encontró el id_pais"
+                ], 404);
+            }
+            $address->id_pais = $request->id_pais;
+        }
+        if (!empty($request->ciudad)){
+            $address->ciudad = $request->ciudad;
+        }
+        //
         $address->save();
         return response()->json([
             'msg' => 'Address has been edited',
@@ -170,7 +186,7 @@ class AddressController extends Controller
         }
         if($address->soft == true){
           return response()->json([
-            'msg' => 'La direccion ya esta borrada (softdelete)',
+            'msg' => 'La direccion ya esta borrada (soft deleted)',
             'id' => $address->id,
           ], 200);
         }
@@ -178,7 +194,7 @@ class AddressController extends Controller
         $address->soft = true;
         $address->save();
         return response()->json([
-            'msg' => 'Address has been softdeleted',
+            'msg' => 'Address has been soft deleted',
             'id' => $address->id,
         ], 200);
     }
@@ -202,17 +218,4 @@ class AddressController extends Controller
             'id' => $address->id,
         ], 200);
     }
-    /*public function restore($id)
-    {
-        //
-        $address = Address::withTrashed()->find($id);
-        if(empty($address)){
-            return response()->json([], 204);
-        }
-        $address->restore();
-        return response()->json([
-            'msg' => 'Address has been restored',
-            'id' => $address->id,
-        ], 200);
-    }*/
 }

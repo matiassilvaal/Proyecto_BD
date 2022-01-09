@@ -17,7 +17,8 @@ class User_methodFactory extends Factory
     {
         return [
             'id_usuario' => User::all()->random()->id,
-            'id_tarjeta' => Method::all()->random()->id
+            'id_tarjeta' => Method::all()->random()->id,
+            'soft' => false
         ];
     }
 }

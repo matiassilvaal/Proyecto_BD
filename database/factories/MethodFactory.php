@@ -18,7 +18,8 @@ class MethodFactory extends Factory
             'id_tarjeta' => Card::all()->random()->id,
             'numero' => $this->faker->unique()->creditCardNumber,
             'nombre' => $this->faker->name,
-            'fecha_de_vencimiento' => $this->faker->creditCardExpirationDate
+            'fecha_de_vencimiento' => $this->faker->creditCardExpirationDate,
+            'soft' => false
         ];
     }
 }

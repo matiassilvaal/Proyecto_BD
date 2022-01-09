@@ -28,6 +28,7 @@ class CreateUsersTable extends Migration
             $table->integer('moneda');
             $table->string('correo', 200)->unique();
             $table->string('contrasena', 20);
+            $table->boolean('soft');
             $table->timestamps();
         });
     }

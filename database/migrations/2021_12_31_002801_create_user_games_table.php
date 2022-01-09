@@ -21,6 +21,7 @@ class CreateUserGamesTable extends Migration
             $table->foreign('id_usuario')->references('id')->on('users');
             $table->boolean('like');
             $table->integer('valoracion');
+            $table->boolean('soft');
             $table->timestamps();
         });
     }
