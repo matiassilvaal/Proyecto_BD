@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * En el update, si introduzco un 0,
+ * el chequeo de !empty considera que
+ * 0 es vacio, y no entra a cambiar
+ * $card->Tipo en ese caso.
+ */
+
+
 namespace App\Http\Controllers;
 
 use App\Models\Card;
@@ -101,10 +109,10 @@ class CardController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'Tipo' => 'required|boolean'
+                'Tipo' => 'nullable|numeric|boolean'
             ],
             [
-                'Tipo.required' => 'Debes ingresar un tipo de tarjeta',
+                'Tipo.numeric' => 'Debe ser un booleano (1 o 0)',
                 'Tipo.boolean' => 'Debe ser un booleano (1 o 0)'
             ]
         );
@@ -115,11 +123,20 @@ class CardController extends Controller
         if(empty($card)){
             return response()->json([], 204);
         }
-        $card->Tipo = $request->Tipo;
+
+        if($request->Tipo == $card->Tipo){
+            return response()->json([
+                'msg' => 'Los datos ingresados son iguales a los actuales.'
+            ], 404);
+        }
+        if(!empty($request->Tipo) || $request->Tipo == 0){
+            $card->Tipo = $request->Tipo;
+        }
         $card->save();
         return response()->json([
             'msg' => 'Card has been edited',
-            'id' => $card->id
+            'id' => $card->id,
+            'val' => $card->Tipo,
         ], 200);
     }
 

@@ -129,6 +129,10 @@ class InvoiceController extends Controller
             return response($validator->errors(), 400);
         }
         $invoice = Invoice::find($id);
+        if(empty($invoice)){
+            return response()->json([], 204);
+        }
+
         if ($request->id_usuario == $invoice->id_usuario && $request->id_metodo == $invoice->id_metodo && $request->precio == $invoice->precio){
             return response()->json([
                 "message" => "Los datos ingresados son iguales a los actuales."

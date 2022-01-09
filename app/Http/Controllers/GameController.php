@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Game;
+use App\Models\User;
+use App\Models\Requirement;
+use App\Models\Address;
+use App\Models\Age_restriction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 

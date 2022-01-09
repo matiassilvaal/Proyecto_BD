@@ -107,15 +107,13 @@ class CurrencyController extends Controller
        $validator = Validator::make(
             $request->all(),
             [
-                'Nombre' => 'required|string|min:1|max:50',
-                'Transformacion' => 'required|numeric'
+                'Nombre' => 'nullable|string|min:1|max:50',
+                'Transformacion' => 'nullable|numeric'
             ],
             [
-                'Nombre.required' => 'Debes ingresar un nombre de moneda',
-                'Nombre.string' => 'Debe ser un string',
+                'Nombre.string' => 'Nombre debe ser un string',
                 'Nombre.min' => 'El string no puede ser vacio',
                 'Nombre.max' => 'El string no puede ser mayor a 50 caracteres',
-                'Transformacion.required' => 'Debes ingresar una tasa de transformacion',
                 'Transformacion.numeric' => 'La tasa de transformacion debe ser flotante (2 decimales)'
             ]
         );
@@ -127,8 +125,21 @@ class CurrencyController extends Controller
             return response()->json([], 204);
         }
 
-        $currency->Nombre = $request->Nombre;
-        $currency->Transformacion = $request->Transformacion;
+        if($request->Nombre == $currency->Nombre && $request->Transformacion == $currency->Transformacion){
+            return response()->json([
+                'msg' => 'Los datos ingresados son iguales a los actuales'
+            ], 404);
+        }
+
+        if(!empty($request->Nombre)){
+            $currency->Nombre = $request->Nombre;
+        }
+
+        if(!empty($request->Transformacion)){
+            $request->Transformacion = number_format($request->Transformacion, 2);
+            $currency->Transformacion = $request->Transformacion;
+        }
+
         $currency->save();
         return response()->json([
             'msg' => 'Currency has been edited',
@@ -145,7 +156,7 @@ class CurrencyController extends Controller
     public function destroy($id)
     {
         $currency = Currency::find($id);
-        if(empty($ageRestriction)){
+        if(empty($currency)){
             return response()->json([], 204);
         }
         $currency->delete();

@@ -103,13 +103,12 @@ class Age_restrictionController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'Restriccion' => 'required|numeric|unique:App\Models\Age_restriction,Restriccion|between:3,55'
+                'Restriccion' => 'nullable|integer|unique:App\Models\Age_restriction,Restriccion|between:3,55'
             ],
             [
-                'Restriccion.required' => 'Debes ingresar una edad de restriccion',
-                'Restriccion.unique' => 'Esta restricción ya existe',
-                'Restriccion.numeric' => 'La restriccion debe ser un numero',
-                'Restriccion.between' => 'La restriccion debe estar entre 3 y 55 anos'
+                'Restriccion.integer' => 'Restriccion debe ser un numero',
+                'Restriccion.unique' => 'Ya existe esa restriccion de edad',
+                'Restriccion.between' => 'La restriccion debe ser entre 3 y 55'
             ]
         );
         if($validator->fails()){
@@ -119,8 +118,15 @@ class Age_restrictionController extends Controller
         if(empty($ageRestriction)){
             return response()->json([], 204);
         }
-
-        $ageRestriction->Restriccion = $request->Restriccion;
+        
+        if($request->Restriccion == $ageRestriction->Restriccion){
+            return response()->json([
+                'msg' => 'Los datos ingresados son iguales a los actuales.'
+            ], 404);
+        }
+        if(!empty($request->Restriccion)){
+            $ageRestriction->Restriccion = $request->Restriccion;
+        }
         $ageRestriction->save();
         return response()->json([
             'msg' => 'Restriction has been edited',

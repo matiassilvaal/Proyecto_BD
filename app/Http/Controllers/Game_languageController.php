@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Game_language;
+use App\Models\Game;
+use App\Models\Language;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -107,15 +109,11 @@ class Game_languageController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'id_juego' => 'required|exists:App\Models\Game,id|integer',
-                'id_idioma' => 'required|exists:App\Models\Language,id|integer'
+                'id_juego' => 'nullable|integer',
+                'id_idioma' => 'nullable|integer'
             ],
             [
-                'id_juego.required' => 'Debes ingresar una id de juego',
-                'id_juego.exists' => 'La id juego ya existe',
                 'id_juego.integer' => 'La id juego debe ser entera',
-                'id_idioma.required' => 'Debes ingresar una id de idioma',
-                'id_idioma.exists' => 'La id idioma ya existe',
                 'id_idioma.integer' => 'La id idioma debe ser entera'
             ]
         );
@@ -127,8 +125,32 @@ class Game_languageController extends Controller
             return response()->json([], 204);
         }
 
-        $gameLanguage->id_juego = $request->id_juego;
-        $gameLanguage->id_idioma = $request->id_idioma;
+        if($request->id_juego == $gameLanguage->id_juego && $request->id_idioma == $gameLanguage->id_idioma){
+            return response()->json([
+                'msg' => 'Los datos ingresados son iguales a los actuales'
+            ], 404);
+        }
+
+        if(!empty($request->id_juego)){
+            $game = Game::find($request->id_juego);
+            if(empty($game)){
+                return response()->jseon([
+                    'msg' => 'No se encontró el id_juego'
+                ], 404);
+            }
+            $gameLanguage->id_juego = $request->id_juego;
+        }
+
+        if(!empty($request->id_idioma)){
+            $language = Language::find($request->id_idioma);
+            if(empty($language)){
+                return response()->json([
+                    'msg' => 'No se encontró el id_idioma'
+                ], 404);
+            }
+            $gameLanguage->id_idioma = $request->id_idioma;
+        }
+
         $gameLanguage->save();
         return response()->json([
             'msg' => 'Game_language has been edited',

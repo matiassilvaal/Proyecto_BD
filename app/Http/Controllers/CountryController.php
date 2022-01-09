@@ -104,10 +104,9 @@ class CountryController extends Controller
        $validator = Validator::make(
             $request->all(),
             [
-                'Pais' => 'required|unique:App\Models\Country,Pais|string|min:1|max:100'
+                'Pais' => 'unique:App\Models\Country,Pais|string|min:1|max:100'
             ],
             [
-                'Pais.required' => 'Debe ingresar un pais',
                 'Pais.unique' => 'Este pais ya existe en la base de datos',
                 'Pais.string' => 'Pais debe ser un string',
                 'Pais.min' => 'Pais no puede ser vacio',
@@ -122,7 +121,15 @@ class CountryController extends Controller
             return response()->json([], 204);
         }
 
-        $country->Pais = $request->Pais;
+        if($request->Pais == $country->Pais){
+            return response()->json([
+                'msg' => 'Los datos ingresados son iguales a los actuales'
+            ], 404);
+        }
+
+        if(!empty($request->Pais)){
+            $country->Pais = $request->Pais;
+        }
         $country->save();
         return response()->json([
             'msg' => 'Country has been edited',
