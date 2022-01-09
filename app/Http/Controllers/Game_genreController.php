@@ -63,6 +63,7 @@ class Game_genreController extends Controller
         $newGameGenre = new Game_genre();
         $newGameGenre->id_juego = $request->id_juego;
         $newGameGenre->id_genero = $request->id_genero;
+        $newGameGenre->soft = false;
         $newGameGenre->save();
 
         return response()->json([
@@ -166,14 +167,55 @@ class Game_genreController extends Controller
      */
     public function destroy($id)
     {
-        $gameGenre = Game_genre::find($id);
-        if(empty($gameGenre)){
+        //
+        $game_genre = Game_genre::find($id);
+        if(empty($game_genre)){
             return response()->json([], 204);
         }
-        $gameGenre->delete();
+        $game_genre->delete();
         return response()->json([
             'msg' => 'Game_genre has been deleted',
-            'id' => $gameGenre->id
+            'id' => $game_genre->id,
+        ], 200);
+    }
+    public function soft($id)
+    {
+        $game_genre = Game_genre::find($id);
+        if(empty($game_genre)){
+            return response()->json([], 204);
+        }
+        if($game_genre->soft == true){
+          return response()->json([
+            'msg' => 'El game_genre ya esta borrado (soft deleted)',
+            'id' => $game_genre->id,
+          ], 200);
+        }
+
+        $game_genre->soft = true;
+        $game_genre->save();
+        return response()->json([
+            'msg' => 'Game_genre has been soft deleted',
+            'id' => $game_genre->id,
+        ], 200);
+    }
+    public function restore($id)
+    {
+        $game_genre = Game_genre::find($id);
+        if(empty($game_genre)){
+            return response()->json([], 204);
+        }
+        if($game_genre->soft == false){
+          return response()->json([
+            'msg' => 'El game_genre no esta borrado',
+            'id' => $game_genre->id,
+          ], 200);
+        }
+
+        $game_genre->soft = false;
+        $game_genre->save();
+        return response()->json([
+            'msg' => 'Game_genre has been restored',
+            'id' => $game_genre->id,
         ], 200);
     }
 }

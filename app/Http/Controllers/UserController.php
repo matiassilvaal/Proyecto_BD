@@ -80,5 +80,54 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
+        $user = User::find($id);
+        if(empty($user)){
+            return response()->json([], 204);
+        }
+        $user->delete();
+        return response()->json([
+            'msg' => 'User has been deleted',
+            'id' => $user->id,
+        ], 200);
+    }
+    public function soft($id)
+    {
+        $user = User::find($id);
+        if(empty($user)){
+            return response()->json([], 204);
+        }
+        if($user->soft == true){
+          return response()->json([
+            'msg' => 'El user ya esta borrado (soft deleted)',
+            'id' => $user->id,
+          ], 200);
+        }
+
+        $user->soft = true;
+        $user->save();
+        return response()->json([
+            'msg' => 'User has been soft deleted',
+            'id' => $user->id,
+        ], 200);
+    }
+    public function restore($id)
+    {
+        $user = User::find($id);
+        if(empty($user)){
+            return response()->json([], 204);
+        }
+        if($user->soft == false){
+          return response()->json([
+            'msg' => 'El user no esta borrado',
+            'id' => $user->id,
+          ], 200);
+        }
+
+        $user->soft = false;
+        $user->save();
+        return response()->json([
+            'msg' => 'User has been restored',
+            'id' => $user->id,
+        ], 200);
     }
 }

@@ -66,6 +66,7 @@ class InvoiceController extends Controller
         $newInvoice->id_usuario = $request->id_usuario;
         $newInvoice->id_metodo = $request->id_metodo;
         $newInvoice->precio = $request->precio;
+        $newInvoice->soft = false;
         $newInvoice->save();
 
         return response()->json([
@@ -185,6 +186,46 @@ class InvoiceController extends Controller
         $invoice->delete();
         return response()->json([
             'msg' => 'Invoice has been deleted',
+            'id' => $invoice->id,
+        ], 200);
+    }
+    public function soft($id)
+    {
+        $invoice = Invoice::find($id);
+        if(empty($invoice)){
+            return response()->json([], 204);
+        }
+        if($invoice->soft == true){
+          return response()->json([
+            'msg' => 'El invoice ya esta borrado (soft deleted)',
+            'id' => $invoice->id,
+          ], 200);
+        }
+
+        $invoice->soft = true;
+        $invoice->save();
+        return response()->json([
+            'msg' => 'Invoice has been soft deleted',
+            'id' => $invoice->id,
+        ], 200);
+    }
+    public function restore($id)
+    {
+        $invoice = Invoice::find($id);
+        if(empty($invoice)){
+            return response()->json([], 204);
+        }
+        if($invoice->soft == false){
+          return response()->json([
+            'msg' => 'El invoice no esta borrado',
+            'id' => $invoice->id,
+          ], 200);
+        }
+
+        $invoice->soft = false;
+        $invoice->save();
+        return response()->json([
+            'msg' => 'Invoice has been restored',
             'id' => $invoice->id,
         ], 200);
     }

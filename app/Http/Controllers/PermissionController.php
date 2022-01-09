@@ -80,5 +80,54 @@ class PermissionController extends Controller
     public function destroy($id)
     {
         //
+        $permission = Permission::find($id);
+        if(empty($permission)){
+            return response()->json([], 204);
+        }
+        $permission->delete();
+        return response()->json([
+            'msg' => 'Permission has been deleted',
+            'id' => $permission->id,
+        ], 200);
+    }
+    public function soft($id)
+    {
+        $permission = Permission::find($id);
+        if(empty($permission)){
+            return response()->json([], 204);
+        }
+        if($permission->soft == true){
+          return response()->json([
+            'msg' => 'El permission ya esta borrado (soft deleted)',
+            'id' => $permission->id,
+          ], 200);
+        }
+
+        $permission->soft = true;
+        $permission->save();
+        return response()->json([
+            'msg' => 'Permission has been soft deleted',
+            'id' => $permission->id,
+        ], 200);
+    }
+    public function restore($id)
+    {
+        $permission = Permission::find($id);
+        if(empty($permission)){
+            return response()->json([], 204);
+        }
+        if($permission->soft == false){
+          return response()->json([
+            'msg' => 'El permission no esta borrado',
+            'id' => $permission->id,
+          ], 200);
+        }
+
+        $permission->soft = false;
+        $permission->save();
+        return response()->json([
+            'msg' => 'Permission has been restored',
+            'id' => $permission->id,
+        ], 200);
     }
 }

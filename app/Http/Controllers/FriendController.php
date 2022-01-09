@@ -166,6 +166,7 @@ class FriendController extends Controller
      */
     public function destroy($id)
     {
+        //
         $friend = Friend::find($id);
         if(empty($friend)){
             return response()->json([], 204);
@@ -173,7 +174,47 @@ class FriendController extends Controller
         $friend->delete();
         return response()->json([
             'msg' => 'Friend has been deleted',
-            'id' => $friend->id
+            'id' => $friend->id,
+        ], 200);
+    }
+    public function soft($id)
+    {
+        $friend = Friend::find($id);
+        if(empty($friend)){
+            return response()->json([], 204);
+        }
+        if($friend->soft == true){
+          return response()->json([
+            'msg' => 'El friend ya esta borrado (soft deleted)',
+            'id' => $friend->id,
+          ], 200);
+        }
+
+        $friend->soft = true;
+        $friend->save();
+        return response()->json([
+            'msg' => 'Friend has been soft deleted',
+            'id' => $friend->id,
+        ], 200);
+    }
+    public function restore($id)
+    {
+        $friend = Friend::find($id);
+        if(empty($friend)){
+            return response()->json([], 204);
+        }
+        if($friend->soft == false){
+          return response()->json([
+            'msg' => 'El friend no esta borrado',
+            'id' => $friend->id,
+          ], 200);
+        }
+
+        $friend->soft = false;
+        $friend->save();
+        return response()->json([
+            'msg' => 'Friend has been restored',
+            'id' => $friend->id,
         ], 200);
     }
 }

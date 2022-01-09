@@ -80,5 +80,54 @@ class User_methodController extends Controller
     public function destroy($id)
     {
         //
+        $user_method = User_method::find($id);
+        if(empty($user_method)){
+            return response()->json([], 204);
+        }
+        $user_method->delete();
+        return response()->json([
+            'msg' => 'User_method has been deleted',
+            'id' => $user_method->id,
+        ], 200);
+    }
+    public function soft($id)
+    {
+        $user_method = User_method::find($id);
+        if(empty($user_method)){
+            return response()->json([], 204);
+        }
+        if($user_method->soft == true){
+          return response()->json([
+            'msg' => 'El user_method ya esta borrado (soft deleted)',
+            'id' => $user_method->id,
+          ], 200);
+        }
+
+        $user_method->soft = true;
+        $user_method->save();
+        return response()->json([
+            'msg' => 'User_method has been soft deleted',
+            'id' => $user_method->id,
+        ], 200);
+    }
+    public function restore($id)
+    {
+        $user_method = User_method::find($id);
+        if(empty($user_method)){
+            return response()->json([], 204);
+        }
+        if($user_method->soft == false){
+          return response()->json([
+            'msg' => 'El user_method no esta borrado',
+            'id' => $user_method->id,
+          ], 200);
+        }
+
+        $user_method->soft = false;
+        $user_method->save();
+        return response()->json([
+            'msg' => 'User_method has been restored',
+            'id' => $user_method->id,
+        ], 200);
     }
 }

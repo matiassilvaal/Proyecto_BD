@@ -67,6 +67,7 @@ class LibraryController extends Controller
         $newLibrary->id_juego = $request->id_juego;
         $newLibrary->id_usuario = $request->id_usuario;
         $newLibrary->horas_jugadas = $request->horas_jugadas;
+        $newLibrary->soft = false;
         $newLibrary->save();
 
         return response()->json([
@@ -166,6 +167,46 @@ class LibraryController extends Controller
         $library->delete();
         return response()->json([
             'msg' => 'Library has been deleted',
+            'id' => $library->id,
+        ], 200);
+    }
+    public function soft($id)
+    {
+        $library = Library::find($id);
+        if(empty($library)){
+            return response()->json([], 204);
+        }
+        if($library->soft == true){
+          return response()->json([
+            'msg' => 'El library ya esta borrado (soft deleted)',
+            'id' => $library->id,
+          ], 200);
+        }
+
+        $library->soft = true;
+        $library->save();
+        return response()->json([
+            'msg' => 'Library has been soft deleted',
+            'id' => $library->id,
+        ], 200);
+    }
+    public function restore($id)
+    {
+        $library = Library::find($id);
+        if(empty($library)){
+            return response()->json([], 204);
+        }
+        if($library->soft == false){
+          return response()->json([
+            'msg' => 'El library no esta borrado',
+            'id' => $library->id,
+          ], 200);
+        }
+
+        $library->soft = false;
+        $library->save();
+        return response()->json([
+            'msg' => 'Library has been restored',
             'id' => $library->id,
         ], 200);
     }

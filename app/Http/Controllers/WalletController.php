@@ -80,5 +80,54 @@ class WalletController extends Controller
     public function destroy($id)
     {
         //
+        $wallet = Wallet::find($id);
+        if(empty($wallet)){
+            return response()->json([], 204);
+        }
+        $wallet->delete();
+        return response()->json([
+            'msg' => 'Wallet has been deleted',
+            'id' => $wallet->id,
+        ], 200);
+    }
+    public function soft($id)
+    {
+        $wallet = Wallet::find($id);
+        if(empty($wallet)){
+            return response()->json([], 204);
+        }
+        if($wallet->soft == true){
+          return response()->json([
+            'msg' => 'El wallet ya esta borrado (soft deleted)',
+            'id' => $wallet->id,
+          ], 200);
+        }
+
+        $wallet->soft = true;
+        $wallet->save();
+        return response()->json([
+            'msg' => 'Wallet has been soft deleted',
+            'id' => $wallet->id,
+        ], 200);
+    }
+    public function restore($id)
+    {
+        $wallet = Wallet::find($id);
+        if(empty($wallet)){
+            return response()->json([], 204);
+        }
+        if($wallet->soft == false){
+          return response()->json([
+            'msg' => 'El wallet no esta borrado',
+            'id' => $wallet->id,
+          ], 200);
+        }
+
+        $wallet->soft = false;
+        $wallet->save();
+        return response()->json([
+            'msg' => 'Wallet has been restored',
+            'id' => $wallet->id,
+        ], 200);
     }
 }

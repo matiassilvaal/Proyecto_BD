@@ -80,5 +80,54 @@ class MethodController extends Controller
     public function destroy($id)
     {
         //
+        $method = Method::find($id);
+        if(empty($method)){
+            return response()->json([], 204);
+        }
+        $method->delete();
+        return response()->json([
+            'msg' => 'Method has been deleted',
+            'id' => $method->id,
+        ], 200);
+    }
+    public function soft($id)
+    {
+        $method = Method::find($id);
+        if(empty($method)){
+            return response()->json([], 204);
+        }
+        if($method->soft == true){
+          return response()->json([
+            'msg' => 'El method ya esta borrado (soft deleted)',
+            'id' => $method->id,
+          ], 200);
+        }
+
+        $method->soft = true;
+        $method->save();
+        return response()->json([
+            'msg' => 'Method has been soft deleted',
+            'id' => $method->id,
+        ], 200);
+    }
+    public function restore($id)
+    {
+        $method = Method::find($id);
+        if(empty($method)){
+            return response()->json([], 204);
+        }
+        if($method->soft == false){
+          return response()->json([
+            'msg' => 'El method no esta borrado',
+            'id' => $method->id,
+          ], 200);
+        }
+
+        $method->soft = false;
+        $method->save();
+        return response()->json([
+            'msg' => 'Method has been restored',
+            'id' => $method->id,
+        ], 200);
     }
 }

@@ -54,7 +54,10 @@ class Comment_typeController extends Controller
             return response($validator->errors(), 400);
         }
         $newCommentType = new Comment_type();
-        $newCommentType->Tipo = $request->Tipo;
+        if($request->Tipo == true || $newCommentType->Tipo == false || $newCommentType->Tipo == 1 || $newCommentType->Tipo == 0){
+          $newCommentType->Tipo = $request->Tipo;
+        }
+        $newCommentType->soft = false;
         $newCommentType->save();
 
         return response()->json([
@@ -132,14 +135,55 @@ class Comment_typeController extends Controller
      */
     public function destroy($id)
     {
-        $commentType = Comment_type::find($id);
-        if(empty($commentType)){
+        //
+        $comment_type = Comment_type::find($id);
+        if(empty($comment_type)){
             return response()->json([], 204);
         }
-        $commentType->delete();
+        $comment_type->delete();
         return response()->json([
-            'msg' => 'Comment type has been deleted',
-            'id' => $commentType->id
+            'msg' => 'Comment_type has been deleted',
+            'id' => $comment_type->id,
+        ], 200);
+    }
+    public function soft($id)
+    {
+        $comment_type = Comment_type::find($id);
+        if(empty($comment_type)){
+            return response()->json([], 204);
+        }
+        if($comment_type->soft == true){
+          return response()->json([
+            'msg' => 'El comment_type ya esta borrado (soft deleted)',
+            'id' => $comment_type->id,
+          ], 200);
+        }
+
+        $comment_type->soft = true;
+        $comment_type->save();
+        return response()->json([
+            'msg' => 'Comment_type has been soft deleted',
+            'id' => $comment_type->id,
+        ], 200);
+    }
+    public function restore($id)
+    {
+        $comment_type = Comment_type::find($id);
+        if(empty($comment_type)){
+            return response()->json([], 204);
+        }
+        if($comment_type->soft == false){
+          return response()->json([
+            'msg' => 'El comment_type no esta borrado',
+            'id' => $comment_type->id,
+          ], 200);
+        }
+
+        $comment_type->soft = false;
+        $comment_type->save();
+        return response()->json([
+            'msg' => 'Comment_type has been restored',
+            'id' => $comment_type->id,
         ], 200);
     }
 }

@@ -80,5 +80,54 @@ class RoleController extends Controller
     public function destroy($id)
     {
         //
+        $role = Role::find($id);
+        if(empty($role)){
+            return response()->json([], 204);
+        }
+        $role->delete();
+        return response()->json([
+            'msg' => 'Role has been deleted',
+            'id' => $role->id,
+        ], 200);
+    }
+    public function soft($id)
+    {
+        $role = Role::find($id);
+        if(empty($role)){
+            return response()->json([], 204);
+        }
+        if($role->soft == true){
+          return response()->json([
+            'msg' => 'El role ya esta borrado (soft deleted)',
+            'id' => $role->id,
+          ], 200);
+        }
+
+        $role->soft = true;
+        $role->save();
+        return response()->json([
+            'msg' => 'Role has been soft deleted',
+            'id' => $role->id,
+        ], 200);
+    }
+    public function restore($id)
+    {
+        $role = Role::find($id);
+        if(empty($role)){
+            return response()->json([], 204);
+        }
+        if($role->soft == false){
+          return response()->json([
+            'msg' => 'El role no esta borrado',
+            'id' => $role->id,
+          ], 200);
+        }
+
+        $role->soft = false;
+        $role->save();
+        return response()->json([
+            'msg' => 'Role has been restored',
+            'id' => $role->id,
+        ], 200);
     }
 }

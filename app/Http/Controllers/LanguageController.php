@@ -56,6 +56,7 @@ class LanguageController extends Controller
         }
         $newLanguage = new Language();
         $newLanguage->Idioma = $request->Idioma;
+        $newLanguage->soft = false;
         $newLanguage->save();
 
         return response()->json([
@@ -146,6 +147,46 @@ class LanguageController extends Controller
         $language->delete();
         return response()->json([
             'msg' => 'Language has been deleted',
+            'id' => $language->id,
+        ], 200);
+    }
+    public function soft($id)
+    {
+        $language = Language::find($id);
+        if(empty($language)){
+            return response()->json([], 204);
+        }
+        if($language->soft == true){
+          return response()->json([
+            'msg' => 'El language ya esta borrado (soft deleted)',
+            'id' => $language->id,
+          ], 200);
+        }
+
+        $language->soft = true;
+        $language->save();
+        return response()->json([
+            'msg' => 'Language has been soft deleted',
+            'id' => $language->id,
+        ], 200);
+    }
+    public function restore($id)
+    {
+        $language = Language::find($id);
+        if(empty($language)){
+            return response()->json([], 204);
+        }
+        if($language->soft == false){
+          return response()->json([
+            'msg' => 'El language no esta borrado',
+            'id' => $language->id,
+          ], 200);
+        }
+
+        $language->soft = false;
+        $language->save();
+        return response()->json([
+            'msg' => 'Language has been restored',
             'id' => $language->id,
         ], 200);
     }

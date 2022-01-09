@@ -57,6 +57,7 @@ class Age_restrictionController extends Controller
         }
         $newAgeRestriction = new Age_restriction();
         $newAgeRestriction->Restriccion = $request->Restriccion;
+        $newAgeRestriction->Restriccion = false;
         $newAgeRestriction->save();
 
         return response()->json([
@@ -142,14 +143,55 @@ class Age_restrictionController extends Controller
      */
     public function destroy($id)
     {
+        //
         $ageRestriction = Age_restriction::find($id);
         if(empty($ageRestriction)){
             return response()->json([], 204);
         }
         $ageRestriction->delete();
         return response()->json([
-            'msg' => 'Restriction has been deleted',
-            'id' => $ageRestriction->id
+            'msg' => 'Age restriction has been deleted',
+            'id' => $ageRestriction->id,
+        ], 200);
+    }
+    public function soft($id)
+    {
+        $ageRestriction = Age_restriction::find($id);
+        if(empty($ageRestriction)){
+            return response()->json([], 204);
+        }
+        if($ageRestriction->soft == true){
+          return response()->json([
+            'msg' => 'La age restriction ya esta borrada (soft deleted)',
+            'id' => $ageRestriction->id,
+          ], 200);
+        }
+
+        $ageRestriction->soft = true;
+        $ageRestriction->save();
+        return response()->json([
+            'msg' => 'Age restriction has been soft deleted',
+            'id' => $ageRestriction->id,
+        ], 200);
+    }
+    public function restore($id)
+    {
+        $ageRestriction = Age_restriction::find($id);
+        if(empty($ageRestriction)){
+            return response()->json([], 204);
+        }
+        if($ageRestriction->soft == false){
+          return response()->json([
+            'msg' => 'El age restriction no esta borrado',
+            'id' => $ageRestriction->id,
+          ], 200);
+        }
+
+        $ageRestriction->soft = false;
+        $ageRestriction->save();
+        return response()->json([
+            'msg' => 'Age restriction has been restored',
+            'id' => $ageRestriction->id,
         ], 200);
     }
 }

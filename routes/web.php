@@ -109,6 +109,11 @@ Route::post('/library/create', 'LibraryController@store');
 Route::put('/library/update/{id}', 'LibraryController@update');
 Route::delete('/library/delete/{id}', 'LibraryController@destroy');
 
+Route::get('/wish_games', 'Wish_gameController@index');
+Route::get('/wish_game/{id}', 'Wish_gameController@show');
+Route::post('/wish_game/create', 'Wish_gameController@store');
+Route::put('/wish_game/update/{id}', 'Wish_gameController@update');
+Route::delete('/wish_game/delete/{id}', 'Wish_gameController@destroy');
 
 
 

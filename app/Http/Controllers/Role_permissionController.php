@@ -80,5 +80,54 @@ class Role_permissionController extends Controller
     public function destroy($id)
     {
         //
+        $role_permission = Role_permission::find($id);
+        if(empty($role_permission)){
+            return response()->json([], 204);
+        }
+        $role_permission->delete();
+        return response()->json([
+            'msg' => 'Role_permission has been deleted',
+            'id' => $role_permission->id,
+        ], 200);
+    }
+    public function soft($id)
+    {
+        $role_permission = Role_permission::find($id);
+        if(empty($role_permission)){
+            return response()->json([], 204);
+        }
+        if($role_permission->soft == true){
+          return response()->json([
+            'msg' => 'El role_permission ya esta borrado (soft deleted)',
+            'id' => $role_permission->id,
+          ], 200);
+        }
+
+        $role_permission->soft = true;
+        $role_permission->save();
+        return response()->json([
+            'msg' => 'Role_permission has been soft deleted',
+            'id' => $role_permission->id,
+        ], 200);
+    }
+    public function restore($id)
+    {
+        $role_permission = Role_permission::find($id);
+        if(empty($role_permission)){
+            return response()->json([], 204);
+        }
+        if($role_permission->soft == false){
+          return response()->json([
+            'msg' => 'El role_permission no esta borrado',
+            'id' => $role_permission->id,
+          ], 200);
+        }
+
+        $role_permission->soft = false;
+        $role_permission->save();
+        return response()->json([
+            'msg' => 'Role_permission has been restored',
+            'id' => $role_permission->id,
+        ], 200);
     }
 }

@@ -64,6 +64,7 @@ class AddressController extends Controller
         $newAddress = new Address();
         $newAddress->id_pais = $request->id_pais;
         $newAddress->ciudad = $request->ciudad;
+        $newAddress->soft = false;
         $newAddress->save();
 
         return response()->json([

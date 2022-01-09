@@ -61,6 +61,7 @@ class CurrencyController extends Controller
         $newCurrency = new Currency();
         $newCurrency->Nombre = $request->Nombre;
         $newCurrency->Transformacion = $request->Transformacion;
+        $newCurrency->soft = false;
         $newCurrency->save();
 
         return response()->json([
@@ -155,6 +156,7 @@ class CurrencyController extends Controller
      */
     public function destroy($id)
     {
+        //
         $currency = Currency::find($id);
         if(empty($currency)){
             return response()->json([], 204);
@@ -162,7 +164,47 @@ class CurrencyController extends Controller
         $currency->delete();
         return response()->json([
             'msg' => 'Currency has been deleted',
-            'id' => $currency->id
+            'id' => $currency->id,
+        ], 200);
+    }
+    public function soft($id)
+    {
+        $currency = Currency::find($id);
+        if(empty($currency)){
+            return response()->json([], 204);
+        }
+        if($currency->soft == true){
+          return response()->json([
+            'msg' => 'El currency ya esta borrado (soft deleted)',
+            'id' => $currency->id,
+          ], 200);
+        }
+
+        $currency->soft = true;
+        $currency->save();
+        return response()->json([
+            'msg' => 'Currency has been soft deleted',
+            'id' => $currency->id,
+        ], 200);
+    }
+    public function restore($id)
+    {
+        $currency = Currency::find($id);
+        if(empty($currency)){
+            return response()->json([], 204);
+        }
+        if($currency->soft == false){
+          return response()->json([
+            'msg' => 'El currency no esta borrado',
+            'id' => $currency->id,
+          ], 200);
+        }
+
+        $currency->soft = false;
+        $currency->save();
+        return response()->json([
+            'msg' => 'Currency has been restored',
+            'id' => $currency->id,
         ], 200);
     }
 }

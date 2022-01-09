@@ -57,6 +57,7 @@ class GenreController extends Controller
         }
         $newGenre = new Genre();
         $newGenre->Nombre = $request->Nombre;
+        $newGenre->soft = false;
         $newGenre->save();
 
         return response()->json([
@@ -148,6 +149,46 @@ class GenreController extends Controller
         $genre->delete();
         return response()->json([
             'msg' => 'Genre has been deleted',
+            'id' => $genre->id,
+        ], 200);
+    }
+    public function soft($id)
+    {
+        $genre = Genre::find($id);
+        if(empty($genre)){
+            return response()->json([], 204);
+        }
+        if($genre->soft == true){
+          return response()->json([
+            'msg' => 'El genre ya esta borrado (soft deleted)',
+            'id' => $genre->id,
+          ], 200);
+        }
+
+        $genre->soft = true;
+        $genre->save();
+        return response()->json([
+            'msg' => 'Genre has been soft deleted',
+            'id' => $genre->id,
+        ], 200);
+    }
+    public function restore($id)
+    {
+        $genre = Genre::find($id);
+        if(empty($genre)){
+            return response()->json([], 204);
+        }
+        if($genre->soft == false){
+          return response()->json([
+            'msg' => 'El genre no esta borrado',
+            'id' => $genre->id,
+          ], 200);
+        }
+
+        $genre->soft = false;
+        $genre->save();
+        return response()->json([
+            'msg' => 'Genre has been restored',
             'id' => $genre->id,
         ], 200);
     }

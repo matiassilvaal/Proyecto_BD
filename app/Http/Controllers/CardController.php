@@ -51,18 +51,20 @@ class CardController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'Tipo' => 'required|boolean'
+                'Tipo' => 'required'
             ],
             [
                 'Tipo.required' => 'Debes ingresar un tipo de tarjeta',
-                'Tipo.boolean' => 'El tipo debe ser un booleano (true/false, 1/0, "1"/"0")'
             ]
         );
         if ($validator->fails()){
             return response($validator->errors(), 400);
         }
         $newCard = new Card();
-        $newCard->Tipo = $request->Tipo;
+        if($request->Tipo == true || $newCard->Tipo == false || $newCard->Tipo == 1 || $newCard->Tipo == 0){
+          $newCard->Tipo = $request->Tipo;
+        }
+        $newCard->soft = false;
         $newCard->save();
 
         return response()->json([
@@ -148,6 +150,7 @@ class CardController extends Controller
      */
     public function destroy($id)
     {
+        //
         $card = Card::find($id);
         if(empty($card)){
             return response()->json([], 204);
@@ -155,7 +158,47 @@ class CardController extends Controller
         $card->delete();
         return response()->json([
             'msg' => 'Card has been deleted',
-            'id' => $card->id
+            'id' => $card->id,
+        ], 200);
+    }
+    public function soft($id)
+    {
+        $card = Card::find($id);
+        if(empty($card)){
+            return response()->json([], 204);
+        }
+        if($card->soft == true){
+          return response()->json([
+            'msg' => 'La tarjeta ya esta borrada (soft deleted)',
+            'id' => $card->id,
+          ], 200);
+        }
+
+        $card->soft = true;
+        $card->save();
+        return response()->json([
+            'msg' => 'Card has been soft deleted',
+            'id' => $card->id,
+        ], 200);
+    }
+    public function restore($id)
+    {
+        $card = Card::find($id);
+        if(empty($card)){
+            return response()->json([], 204);
+        }
+        if($card->soft == false){
+          return response()->json([
+            'msg' => 'La tarjeta no esta borrado',
+            'id' => $card->id,
+          ], 200);
+        }
+
+        $card->soft = false;
+        $card->save();
+        return response()->json([
+            'msg' => 'Card has been restored',
+            'id' => $card->id,
         ], 200);
     }
 }

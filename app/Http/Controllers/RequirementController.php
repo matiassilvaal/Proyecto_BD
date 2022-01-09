@@ -80,5 +80,54 @@ class RequirementController extends Controller
     public function destroy($id)
     {
         //
+        $requirement = Requirement::find($id);
+        if(empty($requirement)){
+            return response()->json([], 204);
+        }
+        $requirement->delete();
+        return response()->json([
+            'msg' => 'Requirement has been deleted',
+            'id' => $requirement->id,
+        ], 200);
+    }
+    public function soft($id)
+    {
+        $requirement = Requirement::find($id);
+        if(empty($requirement)){
+            return response()->json([], 204);
+        }
+        if($requirement->soft == true){
+          return response()->json([
+            'msg' => 'El requirement ya esta borrado (soft deleted)',
+            'id' => $requirement->id,
+          ], 200);
+        }
+
+        $requirement->soft = true;
+        $requirement->save();
+        return response()->json([
+            'msg' => 'Requirement has been soft deleted',
+            'id' => $requirement->id,
+        ], 200);
+    }
+    public function restore($id)
+    {
+        $requirement = Requirement::find($id);
+        if(empty($requirement)){
+            return response()->json([], 204);
+        }
+        if($requirement->soft == false){
+          return response()->json([
+            'msg' => 'El requirement no esta borrado',
+            'id' => $requirement->id,
+          ], 200);
+        }
+
+        $requirement->soft = false;
+        $requirement->save();
+        return response()->json([
+            'msg' => 'Requirement has been restored',
+            'id' => $requirement->id,
+        ], 200);
     }
 }

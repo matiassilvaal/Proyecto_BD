@@ -88,7 +88,7 @@ class GameController extends Controller
                 'descarga.string' => 'Descarga debe ser un string',
                 'descarga.max' => 'El maximo de caracteres es 600',
                 'descarga.url' => 'Descarga es un enlace url',
-                'demo.required' => 'Denes ingresar un link de demo', 
+                'demo.required' => 'Denes ingresar un link de demo',
                 'demo.string' => 'Demo debe ser un string',
                 'demo.max' => 'El maximo de caracteres es 600',
                 'demo.url' => 'Demo es un enlace url'
@@ -109,6 +109,7 @@ class GameController extends Controller
         $newGame->descripcion = $request->descripcion;
         $newGame->descarga = $request->descarga;
         $newGame->demo = $request->demo;
+        $newGame->soft = false;
         $newGame->save();
 
         return response()->json([
@@ -196,7 +197,7 @@ class GameController extends Controller
                 'descarga.string' => 'Descarga debe ser un string',
                 'descarga.max' => 'El maximo de caracteres es 600',
                 'descarga.url' => 'Descarga es un enlace url',
-                'demo.required' => 'Denes ingresar un link de demo', 
+                'demo.required' => 'Denes ingresar un link de demo',
                 'demo.string' => 'Demo debe ser un string',
                 'demo.max' => 'El maximo de caracteres es 600',
                 'demo.url' => 'Demo es un enlace url'
@@ -236,6 +237,7 @@ class GameController extends Controller
      */
     public function destroy($id)
     {
+        //
         $game = Game::find($id);
         if(empty($game)){
             return response()->json([], 204);
@@ -243,7 +245,47 @@ class GameController extends Controller
         $game->delete();
         return response()->json([
             'msg' => 'Game has been deleted',
-            'id' => $game->id
+            'id' => $game->id,
+        ], 200);
+    }
+    public function soft($id)
+    {
+        $game = Game::find($id);
+        if(empty($game)){
+            return response()->json([], 204);
+        }
+        if($game->soft == true){
+          return response()->json([
+            'msg' => 'El game ya esta borrado (soft deleted)',
+            'id' => $game->id,
+          ], 200);
+        }
+
+        $game->soft = true;
+        $game->save();
+        return response()->json([
+            'msg' => 'Game has been soft deleted',
+            'id' => $game->id,
+        ], 200);
+    }
+    public function restore($id)
+    {
+        $game = Game::find($id);
+        if(empty($game)){
+            return response()->json([], 204);
+        }
+        if($game->soft == false){
+          return response()->json([
+            'msg' => 'El game no esta borrado',
+            'id' => $game->id,
+          ], 200);
+        }
+
+        $game->soft = false;
+        $game->save();
+        return response()->json([
+            'msg' => 'Game has been restored',
+            'id' => $game->id,
         ], 200);
     }
 }

@@ -80,5 +80,54 @@ class PurchaseController extends Controller
     public function destroy($id)
     {
         //
+        $purchase = Purchase::find($id);
+        if(empty($purchase)){
+            return response()->json([], 204);
+        }
+        $purchase->delete();
+        return response()->json([
+            'msg' => 'Purchase has been deleted',
+            'id' => $purchase->id,
+        ], 200);
+    }
+    public function soft($id)
+    {
+        $purchase = Purchase::find($id);
+        if(empty($purchase)){
+            return response()->json([], 204);
+        }
+        if($purchase->soft == true){
+          return response()->json([
+            'msg' => 'El purchase ya esta borrado (soft deleted)',
+            'id' => $purchase->id,
+          ], 200);
+        }
+
+        $purchase->soft = true;
+        $purchase->save();
+        return response()->json([
+            'msg' => 'Purchase has been soft deleted',
+            'id' => $purchase->id,
+        ], 200);
+    }
+    public function restore($id)
+    {
+        $purchase = Purchase::find($id);
+        if(empty($purchase)){
+            return response()->json([], 204);
+        }
+        if($purchase->soft == false){
+          return response()->json([
+            'msg' => 'El purchase no esta borrado',
+            'id' => $purchase->id,
+          ], 200);
+        }
+
+        $purchase->soft = false;
+        $purchase->save();
+        return response()->json([
+            'msg' => 'Purchase has been restored',
+            'id' => $purchase->id,
+        ], 200);
     }
 }

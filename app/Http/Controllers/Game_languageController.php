@@ -63,6 +63,7 @@ class Game_languageController extends Controller
         $newGameLanguage = new Game_language();
         $newGameLanguage->id_juego = $request->id_juego;
         $newGameLanguage->id_idioma = $request->id_idioma;
+        $newGameLanguage->soft = false;
         $newGameLanguage->save();
 
         return response()->json([
@@ -166,14 +167,55 @@ class Game_languageController extends Controller
      */
     public function destroy($id)
     {
-        $gameLanguage = Game_language::find($id);
-        if(empty($gameLanguage)){
+        //
+        $game_language = Game_language::find($id);
+        if(empty($game_language)){
             return response()->json([], 204);
         }
-        $gameLanguage->delete();
+        $game_language->delete();
         return response()->json([
             'msg' => 'Game_language has been deleted',
-            'id' => $gameLanguage->id
+            'id' => $game_language->id,
+        ], 200);
+    }
+    public function soft($id)
+    {
+        $game_language = Game_language::find($id);
+        if(empty($game_language)){
+            return response()->json([], 204);
+        }
+        if($game_language->soft == true){
+          return response()->json([
+            'msg' => 'El game_language ya esta borrado (soft deleted)',
+            'id' => $game_language->id,
+          ], 200);
+        }
+
+        $game_language->soft = true;
+        $game_language->save();
+        return response()->json([
+            'msg' => 'Game_language has been soft deleted',
+            'id' => $game_language->id,
+        ], 200);
+    }
+    public function restore($id)
+    {
+        $game_language = Game_language::find($id);
+        if(empty($game_language)){
+            return response()->json([], 204);
+        }
+        if($game_language->soft == false){
+          return response()->json([
+            'msg' => 'El game_language no esta borrado',
+            'id' => $game_language->id,
+          ], 200);
+        }
+
+        $game_language->soft = false;
+        $game_language->save();
+        return response()->json([
+            'msg' => 'Game_language has been restored',
+            'id' => $game_language->id,
         ], 200);
     }
 }

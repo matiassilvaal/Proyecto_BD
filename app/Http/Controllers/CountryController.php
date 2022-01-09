@@ -58,6 +58,7 @@ class CountryController extends Controller
         }
         $newCountry = new Country();
         $newCountry->Pais = $request->Pais;
+        $newCountry->soft = false;
         $newCountry->save();
 
         return response()->json([
@@ -145,6 +146,7 @@ class CountryController extends Controller
      */
     public function destroy($id)
     {
+        //
         $country = Country::find($id);
         if(empty($country)){
             return response()->json([], 204);
@@ -152,7 +154,47 @@ class CountryController extends Controller
         $country->delete();
         return response()->json([
             'msg' => 'Country has been deleted',
-            'id' => $country->id
+            'id' => $country->id,
+        ], 200);
+    }
+    public function soft($id)
+    {
+        $country = Country::find($id);
+        if(empty($country)){
+            return response()->json([], 204);
+        }
+        if($country->soft == true){
+          return response()->json([
+            'msg' => 'El country ya esta borrado (soft deleted)',
+            'id' => $country->id,
+          ], 200);
+        }
+
+        $country->soft = true;
+        $country->save();
+        return response()->json([
+            'msg' => 'Country has been soft deleted',
+            'id' => $country->id,
+        ], 200);
+    }
+    public function restore($id)
+    {
+        $country = Country::find($id);
+        if(empty($country)){
+            return response()->json([], 204);
+        }
+        if($country->soft == false){
+          return response()->json([
+            'msg' => 'El country no esta borrado',
+            'id' => $country->id,
+          ], 200);
+        }
+
+        $country->soft = false;
+        $country->save();
+        return response()->json([
+            'msg' => 'Country has been restored',
+            'id' => $country->id,
         ], 200);
     }
 }
