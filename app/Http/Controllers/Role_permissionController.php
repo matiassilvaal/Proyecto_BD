@@ -5,7 +5,7 @@ use App\Models\Role;
 use App\Models\Permission;
 use App\Models\Role_permission;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Validator;
 class Role_permissionController extends Controller
 {
     /**

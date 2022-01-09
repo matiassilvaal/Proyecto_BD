@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Requirement;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Validator;
 class RequirementController extends Controller
 {
     /**

@@ -5,7 +5,7 @@ use App\Models\User_game;
 use App\Models\User;
 use App\Models\Game;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Validator;
 class User_gameController extends Controller
 {
     /**

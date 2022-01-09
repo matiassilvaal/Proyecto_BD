@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Wish_game;
 use App\Models\Game;
 use App\Models\User;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
 class Wish_gameController extends Controller

@@ -5,7 +5,7 @@ use App\Models\User_method;
 use App\Models\User;
 use App\Models\Method;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Validator;
 class User_methodController extends Controller
 {
     /**

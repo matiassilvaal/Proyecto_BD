@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Wallet;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
 class WalletController extends Controller

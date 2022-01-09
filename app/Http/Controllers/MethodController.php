@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Method;
 use App\Models\Game;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Validator;
 class MethodController extends Controller
 {
     /**
