@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Permission;
 use Illuminate\Http\Request;
 
 class PermissionController extends Controller
@@ -13,9 +13,12 @@ class PermissionController extends Controller
      */
     public function index()
     {
-        //
+        $permissions = Permission::all();
+        if($permissions->isEmpty()){
+            return response()->json([], 204);
+        }
+        return response($permissions, 200);
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -34,7 +37,30 @@ class PermissionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'Permiso' => 'required|string|unique:App\Models\Permission,Permiso',
+            ],
+            [
+                'Permiso.required' => 'Debes ingresar el Permiso',
+                'Permiso.string' => 'El Permiso debe ser un string',
+                'Permiso.unique' => 'El Permiso no se puede repetir',
+            ]
+        );
+        //Caso falla la validación
+        if($validator->fails()){
+            return response($validator->errors(), 400);
+        }
+        $newPermission = new Permission();
+        $newPermission->Permiso = $request->Permiso;
+        $newPermission->soft = false;
+        $newPermission->save();
+
+        return response()->json([
+            'msg' => 'New permission has been created',
+            'id' => $newPermission->id,
+        ], 201);
     }
 
     /**
@@ -46,6 +72,11 @@ class PermissionController extends Controller
     public function show($id)
     {
         //
+        $permission = Permission::find($id);
+        if(empty($permission)){
+            return response()->json([], 204);
+        }
+        return response($permission, 200);
     }
 
     /**
@@ -69,6 +100,36 @@ class PermissionController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'Permiso' => 'nullable|string',
+            ],
+            [
+                'nombre.string' => 'El Permiso debe ser un string',
+            ]
+        );
+        //Caso falla la validación
+        if($validator->fails()){
+            return response($validator->errors(), 400);
+        }
+        $permission = Permission::find($id);
+        if(empty($permission)){
+            return response()->json([], 204);
+        }
+        if($request->Permiso == $permission->Permiso){
+            return response()->json([
+                'msg' => 'Los datos ingresados son iguales a los actuales'
+            ], 404);
+        }
+        if (!empty($request->Permiso)){
+            $permission->Permiso = $request->Permiso;
+        }
+        $permission->save();
+        return response()->json([
+            'msg' => 'Permission has been edited',
+            'id' => $permission->id,
+        ], 200);
     }
 
     /**

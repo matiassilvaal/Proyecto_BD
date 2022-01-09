@@ -156,48 +156,37 @@ class GameController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'id_publisher' => 'required|exists:App\Models\User,id|integer',
-                'id_requisito' => 'required|exists:App\Models\Requirement,id|integer',
-                'id_ubicacion' => 'required|exists:App\Models\Address,id|integer',
-                'id_restriccion' => 'required|exists:App\Models\Age_restriction,id|integer',
-                'precio' => 'required|integer|min:0',
-                'fecha_de_lanzamiento' => 'required|date',
-                'descuento' => 'required|integer|between:0,100',
-                'imagen' => 'required|string|max:500|image',
-                'descripcion' => 'required|string|max:600',
-                'descarga' => 'required|string|max:600|url',
-                'demo' => 'required|string|max:600|url'
+                'id_publisher' => 'nullable|integer',
+                'id_requisito' => 'nullable|integer',
+                'id_ubicacion' => 'nullable|integer',
+                'id_restriccion' => 'nullable|integer',
+                'precio' => 'nullable|integer|min:0',
+                'fecha_de_lanzamiento' => 'nullable|date',
+                'descuento' => 'nullable|integer|between:0,100',
+                'imagen' => 'nullable|string|max:500|image',
+                'descripcion' => 'nullable|string|max:600',
+                'descarga' => 'nullable|string|max:600|url',
+                'demo' => 'nullable|string|max:600|url'
             ],
             [
-                'id_publisher.required' => 'Debes ingresar una id de usuario (publisher)',
-                'id_publisher.exists' => 'La id publisher ya existe',
                 'id_publisher.integer' => 'La id publisher debe ser entera',
-                'id_requisito.required' => 'Debes ingresar una id requisito',
                 'id_requisito.exists' => 'La id requisito ya existe',
                 'id_requisito.integer' => 'La id requisito debe ser entera',
-                'id_ubicacion.required' => 'Debes ingresar una id ubicacion',
                 'id_ubicacion.exists' => 'La id ubicacion ya existe',
                 'id_ubicacion.integer' => 'La id ubicacion debe ser entera',
-                'precio.required' => 'Debes ingresar un precio',
                 'precio.integer' => 'Precio debe ser un entero',
                 'precio.min' => 'Precio no puede ser menor a 0',
-                'fecha_de_lanzamiento.required' => 'Debes ingresar una fecha de lanazmiento',
                 'fecha_de_lanzamiento.date' => 'Fecha de lanzamiento debe tener formato date',
-                'descuento.required' => 'Debes ingresar un descuento',
                 'descuento.integer' => 'Descuento debe ser un entero',
                 'descuento.between' => 'Descuento debe estar entre 0 y 100',
-                'imagen.required' => 'Debes ingresar una imagen',
                 'imagen.string' => 'Imagen debe ser un string',
                 'imagen.max' => 'Largo maximo de imagen es 500',
                 'imagen.image' => 'Imagen tiene formato de image',
-                'descripcion.required' => 'Debes ingresar una descripcion',
                 'descripcion.string' => 'La descripcion debe ser un string',
                 'descripcion.max' => 'El maximo de caracteres es 600',
-                'descarga.required' => 'Debes ingresar un link de descarga',
                 'descarga.string' => 'Descarga debe ser un string',
                 'descarga.max' => 'El maximo de caracteres es 600',
                 'descarga.url' => 'Descarga es un enlace url',
-                'demo.required' => 'Denes ingresar un link de demo',
                 'demo.string' => 'Demo debe ser un string',
                 'demo.max' => 'El maximo de caracteres es 600',
                 'demo.url' => 'Demo es un enlace url'
@@ -210,18 +199,70 @@ class GameController extends Controller
         if(empty($game)){
             return response()->json([], 204);
         }
-
-        $game->id_publisher = $request->id_publisher;
-        $game->id_requisito = $request->id_requisito;
-        $game->id_ubicacion = $request->id_ubicacion;
-        $game->id_restriccion = $request->id_restriccion;
-        $game->precio = $request->precio;
-        $game->fecha_de_lanzamiento = $request->fecha_de_lanzamiento;
-        $game->descuento = $request->descuento;
-        $game->imagen = $request->imagen;
-        $game->descripcion = $request->descripcion;
-        $game->descarga = $request->descarga;
-        $game->demo = $request->demo;
+        if($request->id_publisher == $game->id_publisher && $request->id_requisito == $game->id_requisito && $request->id_requisito == $game->id_requisito && $request->id_restriccion == $game->id_restriccion && $request->precio == $game->precio && $request->fecha_de_lanzamiento == $game->fecha_de_lanzamiento){
+          if($request->descuento == $game->descuento && $request->imagen == $game->imagen && $request->descripcion == $game->descripcion && $request->descarga == $game->descarga && $request->demo == $game->demo){
+            return response()->json([
+                'msg' => 'Los datos ingresados son iguales a los actuales'
+            ], 404);
+          }
+        }
+        if(!empty($request->id_publisher)){
+            $user = User::find($request->id_publisher);
+            if(empty($user)){
+                return response()->jseon([
+                    'msg' => 'No se encontró el id_publisher'
+                ], 404);
+            }
+            $game->id_publisher = $request->publisher;
+        }
+        if(!empty($request->id_requisito)){
+            $user = Requirement::find($request->id_requisito);
+            if(empty($id_requisito)){
+                return response()->jseon([
+                    'msg' => 'No se encontró el id_requisito'
+                ], 404);
+            }
+            $game->id_requisito = $request->id_requisito;
+        }
+        if(!empty($request->id_ubicacion)){
+            $user = Address::find($request->id_ubicacion);
+            if(empty($id_ubicacion)){
+                return response()->jseon([
+                    'msg' => 'No se encontró el id_ubicacion'
+                ], 404);
+            }
+            $game->id_ubicacion = $request->id_ubicacion;
+        }
+        if(!empty($request->id_restriccion)){
+            $user = Age_restriction::find($request->id_restriccion);
+            if(empty($id_restriccion)){
+                return response()->jseon([
+                    'msg' => 'No se encontró el id_restriccion'
+                ], 404);
+            }
+            $game->id_restriccion = $request->id_restriccion;
+        }
+        if(!empty($request->precio)){
+            $game->precio = $request->precio;
+        }
+        if(!empty($request->fecha_de_lanzamiento)){
+            $game->fecha_de_lanzamiento = $request->fecha_de_lanzamiento;
+        }
+        if(!empty($request->descuento)){
+            $game->descuento = $request->descuento;
+        }
+        if(!empty($request->imagen)){
+            $game->imagen = $request->imagen;
+        }
+        if(!empty($request->descripcion)){
+            $game->descripcion = $request->descripcion;
+        }
+        if(!empty($request->descarga)){
+            $game->descarga = $request->descarga;
+        }
+        if(!empty($request->demo)){
+            $game->demo = $request->demo;
+        }
         $game->save();
         return response()->json([
             'msg' => 'Game has been edited',

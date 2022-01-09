@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Requirement;
 use Illuminate\Http\Request;
 
 class RequirementController extends Controller
@@ -13,9 +13,12 @@ class RequirementController extends Controller
      */
     public function index()
     {
-        //
+        $requirement = Requirement::all();
+        if($requirement->isEmpty()){
+            return response()->json([], 204);
+        }
+        return response($requirement, 200);
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -34,7 +37,52 @@ class RequirementController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'SO' => 'required|string',
+                'CPU' => 'required|string',
+                'RAM' => 'required|integer',
+                'GPU' => 'required|string',
+                'DirectX' => 'required|integer',
+                'RED' => 'required|string',
+                'Uso_de_disco' => 'required|integer',
+            ],
+            [
+                'SO.required' => 'Debes ingresar el SO',
+                'CPU.required' => 'Debes ingresar el CPU',
+                'RAM.required' => 'Debes ingresar la RAM',
+                'GPU.required' => 'Debes ingresar el GPU',
+                'DirectX.required' => 'Debes ingresar el DirectX',
+                'RED.required' => 'Debes ingresar la RED',
+                'Uso_de_disco.required' => 'Debes ingresar el Uso_de_disco',
+                'SO.string' => 'SO debe ser string',
+                'CPU.string' => 'CPU debe ser string',
+                'RAM.integer' => 'RAM debe ser entero',
+                'GPU.string' => 'GPU debe ser string',
+                'DirectX.integer' => 'DirectX debe ser entero',
+                'RED.string' => 'RED debe ser string',
+                'Uso_de_disco.integer' => 'Uso de disco debe ser entero',
+            ]
+        );
+        //Caso falla la validación
+        if($validator->fails()){
+            return response($validator->errors(), 400);
+        }
+        $newRequirement = new Requirement();
+        $newRequirement->SO = $request->SO;
+        $newRequirement->CPU = $request->CPU;
+        $newRequirement->RAM = $request->RAM;
+        $newRequirement->GPU = $request->GPU;
+        $newRequirement->DirectX = $request->DirectX;
+        $newRequirement->RED = $request->RED;
+        $newRequirement->Uso_de_disco = $request->Uso_de_disco;
+        $newRequirement->soft = false;
+        $newRequirement->save();
+        return response()->json([
+            'msg' => 'New requirement has been created',
+            'id' => $newRequirement->id,
+        ], 201);
     }
 
     /**
@@ -46,6 +94,11 @@ class RequirementController extends Controller
     public function show($id)
     {
         //
+        $requirement = Requirement::find($id);
+        if(empty($requirement)){
+            return response()->json([], 204);
+        }
+        return response($requirement, 200);
     }
 
     /**
@@ -69,6 +122,68 @@ class RequirementController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'SO' => 'nullable|string',
+                'CPU' => 'nullable|string',
+                'RAM' => 'nullable|integer',
+                'GPU' => 'nullable|string',
+                'DirectX' => 'nullable|integer',
+                'RED' => 'nullable|string',
+                'Uso_de_disco' => 'nullable|integer',
+            ],
+            [
+                'SO.string' => 'SO debe ser string',
+                'CPU.string' => 'CPU debe ser string',
+                'RAM.integer' => 'RAM debe ser entero',
+                'GPU.string' => 'GPU debe ser string',
+                'DirectX.integer' => 'DirectX debe ser entero',
+                'RED.string' => 'RED debe ser string',
+                'Uso_de_disco.integer' => 'Uso de disco debe ser entero',
+            ]
+        );
+        //Caso falla la validación
+        if($validator->fails()){
+            return response($validator->errors(), 400);
+        }
+        $requirement = Requirement::find($id);
+        if(empty($requirement)){
+            return response()->json([], 204);
+        }
+        if($request->SO == $requirement->SO && $request->CPU == $requirement->CPU && $request->RAM == $requirement->RAM && $request->GPU == $requirement->GPU && $request->DirectX == $requirement->DirectX){
+          if($request->RED == $requirement->RED && $request->Uso_de_disco == $requirement->Uso_de_disco){
+            return response()->json([
+                'msg' => 'Los datos ingresados son iguales a los actuales'
+            ], 404);
+          }
+        }
+        if (!empty($request->SO)){
+            $requirement->SO = $request->SO;
+        }
+        if (!empty($request->CPU)){
+            $requirement->CPU = $request->CPU;
+        }
+        if (!empty($request->RAM)){
+            $requirement->RAM = $request->RAM;
+        }
+        if (!empty($request->GPU)){
+            $requirement->GPU = $request->GPU;
+        }
+        if (!empty($request->DirectX)){
+            $requirement->DirectX = $request->DirectX;
+        }
+        if (!empty($request->RED)){
+            $requirement->RED = $request->RED;
+        }
+        if (!empty($request->Uso_de_disco)){
+            $requirement->Uso_de_disco = $request->Uso_de_disco;
+        }
+        $requirement->save();
+        return response()->json([
+            'msg' => 'Requirement has been edited',
+            'id' => $requirement->id,
+        ], 200);
     }
 
     /**

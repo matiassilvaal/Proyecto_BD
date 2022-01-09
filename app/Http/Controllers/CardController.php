@@ -61,7 +61,7 @@ class CardController extends Controller
             return response($validator->errors(), 400);
         }
         $newCard = new Card();
-        if($request->Tipo == true || $newCard->Tipo == false || $newCard->Tipo == 1 || $newCard->Tipo == 0){
+        if($request->Tipo == true || $request->Tipo == false || $request->Tipo == 1 || $request->Tipo == 0){
           $newCard->Tipo = $request->Tipo;
         }
         $newCard->soft = false;
@@ -131,8 +131,8 @@ class CardController extends Controller
                 'msg' => 'Los datos ingresados son iguales a los actuales.'
             ], 404);
         }
-        if(!empty($request->Tipo) || $request->Tipo == 0){
-            $card->Tipo = $request->Tipo;
+        if($request->Tipo == true || $request->Tipo == false || $request->Tipo == 1 || $request->Tipo == 0){
+          $card->like = $request->like;
         }
         $card->save();
         return response()->json([

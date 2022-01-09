@@ -54,7 +54,7 @@ class Comment_typeController extends Controller
             return response($validator->errors(), 400);
         }
         $newCommentType = new Comment_type();
-        if($request->Tipo == true || $newCommentType->Tipo == false || $newCommentType->Tipo == 1 || $newCommentType->Tipo == 0){
+        if($request->Tipo == true || $request->Tipo == false || $request->Tipo == 1 || $request->Tipo == 0){
           $newCommentType->Tipo = $request->Tipo;
         }
         $newCommentType->soft = false;
@@ -118,8 +118,9 @@ class Comment_typeController extends Controller
         if(empty($commentType)){
             return response()->json([], 204);
         }
-
-        $commentType->Tipo = $request->Tipo;
+        if($request->Tipo == true || $request->Tipo == false || $request->Tipo == 1 || $request->Tipo == 0){
+          $commentType->like = $request->like;
+        }
         $commentType->save();
         return response()->json([
             'msg' => 'Comment type has been edited',

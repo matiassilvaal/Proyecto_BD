@@ -106,13 +106,12 @@ class GenreController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'Nombre' => 'required|min:4|max:100|unique:App\Models\Genre,Nombre',
+                'Nombre' => 'nullable|string|min:4|max:100',
             ],
             [
-                'Nombre.required' => 'Debes ingresar un nombre',
                 'Nombre.min' => 'El genero debe ser almenos de 4 caracteres',
                 'Nombre.max' => 'El genero debe ser de maximo 100 caracteres',
-                'Nombre.unique' => 'El genero ya existe',
+                'Nombre.string' => 'El genero debe ser un string',
             ]
         );
         //Caso falla la validación
@@ -123,8 +122,14 @@ class GenreController extends Controller
         if(empty($genre)){
             return response()->json([], 204);
         }
-
-        $genre->Nombre = $request->Nombre;
+        if($request->Nombre == $genre->Nombre){
+            return response()->json([
+                'msg' => 'Los datos ingresados son iguales a los actuales'
+            ], 404);
+        }
+        if(!empty($request->Nombre)){
+            $genre->Nombre = $request->Nombre;
+        }
         $genre->save();
         return response()->json([
             'msg' => 'Genre has been edited',

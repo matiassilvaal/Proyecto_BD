@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Library;
+use App\Models\User;
+use App\Models\Game;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -116,19 +118,14 @@ class LibraryController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'id_juego' => 'required|numeric|exists:App\Models\Game,id',
-                'id_usuario' => 'required|numeric|exists:App\Models\User,id',
-                'horas_jugadas' => 'required|numeric|min:0',
+                'id_juego' => 'nullable|integer',
+                'id_usuario' => 'nullable|integer',
+                'horas_jugadas' => 'nullable|integer|min:0',
             ],
             [
-                'id_juego.required' => 'Debes ingresar un id_juego',
-                'id_usuario.required' => 'Debes ingresar un id_usuario',
-                'horas_jugadas.required' => 'Debes ingresar las horas jugadas',
-                'id_juego.numeric' => 'El id_juego debe ser un numero',
-                'id_usuario.numeric' => 'El id_usuario debe ser un numero',
-                'horas_jugadas.numeric' => 'Las horas jugadas deben ser un numero',
-                'id_juego.exists' => 'La foranea id_juego debe existir',
-                'id_usuario.exists' => 'La foranea id_usuario debe existir',
+                'id_juego.integer' => 'El id_juego debe ser un numero',
+                'id_usuario.integer' => 'El id_usuario debe ser un numero',
+                'horas_jugadas.integer' => 'Las horas jugadas deben ser un numero',
                 'horas_jugadas.min' => 'Las horas de juego deben ser minimo 0',
             ]
         );
@@ -139,6 +136,32 @@ class LibraryController extends Controller
         $library = Library::find($id);
         if(empty($library)){
             return response()->json([], 204);
+        }
+        if($request->id_juego == $library->id_juego && $request->id_usuario == $library->id_usuario && $request->horas_jugadas == $library->horas_jugadas){
+            return response()->json([
+                'msg' => 'Los datos ingresados son iguales a los actuales'
+            ], 404);
+        }
+        if (!empty($request->id_juego)){ // Foranea
+            $game = Game::find($request->id_juego);
+            if(empty($game)){
+                return response()->json([
+                    "message" => "No se encontró el id_juego"
+                ], 404);
+            }
+            $library->id_juego = $request->id_juego;
+        }
+        if (!empty($request->id_usuario)){ // Foranea
+            $user = User::find($request->id_usuario);
+            if(empty($user)){
+                return response()->json([
+                    "message" => "No se encontró el id_usuario"
+                ], 404);
+            }
+            $library->id_usuario = $request->id_usuario;
+        }
+        if (!empty($request->horas_jugadas)){
+            $library->horas_jugadas = $request->horas_jugadas;
         }
         $library->id_juego = $request->id_juego;
         $library->id_usuario = $request->id_usuario;

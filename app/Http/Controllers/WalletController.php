@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Wallet;
 use Illuminate\Http\Request;
 
 class WalletController extends Controller
@@ -13,9 +13,12 @@ class WalletController extends Controller
      */
     public function index()
     {
-        //
+        $wallets = Wallet::all();
+        if($wallets->isEmpty()){
+            return response()->json([], 204);
+        }
+        return response($wallets, 200);
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -34,7 +37,29 @@ class WalletController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'Cantidad' => 'required|integer',
+            ],
+            [
+                'Cantidad.required' => 'Debes ingresar la cantidad',
+                'Cantidad.integer' => 'La cantidad debe ser un entero',
+            ]
+        );
+        //Caso falla la validación
+        if($validator->fails()){
+            return response($validator->errors(), 400);
+        }
+        $newWallet = new Wallet();
+        $newWallet->Cantidad = $request->Cantidad;
+        $newWallet->soft = false;
+        $newWallet->save();
+
+        return response()->json([
+            'msg' => 'New wallet has been created',
+            'id' => $newWallet->id,
+        ], 201);
     }
 
     /**
@@ -46,6 +71,11 @@ class WalletController extends Controller
     public function show($id)
     {
         //
+        $wallet = Wallet::find($id);
+        if(empty($wallet)){
+            return response()->json([], 204);
+        }
+        return response($wallet, 200);
     }
 
     /**
@@ -69,6 +99,36 @@ class WalletController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'Cantidad' => 'nullable|integer',
+            ],
+            [
+                'Cantidad.integer' => 'La cantidad debe ser un entero',
+            ]
+        );
+        //Caso falla la validación
+        if($validator->fails()){
+            return response($validator->errors(), 400);
+        }
+        $wallet = Wallet::find($id);
+        if(empty($wallet)){
+            return response()->json([], 204);
+        }
+        if($request->Cantidad == $wallet->Cantidad){
+            return response()->json([
+                'msg' => 'Los datos ingresados son iguales a los actuales'
+            ], 404);
+        }
+        if (!empty($request->Cantidad)){
+            $wallet->Cantidad = $request->Cantidad;
+        }
+        $wallet->save();
+        return response()->json([
+            'msg' => 'Wallet has been edited',
+            'id' => $wallet->id,
+        ], 200);
     }
 
     /**

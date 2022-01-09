@@ -21,7 +21,7 @@ class CreateRequirementsTable extends Migration
             $table->string("GPU", 100);
             $table->integer("DirectX");
             $table->string("RED", 100);
-            $table->integer("Uso de disco");
+            $table->integer("Uso_de_disco");
             $table->boolean('soft');
             $table->timestamps();
         });

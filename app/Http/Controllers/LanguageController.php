@@ -105,12 +105,11 @@ class LanguageController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'Idioma' => 'required|size:2|unique:App\Models\Language,Idioma',
+                'Idioma' => 'nullable|string|size:2|',
             ],
             [
-                'Idioma.required' => 'Debes ingresar un idioma',
                 'Idioma.size' => 'El idioma debe ser de 2 caracteres',
-                'Idioma.unique' => 'El idioma ya existe',
+                'Idioma.string' => 'El idioma debe ser un string',
             ]
         );
         //Caso falla la validación
@@ -120,6 +119,14 @@ class LanguageController extends Controller
         $language = Language::find($id);
         if(empty($language)){
             return response()->json([], 204);
+        }
+        if($request->Idioma == $language->Idioma){
+            return response()->json([
+                'msg' => 'Los datos ingresados son iguales a los actuales'
+            ], 404);
+        }
+        if (!empty($request->Idioma)){
+            $language->Idioma = $request->Idioma;
         }
 
         $language->Idioma = $request->Idioma;
