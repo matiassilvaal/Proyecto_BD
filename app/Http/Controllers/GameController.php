@@ -55,7 +55,7 @@ class GameController extends Controller
                 'precio' => 'required|integer|min:0',
                 'fecha_de_lanzamiento' => 'required|date',
                 'descuento' => 'required|integer|between:0,100',
-                'imagen' => 'required|string|max:500|image',
+                'imagen' => 'required|string|max:500|url',
                 'descripcion' => 'required|string|max:600',
                 'descarga' => 'required|string|max:600|url',
                 'demo' => 'required|string|max:600|url'
@@ -83,7 +83,7 @@ class GameController extends Controller
                 'imagen.required' => 'Debes ingresar una imagen',
                 'imagen.string' => 'Imagen debe ser un string',
                 'imagen.max' => 'Largo maximo de imagen es 500',
-                'imagen.image' => 'Imagen tiene formato de image',
+                'imagen.url' => 'Imagen debe ser una url',
                 'descripcion.required' => 'Debes ingresar una descripcion',
                 'descripcion.string' => 'La descripcion debe ser un string',
                 'descripcion.max' => 'El maximo de caracteres es 600',
@@ -164,20 +164,21 @@ class GameController extends Controller
                 'id_requisito' => 'nullable|integer',
                 'id_ubicacion' => 'nullable|integer',
                 'id_restriccion' => 'nullable|integer',
+                'nombre' => 'nullable|string',
                 'precio' => 'nullable|integer|min:0',
                 'fecha_de_lanzamiento' => 'nullable|date',
                 'descuento' => 'nullable|integer|between:0,100',
-                'imagen' => 'nullable|string|max:500|image',
+                'imagen' => 'nullable|string|max:500|url',
                 'descripcion' => 'nullable|string|max:600',
                 'descarga' => 'nullable|string|max:600|url',
                 'demo' => 'nullable|string|max:600|url'
             ],
             [
                 'id_publisher.integer' => 'La id publisher debe ser entera',
-                'id_requisito.exists' => 'La id requisito ya existe',
                 'id_requisito.integer' => 'La id requisito debe ser entera',
-                'id_ubicacion.exists' => 'La id ubicacion ya existe',
                 'id_ubicacion.integer' => 'La id ubicacion debe ser entera',
+                'id_restriccion.integer' => 'La id restriccion debe ser entera',
+                'nombre.string' => 'Nombre debe ser un string',
                 'precio.integer' => 'Precio debe ser un entero',
                 'precio.min' => 'Precio no puede ser menor a 0',
                 'fecha_de_lanzamiento.date' => 'Fecha de lanzamiento debe tener formato date',
@@ -185,7 +186,7 @@ class GameController extends Controller
                 'descuento.between' => 'Descuento debe estar entre 0 y 100',
                 'imagen.string' => 'Imagen debe ser un string',
                 'imagen.max' => 'Largo maximo de imagen es 500',
-                'imagen.image' => 'Imagen tiene formato de image',
+                'imagen.url' => 'Imagen debe ser una url',
                 'descripcion.string' => 'La descripcion debe ser un string',
                 'descripcion.max' => 'El maximo de caracteres es 600',
                 'descarga.string' => 'Descarga debe ser un string',
@@ -203,7 +204,7 @@ class GameController extends Controller
         if(empty($game)){
             return response()->json([], 204);
         }
-        if($request->id_publisher == $game->id_publisher && $request->id_requisito == $game->id_requisito && $request->id_requisito == $game->id_requisito && $request->id_restriccion == $game->id_restriccion && $request->precio == $game->precio && $request->fecha_de_lanzamiento == $game->fecha_de_lanzamiento){
+        if($request->id_publisher == $game->id_publisher && $request->id_requisito == $game->id_requisito && $request->id_requisito == $game->id_requisito && $request->id_restriccion == $game->id_restriccion && $request->nombre == $game->nombre && $request->precio == $game->precio && $request->fecha_de_lanzamiento == $game->fecha_de_lanzamiento){
           if($request->descuento == $game->descuento && $request->imagen == $game->imagen && $request->descripcion == $game->descripcion && $request->descarga == $game->descarga && $request->demo == $game->demo){
             return response()->json([
                 'msg' => 'Los datos ingresados son iguales a los actuales'
@@ -245,6 +246,9 @@ class GameController extends Controller
                 ], 404);
             }
             $game->id_restriccion = $request->id_restriccion;
+        }
+        if(!empty($request->nombre)){
+            $game->nombre = $request->nombre;
         }
         if(!empty($request->precio)){
             $game->precio = $request->precio;

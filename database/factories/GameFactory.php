@@ -22,7 +22,7 @@ class GameFactory extends Factory
             'id_requisito' => Requirement::all()->random()->id,
             'id_ubicacion' => Address::all()->random()->id,
             'id_restriccion' => Age_restriction::all()->random()->id,
-            'nombre' => $this->faker->string,
+            'nombre' => $this->faker->streetName,
             'precio' => $this->faker->randomNumber,
             /**
              * Tenía argumentos en el ejemplo,
