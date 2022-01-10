@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Method;
-use App\Models\Game;
+use App\Models\Card;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 class MethodController extends Controller
@@ -41,17 +41,17 @@ class MethodController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'id_juego' => 'required|numeric|exists:App\Models\Card,id',
+                'id_tarjeta' => 'required|numeric|exists:App\Models\Card,id',
                 'numero' => 'required|numeric|unique:App\Models\Method,numero',
                 'nombre' => 'required|string',
                 'fecha_de_vencimiento' => 'required|date',
             ],
             [
-                'id_juego.required' => 'Debes ingresar un id_juego',
+                'id_tarjeta.required' => 'Debes ingresar un id_tarjeta',
                 'numero.required' => 'Debes ingresar un numero de tarjeta',
                 'nombre.required' => 'Debes ingresar el nombre de la tarjeta',
                 'fecha_de_vencimiento.required' => 'Debes ingresar la fecha de vencimiento',
-                'id_juego.numeric' => 'El id_juego debe ser un numero',
+                'id_tarjeta.numeric' => 'El id_tarjeta debe ser un numero',
                 'numero.numeric' => 'El numero de tarjeta debe ser un numero',
                 'nombre.string' => 'El nombre debe ser un string',
                 'fecha_de_vencimiento.date' => 'La fecha debe ser un date',
@@ -63,7 +63,7 @@ class MethodController extends Controller
             return response($validator->errors(), 400);
         }
         $newMethod = new Method();
-        $newMethod->id_juego = $request->id_juego;
+        $newMethod->id_tarjeta = $request->id_tarjeta;
         $newMethod->numero = $request->numero;
         $newMethod->nombre = $request->nombre;
         $newMethod->fecha_de_vencimiento = $request->fecha_de_vencimiento;
@@ -116,13 +116,13 @@ class MethodController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'id_juego' => 'nullable|integer',
+                'id_tarjeta' => 'nullable|integer',
                 'numero' => 'nullable|integer',
                 'nombre' => 'nullable|string',
                 'fecha_de_vencimiento' => 'nullable|date',
             ],
             [
-                'id_juego.integer' => 'El id_juego debe ser un numero',
+                'id_tarjeta.integer' => 'El id_tarjeta debe ser un numero',
                 'numero.integer' => 'El numero de tarjeta debe ser un numero',
                 'nombre.string' => 'El nombre debe ser un string',
                 'fecha_de_vencimiento.date' => 'La fecha debe ser un date',
@@ -136,19 +136,19 @@ class MethodController extends Controller
         if(empty($method)){
             return response()->json([], 204);
         }
-        if($request->id_juego == $method->id_juego && $request->numero == $method->numero && $request->nombre == $method->nombre && $request->fecha_de_vencimiento == $method->fecha_de_vencimiento){
+        if($request->id_tarjeta == $method->id_tarjeta && $request->numero == $method->numero && $request->nombre == $method->nombre && $request->fecha_de_vencimiento == $method->fecha_de_vencimiento){
             return response()->json([
                 'msg' => 'Los datos ingresados son iguales a los actuales'
             ], 404);
         }
-        if (!empty($request->id_juego)){ // Foranea
-            $game = Game::find($request->id_juego);
+        if (!empty($request->id_tarjeta)){ // Foranea
+            $game = Card::find($request->id_tarjeta);
             if(empty($game)){
                 return response()->json([
-                    "message" => "No se encontró el id_juego"
+                    "message" => "No se encontró el id_tarjeta"
                 ], 404);
             }
-            $method->id_juego = $request->id_juego;
+            $method->id_tarjeta = $request->id_tarjeta;
         }
         if (!empty($request->numero)){
             $method->numero = $request->numero;

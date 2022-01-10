@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 use App\Models\Purchase;
+use App\Models\Game;
+use App\Models\Invoice;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 class PurchaseController extends Controller
@@ -54,7 +56,7 @@ class PurchaseController extends Controller
         if($validator->fails()){
             return response($validator->errors(), 400);
         }
-        $newPurchase = new Permission();
+        $newPurchase = new Purchase();
         $newPurchase->id_juego = $request->id_juego;
         $newPurchase->id_boleta = $request->id_boleta;
         $newPurchase->soft = false;

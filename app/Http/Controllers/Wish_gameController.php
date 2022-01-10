@@ -148,13 +148,14 @@ class Wish_gameController extends Controller
         }
         if (!empty($request->id_usuario)){ // Esto es para las foraneas, revisar si en otra tabla existe, acordarse de importar dicha tabla arriba
             $user = User::find($request->id_usuario);
-            if(empty($id_usuario)){
+            if(empty($user)){
                 return response()->json([
                     "message" => "No se encontró el id_usuario"
                 ], 404);
             }
             $wish->id_usuario = $request->id_usuario;
         }
+
 
         //
         $wish->save();

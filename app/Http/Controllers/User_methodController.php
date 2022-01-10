@@ -43,7 +43,7 @@ class User_methodController extends Controller
             $request->all(),
             [
                 'id_usuario' => 'required|exists:App\Models\User,id',
-                'id_tarjeta' => 'required|exists:App\Models\Card,id',
+                'id_tarjeta' => 'required|exists:App\Models\Method,id',
             ],
             [
                 'id_usuario.required' => 'Debes ingresar el id_usuario',
@@ -131,7 +131,7 @@ class User_methodController extends Controller
         }
 
         if (!empty($request->id_usuario)){ // Foranea
-            $user = User::find($request->id_juego);
+            $user = User::find($request->id_usuario);
             if(empty($user)){
                 return response()->json([
                     "message" => "No se encontró el id_usuario"
@@ -140,8 +140,8 @@ class User_methodController extends Controller
             $user_method->id_usuario = $request->id_usuario;
         }
         if (!empty($request->id_tarjeta)){ // Foranea
-            $card = Card::find($request->id_tarjeta);
-            if(empty($card)){
+            $method = Method::find($request->id_tarjeta);
+            if(empty($method)){
                 return response()->json([
                     "message" => "No se encontró el id_tarjeta"
                 ], 404);

@@ -44,7 +44,7 @@ class User_gameController extends Controller
             [
                 'id_juego' => 'required|exists:App\Models\Game,id',
                 'id_usuario' => 'required|exists:App\Models\User,id',
-                'like' => 'required|boolean',
+                'like' => 'required',
                 'valoracion' => 'required|integer|min:0|max:5',
             ],
             [
@@ -124,7 +124,7 @@ class User_gameController extends Controller
             [
                 'id_juego' => 'nullable|integer',
                 'id_usuario' => 'nullable|integer',
-                'like' => 'nullable|boolean',
+                'like' => 'nullable',
                 'valoracion' => 'nullable|integer|min:0|max:5',
             ],
             [
@@ -133,7 +133,6 @@ class User_gameController extends Controller
                 'valoracion.min' => 'La valoracion debe ser minimo de 0',
                 'valoracion.max' => 'La valoracion debe ser maximo de 5',
                 'valoracion.integer' => 'La valoracion debe ser un entero',
-                'like.boolean' => 'El like debe ser un booleano (true/false, 1/0, "1"/"0")'
             ]
         );
         //Caso falla la validación
@@ -169,8 +168,11 @@ class User_gameController extends Controller
             }
             $user_game->id_usuario = $request->id_usuario;
         }
-        if($request->like == true || $request->like == false || $request->like == 1 || $request->like == 0){
-          $user_game->Tipo = $request->Tipo;
+        if($request->like == true || $request->like == 1){
+          $user_game->like = $request->like;
+        }
+        else{
+          $user_game->like = false;
         }
         if (!empty($request->valoracion)){
             $user_game->valoracion = $request->valoracion;

@@ -137,7 +137,53 @@ Route::delete('/library/delete/{id}', 'LibraryController@destroy');
 Route::get('/library/softdelete/{id}','LibraryController@soft');
 Route::put('/library/restore/{id}','LibraryController@restore');
 
-// Faltan las que estan entre las 2, la de arriba y la de abajo
+Route::get('/methods', 'MethodController@index');
+Route::get('/method/{id}', 'MethodController@show');
+Route::post('/method/create', 'MethodController@store');
+Route::put('/method/update/{id}', 'MethodController@update');
+Route::delete('/method/delete/{id}', 'MethodController@destroy');
+Route::get('/method/softdelete/{id}','MethodController@soft');
+Route::put('/method/restore/{id}','MethodController@restore');
+
+Route::get('/permissions', 'PermissionController@index');
+Route::get('/permission/{id}', 'PermissionController@show');
+Route::post('/permission/create', 'PermissionController@store');
+Route::put('/permission/update/{id}', 'PermissionController@update');
+Route::delete('/permission/delete/{id}', 'PermissionController@destroy');
+Route::get('/permission/softdelete/{id}','PermissionController@soft');
+Route::put('/permission/restore/{id}','PermissionController@restore');
+
+Route::get('/purchases', 'PurchaseController@index');
+Route::get('/purchase/{id}', 'PurchaseController@show');
+Route::post('/purchase/create', 'PurchaseController@store');
+Route::put('/purchase/update/{id}', 'PurchaseController@update');
+Route::delete('/purchase/delete/{id}', 'PurchaseController@destroy');
+Route::get('/purchase/softdelete/{id}','PurchaseController@soft');
+Route::put('/purchase/restore/{id}','PurchaseController@restore');
+
+Route::get('/requirements', 'RequirementController@index');
+Route::get('/requirement/{id}', 'RequirementController@show');
+Route::post('/requirement/create', 'RequirementController@store');
+Route::put('/requirement/update/{id}', 'RequirementController@update');
+Route::delete('/requirement/delete/{id}', 'RequirementController@destroy');
+Route::get('/requirement/softdelete/{id}','RequirementController@soft');
+Route::put('/requirement/restore/{id}','RequirementController@restore');
+
+Route::get('/role_permissions', 'Role_permissionController@index');
+Route::get('/role_permission/{id}', 'Role_permissionController@show');
+Route::post('/role_permission/create', 'Role_permissionController@store');
+Route::put('/role_permission/update/{id}', 'Role_permissionController@update');
+Route::delete('/role_permission/delete/{id}', 'Role_permissionController@destroy');
+Route::get('/role_permission/softdelete/{id}','Role_permissionController@soft');
+Route::put('/role_permission/restore/{id}','Role_permissionController@restore');
+
+Route::get('/roles', 'RoleController@index');
+Route::get('/role/{id}', 'RoleController@show');
+Route::post('/role/create', 'RoleController@store');
+Route::put('/role/update/{id}', 'RoleController@update');
+Route::delete('/role/delete/{id}', 'RoleController@destroy');
+Route::get('/role/softdelete/{id}','RoleController@soft');
+Route::put('/role/restore/{id}','RoleController@restore');
 
 Route::get('/user_games', 'User_gameController@index');
 Route::get('/user_game/{id}', 'User_gameController@show');
@@ -147,7 +193,29 @@ Route::delete('/user_game/delete/{id}', 'User_gameController@destroy');
 Route::get('/user_game/softdelete/{id}','User_gameController@soft');
 Route::put('/user_game/restore/{id}','User_gameController@restore');
 
-// Falta user_method, user, wallet
+Route::get('/user_methods', 'User_methodController@index');
+Route::get('/user_method/{id}', 'User_methodController@show');
+Route::post('/user_method/create', 'User_methodController@store');
+Route::put('/user_method/update/{id}', 'User_methodController@update');
+Route::delete('/user_method/delete/{id}', 'User_methodController@destroy');
+Route::get('/user_method/softdelete/{id}','User_methodController@soft');
+Route::put('/user_method/restore/{id}','User_methodController@restore');
+
+Route::get('/users', 'UserController@index');
+Route::get('/user/{id}', 'UserController@show');
+Route::post('/user/create', 'UserController@store');
+Route::put('/user/update/{id}', 'UserController@update');
+Route::delete('/user/delete/{id}', 'UserController@destroy');
+Route::get('/user/softdelete/{id}','UserController@soft');
+Route::put('/user/restore/{id}','UserController@restore');
+
+Route::get('/wallets', 'WalletController@index');
+Route::get('/wallet/{id}', 'WalletController@show');
+Route::post('/wallet/create', 'WalletController@store');
+Route::put('/wallet/update/{id}', 'WalletController@update');
+Route::delete('/wallet/delete/{id}', 'WalletController@destroy');
+Route::get('/wallet/softdelete/{id}','WalletController@soft');
+Route::put('/wallet/restore/{id}','WalletController@restore');
 
 Route::get('/wish_games', 'Wish_gameController@index');
 Route::get('/wish_game/{id}', 'Wish_gameController@show');

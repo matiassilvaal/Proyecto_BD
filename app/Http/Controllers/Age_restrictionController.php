@@ -119,7 +119,7 @@ class Age_restrictionController extends Controller
         if(empty($ageRestriction)){
             return response()->json([], 204);
         }
-        
+
         if($request->Restriccion == $ageRestriction->Restriccion){
             return response()->json([
                 'msg' => 'Los datos ingresados son iguales a los actuales.'
