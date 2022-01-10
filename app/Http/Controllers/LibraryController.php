@@ -163,8 +163,6 @@ class LibraryController extends Controller
         if (!empty($request->horas_jugadas)){
             $library->horas_jugadas = $request->horas_jugadas;
         }
-        $library->id_juego = $request->id_juego;
-        $library->id_usuario = $request->id_usuario;
         $library->horas_jugadas = $request->horas_jugadas;
         $library->save();
         return response()->json([
