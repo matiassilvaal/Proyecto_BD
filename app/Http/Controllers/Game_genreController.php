@@ -45,15 +45,15 @@ class Game_genreController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'id_juego' => 'required|exists:App\Models\Game,id|integer',
-                'id_genero' => 'required|exists:App\Models\Game_genre,id|integer'
+                'id_juego' => 'required|integer|exists:App\Models\Game,id',
+                'id_genero' => 'required|integer|exists:App\Models\Genre,id'
             ],
             [
                 'id_juego.required' => 'Debes ingresar una id de juego',
-                'id_juego.exists' => 'La id juego ya existe',
+                'id_juego.exists' => 'La id juego no existe',
                 'id_juego.integer' => 'La id juego debe ser entera',
                 'id_genero.required' => 'Debes ingresar una id de genero',
-                'id_genero.exists' => 'La id genero ya existe',
+                'id_genero.exists' => 'La id genero no existe',
                 'id_genero.integer' => 'La id genero debe ser entera'
             ]
         );

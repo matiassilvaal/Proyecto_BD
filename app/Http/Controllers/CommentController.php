@@ -76,8 +76,10 @@ class CommentController extends Controller
         $newComment = new Comment();
         $newComment->id_juego = $request->id_juego;
         $newComment->id_usuario = $request->id_usuario;
+        $newComment->id_comment_type = $request->id_comment_type;
         $newComment->texto = $request->texto;
         $newComment->fecha_de_creacion = $request->fecha_de_creacion;
+        $newComment->soft = false;
         $newComment->save();
 
         return response()->json([
@@ -206,15 +208,55 @@ class CommentController extends Controller
      */
     public function destroy($id)
     {
+        //
         $comment = Comment::find($id);
         if(empty($comment)){
-            return response()->json([], 204
-            );
+            return response()->json([], 204);
         }
         $comment->delete();
         return response()->json([
             'msg' => 'Comment has been deleted',
-            'id' => $comment->id
+            'id' => $comment->id,
+        ], 200);
+    }
+    public function soft($id)
+    {
+        $comment = Comment::find($id);
+        if(empty($comment)){
+            return response()->json([], 204);
+        }
+        if($comment->soft == true){
+          return response()->json([
+            'msg' => 'La tarjeta ya esta borrada (soft deleted)',
+            'id' => $comment->id,
+          ], 200);
+        }
+
+        $comment->soft = true;
+        $comment->save();
+        return response()->json([
+            'msg' => 'Comment has been soft deleted',
+            'id' => $comment->id,
+        ], 200);
+    }
+    public function restore($id)
+    {
+        $comment = Comment::find($id);
+        if(empty($comment)){
+            return response()->json([], 204);
+        }
+        if($comment->soft == false){
+          return response()->json([
+            'msg' => 'La tarjeta no esta borrado',
+            'id' => $comment->id,
+          ], 200);
+        }
+
+        $comment->soft = false;
+        $comment->save();
+        return response()->json([
+            'msg' => 'Comment has been restored',
+            'id' => $comment->id,
         ], 200);
     }
 }

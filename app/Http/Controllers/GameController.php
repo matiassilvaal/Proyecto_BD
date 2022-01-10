@@ -51,6 +51,7 @@ class GameController extends Controller
                 'id_requisito' => 'required|exists:App\Models\Requirement,id|integer',
                 'id_ubicacion' => 'required|exists:App\Models\Address,id|integer',
                 'id_restriccion' => 'required|exists:App\Models\Age_restriction,id|integer',
+                'nombre' => 'required|string',
                 'precio' => 'required|integer|min:0',
                 'fecha_de_lanzamiento' => 'required|date',
                 'descuento' => 'required|integer|between:0,100',
@@ -69,6 +70,8 @@ class GameController extends Controller
                 'id_ubicacion.required' => 'Debes ingresar una id ubicacion',
                 'id_ubicacion.exists' => 'La id ubicacion ya existe',
                 'id_ubicacion.integer' => 'La id ubicacion debe ser entera',
+                'nombre.required' => 'Debes ingresar un nombre',
+                'nombre.string' => 'Nombre debe ser un string',
                 'precio.required' => 'Debes ingresar un precio',
                 'precio.integer' => 'Precio debe ser un entero',
                 'precio.min' => 'Precio no puede ser menor a 0',
@@ -102,6 +105,7 @@ class GameController extends Controller
         $newGame->id_requisito = $request->id_requisito;
         $newGame->id_ubicacion = $request->id_ubicacion;
         $newGame->id_restriccion = $request->id_restriccion;
+        $newGame->nombre = $request->nombre;
         $newGame->precio = $request->precio;
         $newGame->fecha_de_lanzamiento = $request->fecha_de_lanzamiento;
         $newGame->descuento = $request->descuento;

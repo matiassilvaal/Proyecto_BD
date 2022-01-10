@@ -54,8 +54,8 @@ Route::get('/comment/{id}', 'CommentController@show');
 Route::post('/comment/create', 'CommentController@store');
 Route::put('/comment/update/{id}', 'CommentController@update');
 Route::delete('/comment/delete/{id}', 'CommentController@destroy');
-Route::get('/comments/softdelete/{id}','CommentController@soft');
-Route::put('/comments/restore/{id}','CommentController@restore');
+Route::get('/comment/softdelete/{id}','CommentController@soft');
+Route::put('/comment/restore/{id}','CommentController@restore');
 
 Route::get('/countries', 'CountryController@index');
 Route::get('/country/{id}', 'CountryController@show');

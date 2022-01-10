@@ -50,10 +50,10 @@ class Game_languageController extends Controller
             ],
             [
                 'id_juego.required' => 'Debes ingresar una id de juego',
-                'id_juego.exists' => 'La id juego ya existe',
+                'id_juego.exists' => 'La id juego no existe',
                 'id_juego.integer' => 'La id juego debe ser entera',
                 'id_idioma.required' => 'Debes ingresar una id de idioma',
-                'id_idioma.exists' => 'La id idioma ya existe',
+                'id_idioma.exists' => 'La id idioma no existe',
                 'id_idioma.integer' => 'La id idioma debe ser entera'
             ]
         );

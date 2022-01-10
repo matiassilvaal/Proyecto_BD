@@ -57,7 +57,7 @@ class Age_restrictionController extends Controller
         }
         $newAgeRestriction = new Age_restriction();
         $newAgeRestriction->Restriccion = $request->Restriccion;
-        $newAgeRestriction->Restriccion = false;
+        $newAgeRestriction->soft = false;
         $newAgeRestriction->save();
 
         return response()->json([

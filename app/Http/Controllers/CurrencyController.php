@@ -43,10 +43,11 @@ class CurrencyController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'Nombre' => 'required|string|min:1|max:50',
+                'Nombre' => 'required|string|min:1|max:50|unique:App\Models\Currency,Nombre',
                 'Transformacion' => 'required|numeric'
             ],
             [
+                'Nombre.unique' => 'El nombre de la moneda debe ser unico',
                 'Nombre.required' => 'Debes ingresar un nombre de moneda',
                 'Nombre.string' => 'Debe ser un string',
                 'Nombre.min' => 'El string no puede ser vacio',

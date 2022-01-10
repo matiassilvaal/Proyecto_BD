@@ -23,6 +23,7 @@ class CreateGamesTable extends Migration
             $table->foreign('id_ubicacion')->references('id')->on('addresses');
             $table->unsignedBigInteger('id_restriccion')->nullable();
             $table->foreign('id_restriccion')->references('id')->on('age_restrictions');
+            $table->string('nombre', 500);
             $table->integer('precio');
             $table->date('fecha_de_lanzamiento');
             $table->integer('descuento');

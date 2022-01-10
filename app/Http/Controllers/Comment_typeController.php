@@ -43,11 +43,10 @@ class Comment_typeController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'Tipo' => 'required|boolean'
+                'Tipo' => 'required'
             ],
             [
                 'Tipo.required' => 'Debes ingresar un tipo de comentario (1: like o 0: dislike)',
-                'Tipo.boolean' => 'El tipo debe ser un booleano (true/false, 1/0, "1"/"0")'
             ]
         );
         if($validator->fails()){
@@ -104,11 +103,7 @@ class Comment_typeController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'Tipo' => 'required|boolean'
-            ],
-            [
-                'Tipo.required' => 'Debes ingresar un tipo de comentario (1: like o 0: dislike)',
-                'Tipo.boolean' => 'El tipo debe ser un booleano (true/false, 1/0, "1"/"0")'
+                'Tipo' => 'nullable'
             ]
         );
         if($validator->fails()){
@@ -118,8 +113,17 @@ class Comment_typeController extends Controller
         if(empty($commentType)){
             return response()->json([], 204);
         }
-        if($request->Tipo == true || $request->Tipo == false || $request->Tipo == 1 || $request->Tipo == 0){
-          $commentType->like = $request->like;
+        if($request->Tipo == $commentType->Tipo){
+            return response()->json([
+                'msg' => 'Los datos ingresados son iguales a los actuales.'
+            ], 404);
+        }
+        
+        if($request->Tipo == true || $request->Tipo == 1){
+            $commentType->Tipo = $request->Tipo;
+        }
+        else{
+            $commentType->Tipo = false;
         }
         $commentType->save();
         return response()->json([

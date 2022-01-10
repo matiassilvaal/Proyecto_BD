@@ -64,6 +64,12 @@ class CardController extends Controller
         if($request->Tipo == true || $request->Tipo == false || $request->Tipo == 1 || $request->Tipo == 0){
           $newCard->Tipo = $request->Tipo;
         }
+        else{
+            return response()->json([
+                'msg' => 'El parametro Tipo debe ser booleano',
+                'id' => $newCard->id
+            ], 204);
+        }
         $newCard->soft = false;
         $newCard->save();
 
@@ -111,11 +117,7 @@ class CardController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'Tipo' => 'nullable|numeric|boolean'
-            ],
-            [
-                'Tipo.numeric' => 'Debe ser un booleano (1 o 0)',
-                'Tipo.boolean' => 'Debe ser un booleano (1 o 0)'
+                'Tipo' => 'nullable'
             ]
         );
         if($validator->fails()){
@@ -131,9 +133,15 @@ class CardController extends Controller
                 'msg' => 'Los datos ingresados son iguales a los actuales.'
             ], 404);
         }
-        if($request->Tipo == true || $request->Tipo == false || $request->Tipo == 1 || $request->Tipo == 0){
-          $card->like = $request->like;
+        
+        if($request->Tipo == true || $request->Tipo == 1){
+            $card->Tipo = $request->Tipo;
         }
+        else{
+            $card->Tipo = false;
+        }
+
+
         $card->save();
         return response()->json([
             'msg' => 'Card has been edited',
