@@ -17,6 +17,8 @@ Route::get('/auth', function () {
     return view('auth');
 });
 
+Route::get('/authenticate','UserController@authenticate');
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -211,6 +213,7 @@ Route::put('/user/update/{id}', 'UserController@update');
 Route::delete('/user/delete/{id}', 'UserController@destroy');
 Route::get('/user/softdelete/{id}','UserController@soft');
 Route::put('/user/restore/{id}','UserController@restore');
+
 
 Route::get('/wallets', 'WalletController@index');
 Route::get('/wallet/{id}', 'WalletController@show');

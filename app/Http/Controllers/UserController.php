@@ -8,6 +8,8 @@ use App\Models\Currency;
 use App\Models\Wallet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
     /**
@@ -15,6 +17,37 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function authenticate(Request $request)
+    {
+        $usuario = User::where('email', $request->email)->first();
+        if(empty($usuario)){
+            return back()->withErrors([
+                'email' => 'El correo/contrasena es incorrecto',
+            ]);
+        }
+        if($usuario->id_rol == 3){
+            if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password])) {
+                $request->session()->regenerate();
+                    return redirect()->intended('');
+            }
+        }
+        if($usuario->id_rol == 2){
+            if (Auth::guard('publisher')->attempt(['email' => $request->email, 'password' => $request->password])) {
+                $request->session()->regenerate();
+                    return redirect()->intended('');
+            }
+        }
+        else{
+            if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+                $request->session()->regenerate();
+                return redirect()->intended('dashboard');
+            }
+        }
+            
+        return back()->withErrors([
+            'email' => 'El correo/contrasena es incorrecto',
+        ]);
+    }
     public function index()
     {
         $users = User::all();
@@ -51,8 +84,8 @@ class UserController extends Controller
                 'nombre' => 'required|string|min:4',
                 'fecha_de_nacimiento' => 'required|date',
                 'moneda' => 'required|integer|min:0',
-                'correo' => 'required|string|unique:App\Models\User,correo',
-                'contrasena' => 'required|string|min:4',
+                'email' => 'required|string|unique:App\Models\User,email',
+                'password' => 'required|string|min:4',
             ],
             [
                 'id_direccion.required' => 'Debes ingresar una id_direccion',
@@ -71,12 +104,12 @@ class UserController extends Controller
                 'moneda.required' => 'Debe ingresar una moneda',
                 'moneda.integer' => 'La moneda debe ser entero',
                 'moneda.min' => 'El minimo de la moneda es 0',
-                'correo.required' => 'Debe ingresar un correo',
-                'correo.integer' => 'El correo debe ser un string',
-                'correo.unique' => 'El correo es unico',
-                'contrasena.required' => 'Debe ingresar una contrasena',
-                'contrasena.string' => 'La contrasena debe ser un string',
-                'contrasena.min' => 'La contrasena debe tener almenos 4 caracteres',
+                'email.required' => 'Debe ingresar un email',
+                'email.integer' => 'El email debe ser un string',
+                'email.unique' => 'El email es unico',
+                'password.required' => 'Debe ingresar una password',
+                'password.string' => 'La password debe ser un string',
+                'password.min' => 'La password debe tener almenos 4 caracteres',
             ]
         );
         //Caso falla la validación
@@ -91,8 +124,8 @@ class UserController extends Controller
         $newUser->nombre = $request->nombre;
         $newUser->fecha_de_nacimiento = $request->fecha_de_nacimiento;
         $newUser->moneda = $request->moneda;
-        $newUser->correo = $request->correo;
-        $newUser->contrasena = $request->contrasena;
+        $newUser->email = $request->email;
+        $newUser->password = Hash::make($request->password);
         $newUser->soft = false;
         $newUser->save();
 
@@ -149,8 +182,8 @@ class UserController extends Controller
                 'nombre' => 'nullable|string|min:4',
                 'fecha_de_nacimiento' => 'nullable|date',
                 'moneda' => 'nullable|integer|min:0',
-                'correo' => 'nullable|string',
-                'contrasena' => 'nullable|string|min:4',
+                'email' => 'nullable|string',
+                'password' => 'nullable|string|min:4',
             ],
             [
                 'id_direccion.integer' => 'id_direccion debe ser entero',
@@ -162,9 +195,9 @@ class UserController extends Controller
                 'fecha_de_nacimiento.date' => 'La fecha debe ser una date',
                 'moneda.integer' => 'La moneda debe ser entero',
                 'moneda.min' => 'El minimo de la moneda es 0',
-                'correo.integer' => 'El correo debe ser un string',
-                'contrasena.string' => 'La contrasena debe ser un string',
-                'contrasena.min' => 'La contrasena debe tener almenos 4 caracteres',
+                'email.integer' => 'El email debe ser un string',
+                'password.string' => 'La password debe ser un string',
+                'password.min' => 'La password debe tener almenos 4 caracteres',
             ]
         );
         //Caso falla la validación
@@ -177,7 +210,7 @@ class UserController extends Controller
         }
 
         if ($request->id_direccion == $user->id_direccion && $request->id_rol == $user->id_rol && $request->id_moneda == $user->id_moneda && $request->id_billetera == $user->id_billetera){
-          if($request->nombre == $user->nombre && $request->fecha_de_nacimiento == $user->fecha_de_nacimiento && $request->moneda == $user->moneda && $request->correo == $user->correo && $request->contrasena == $user->contrasena){
+          if($request->nombre == $user->nombre && $request->fecha_de_nacimiento == $user->fecha_de_nacimiento && $request->moneda == $user->moneda && $request->email == $user->email && $request->password == $user->password){
             return response()->json([
                 "message" => "Los datos ingresados son iguales a los actuales."
             ], 404);
@@ -229,11 +262,11 @@ class UserController extends Controller
         if (!empty($request->moneda)){
             $user->moneda = $request->moneda;
         }
-        if (!empty($request->correo)){
-            $user->correo = $request->correo;
+        if (!empty($request->email)){
+            $user->email = $request->email;
         }
-        if (!empty($request->contrasena)){
-            $user->contrasena = $request->contrasena;
+        if (!empty($request->password)){
+            $user->password = $request->password;
         }
         //
         $user->save();

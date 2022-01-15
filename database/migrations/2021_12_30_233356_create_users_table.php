@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-
+use Illuminate\Support\Facades\Hash;
 class CreateUsersTable extends Migration
 {
     /**
@@ -26,8 +26,9 @@ class CreateUsersTable extends Migration
             $table->string('nombre', 200)->unique();
             $table->date('fecha_de_nacimiento');
             $table->integer('moneda');
-            $table->string('correo', 200)->unique();
-            $table->string('contrasena', 20);
+            $table->string('email')->unique();
+            $table->string('password');
+            $table->rememberToken();
             $table->boolean('soft');
             $table->timestamps();
         });

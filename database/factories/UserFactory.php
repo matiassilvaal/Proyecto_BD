@@ -7,7 +7,7 @@ use App\Models\Role;
 use App\Models\Currency;
 use App\Models\Wallet;
 use Illuminate\Database\Eloquent\Factories\Factory;
-
+use Illuminate\Support\Facades\Hash;
 class UserFactory extends Factory
 {
     /**
@@ -30,8 +30,9 @@ class UserFactory extends Factory
              * Porque en el modelo de wallet hay un cantidad
              * Pero aqui hay un moneda y no se que es
              */
-            'correo' => $this->faker->email,
-            'contrasena' => $this->faker->password,
+            'email' => $this->faker->email,
+            
+            'password' => Hash::make($this->faker->password),
             'soft' => false
         ];
     }

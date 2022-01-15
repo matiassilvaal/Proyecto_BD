@@ -40,6 +40,14 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
+        'publisher' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ]
     ],
 
     /*
@@ -64,6 +72,15 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
+        'admins' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\User::class,
+        ],
+        'publishers' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\User::class,
+        ]
+
 
         // 'users' => [
         //     'driver' => 'database',
@@ -92,6 +109,16 @@ return [
             'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,
+        ],
+        'admins' => [
+            'provider' => 'users',
+            'table' => 'password_resets',
+            'expire' => 60,
+        ],
+        'publishers' => [
+            'provider' => 'users',
+            'table' => 'password_resets',
+            'expire' => 60,
         ],
     ],
 
