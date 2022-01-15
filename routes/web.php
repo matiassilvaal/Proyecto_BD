@@ -13,10 +13,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/auth', function () {
+    return view('auth');
+});
+
 Route::get('/', function () {
     return view('welcome');
 });
-
 Route::get('/addresses','AddressController@index');
 Route::get('/address/{id}','AddressController@show');
 Route::post('/address/create','AddressController@store');
