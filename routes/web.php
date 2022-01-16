@@ -17,6 +17,11 @@ Route::get('/auth', function () {
     return view('auth');
 });
 
+Route::get('/admin', function () {
+    return view('admin');
+});
+
+
 Route::get('/authenticate','UserController@authenticate');
 
 Route::get('/', function () {

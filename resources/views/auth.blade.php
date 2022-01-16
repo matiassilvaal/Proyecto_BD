@@ -14,7 +14,6 @@
 
 <body class="dark:bg-gray-800">
     @include('includes.navbar')
-
     <div class="section">
         <div class="container fixed-top">
             <div class="row full-height justify-content-ñle">
