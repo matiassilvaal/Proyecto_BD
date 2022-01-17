@@ -1,3 +1,10 @@
-<footer class="position-absolute bottom-0 start-50 translate-middle-x">
-    <p class="dark:text-white">Diseño de base de datos</p>
-</footer> 
+<footer>
+    <!-- Copyright -->
+    <div class="container-fluid-nav fixed-bottom dark:bg-gray-800 text-center">
+        © 2022 Copyright: Diseño de base de datos
+    </div>
+
+
+    </div>
+    <!-- Copyright -->
+</footer>

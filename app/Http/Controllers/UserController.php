@@ -6,6 +6,8 @@ use App\Models\Address;
 use App\Models\Role;
 use App\Models\Currency;
 use App\Models\Wallet;
+use App\Models\Game;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
@@ -17,6 +19,26 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function cuenta(){
+        
+        if(empty(User::find(Auth::id())) && empty(User::find(Auth::guard('admin')->id())) && empty(User::find(Auth::guard('publisher')->id()))){
+            return response()->json([], 404);
+        }
+        if(!empty(User::find(Auth::id()))){
+            $user = User::find(Auth::id());
+        }
+        else if(!empty(User::find(Auth::guard('admin')->id()))){
+            $user = User::find(Auth::guard('admin')->id());
+        }
+        else if(!empty(User::find(Auth::guard('publisher')->id()))){
+            $user = User::find(Auth::guard('publisher')->id());
+        }
+        $moneda = Currency::find($user->id_moneda);
+        $comentarios = Comment::where('id_usuario', $user->id)->get();
+        
+            $juegos = Game::all();
+        return view('mostrardatos', compact('user', 'moneda', 'comentarios', 'juegos'));
+    }
     public function authenticate(Request $request)
     {
         $usuario = User::where('email', $request->email)->first();

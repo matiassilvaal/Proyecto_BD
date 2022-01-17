@@ -11,7 +11,6 @@
     @include('includes.colors')
     @include('includes.login')
 </head>
-
 <body class="dark:bg-gray-800">
     @include('includes.navbar')
     <div class="section">
@@ -19,7 +18,7 @@
             <div class="row full-height justify-content-ñle">
                 <div class="col-12 text-center align-self-center py-5">
                     <div class="section pt-5 pt-sm-3 text-center">
-                        <h6 class="mb-0 pb-3 dark:text-white-border"><span>Login </span><span>Registrarse</span></h6>
+                        <h6 class="mb-0 pb-3 dark:text-white-border"><span>Login</span><span>Registrarse</span></h6>
                         <input class="checkbox" type="checkbox" id="reg-log" name="reg-log" />
                         <label for="reg-log"></label>
                         <div class="card-3d-wrap mx-auto">
@@ -85,5 +84,4 @@
     </div>
     @include('includes.footer')
 </body>
-
 </html>

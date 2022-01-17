@@ -41,6 +41,10 @@ Route::get('/pruebas', function () {
     return view('pruebas');
 });
 
+Route::get('/mostrardatos', function () {
+    return view('mostrardatos');
+});
+
 
 Route::get('/authenticate','UserController@authenticate');
 
@@ -231,6 +235,7 @@ Route::delete('/user_method/delete/{id}', 'User_methodController@destroy');
 Route::get('/user_method/softdelete/{id}','User_methodController@soft');
 Route::put('/user_method/restore/{id}','User_methodController@restore');
 
+Route::get('/cuenta', 'UserController@cuenta');
 Route::get('/users', 'UserController@index');
 Route::get('/user/{id}', 'UserController@show');
 Route::post('/user/create', 'UserController@store');

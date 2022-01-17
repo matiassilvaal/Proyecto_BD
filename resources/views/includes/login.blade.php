@@ -259,6 +259,9 @@ h6 span{
   color: #102770;
   box-shadow: 0 8px 24px 0 rgba(255,235,167,.2);
 }
+.profile-header {
+    transform: translateY(5rem);
+}
 .btn:active,
 .btn:focus{  
   background-color: #102770;
