@@ -54,7 +54,7 @@ class UserController extends Controller
         if($users->isEmpty()){
             return response()->json([], 204);
         }
-        return response($users, 200);
+        return view('pruebas', compact('users'));
     }
     /**
      * Show the form for creating a new resource.

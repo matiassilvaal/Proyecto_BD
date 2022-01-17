@@ -21,6 +21,26 @@ Route::get('/admin', function () {
     return view('admin');
 });
 
+Route::get('/create', function () {
+    return view('create');
+});
+
+Route::get('/read', function () {
+    return view('read');
+});
+
+Route::get('/update', function () {
+    return view('update');
+});
+
+Route::get('/delete', function () {
+    return view('delete');
+});
+
+Route::get('/pruebas', function () {
+    return view('pruebas');
+});
+
 
 Route::get('/authenticate','UserController@authenticate');
 

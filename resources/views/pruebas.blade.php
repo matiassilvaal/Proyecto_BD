@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admininstracion</title>
+    <title>Pruebas</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
@@ -17,19 +17,15 @@
 
 <body>
     @include('includes.navbar')
-    <div class="container-fluid w-25  dark:bg-gray-900 pb-50" style="opacity: 0.95">
-        <div class="row text-center justify-content-center">
-        <a class="disabled btn btn-primary ">Administración de la pagina</a>
-        <ul class="list-group align-items-center">
-            <a href="create" class="list-group-item btn btn-primary mt-3 mb-3 w-50 ">Create</a>
-            <a href="read" class="list-group-item btn btn-primary mt-3 mb-3 w-50 ">Read</a>
-            <a href="update" class="list-group-item btn btn-primary mt-3 mb-3 w-50 ">Update</a>
-            <a href="delete" class="list-group-item btn btn-primary mt-3 mb-3 w-50 ">Delete</a>
-            </ul>
-        </div>
-    </div>
+    <div method="GET" action="{{action('UserController@index')}}">
+    <select class="form-select" aria-label="Default select example">
+        <option selected>Open this select menu</option>
+        @foreach ($users as $user)
+        <option value=" ">{{$user->nombre }}</option>
+        @endforeach
+    </select>   
 
-
+    
     @include('includes.footer')
 </body>
 
