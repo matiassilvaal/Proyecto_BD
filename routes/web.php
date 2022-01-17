@@ -13,6 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/create_game', function () {
+    return view('create_game');
+});
+
 Route::get('/auth', function () {
     return view('auth');
 });

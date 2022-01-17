@@ -54,7 +54,6 @@ class GameController extends Controller
                 'nombre' => 'required|string',
                 'precio' => 'required|integer|min:0',
                 'fecha_de_lanzamiento' => 'required|date',
-                'descuento' => 'required|integer|between:0,100',
                 'imagen' => 'required|string|max:500|url',
                 'descripcion' => 'required|string|max:600',
                 'descarga' => 'required|string|max:600|url',
@@ -77,9 +76,6 @@ class GameController extends Controller
                 'precio.min' => 'Precio no puede ser menor a 0',
                 'fecha_de_lanzamiento.required' => 'Debes ingresar una fecha de lanazmiento',
                 'fecha_de_lanzamiento.date' => 'Fecha de lanzamiento debe tener formato date',
-                'descuento.required' => 'Debes ingresar un descuento',
-                'descuento.integer' => 'Descuento debe ser un entero',
-                'descuento.between' => 'Descuento debe estar entre 0 y 100',
                 'imagen.required' => 'Debes ingresar una imagen',
                 'imagen.string' => 'Imagen debe ser un string',
                 'imagen.max' => 'Largo maximo de imagen es 500',
@@ -108,7 +104,7 @@ class GameController extends Controller
         $newGame->nombre = $request->nombre;
         $newGame->precio = $request->precio;
         $newGame->fecha_de_lanzamiento = $request->fecha_de_lanzamiento;
-        $newGame->descuento = $request->descuento;
+        $newGame->descuento = 0;
         $newGame->imagen = $request->imagen;
         $newGame->descripcion = $request->descripcion;
         $newGame->descarga = $request->descarga;
