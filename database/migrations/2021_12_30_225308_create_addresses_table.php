@@ -15,9 +15,7 @@ class CreateAddressesTable extends Migration
     {
         Schema::create('addresses', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_pais')->nullable();
-            $table->foreign('id_pais')->references('id')->on('countries');
-            $table->string('ciudad', 100)->unique();
+            $table->string('pais', 100)->unique();
             $table->boolean('soft');
             $table->timestamps();
         });

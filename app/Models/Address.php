@@ -19,8 +19,4 @@ class Address extends Model
     {
         return $this->hasMany('App\Models\User');
     }
-    public function country()
-    {
-        return $this->belongsTo('App\Models\Country');
-    }
 }

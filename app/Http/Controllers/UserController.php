@@ -36,8 +36,12 @@ class UserController extends Controller
         $moneda = Currency::find($user->id_moneda);
         $comentarios = Comment::where('id_usuario', $user->id)->get();
         
-            $juegos = Game::all();
+        $juegos = Game::all();
         return view('mostrardatos', compact('user', 'moneda', 'comentarios', 'juegos'));
+    }
+    public function login_register(){
+        $direcciones = Address::orderBy('pais')->get(); 
+        return view('auth', compact('direcciones'));
     }
     public function authenticate(Request $request)
     {

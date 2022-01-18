@@ -16,7 +16,7 @@
 <body class="dark:bg-gray-800">
 @include('includes.navbar')
 
- <div class="container-fluid w-50  dark:bg-gray-900 pb-50" style="opacity: 0.95">
+ <div class="container-fluid w-25  dark:bg-gray-900 pb-50" style="opacity: 0.95">
         <div class="row text-center justify-content-center">
             <form>
                 <div class="form-group">
@@ -36,7 +36,7 @@
                     <label for="gameImage">Imagen</label>
                     <input type="url" class="form-control" id="gameImage" placeholder="Ingresa url de tu imagen">
                 </div>
-                <div class="form-group">
+                <div class="form-group mt-3">
                     <label for="gameDescription">Descripción</label>
                     <textarea rows="4" cols="46" name="gameDescription" form="usrform"></textarea>
                 </div>

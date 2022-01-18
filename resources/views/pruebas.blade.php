@@ -21,7 +21,7 @@
     <select class="form-select" aria-label="Default select example">
         <option selected>Open this select menu</option>
         @foreach ($users as $user)
-        <option value=" ">{{$user->nombre}} - {{$user->email}}</option>
+        <option value="{{$user->pais}}" name="pais">{{$user->nombre}} - {{$user->email}}</option>
         @endforeach
     </select>   
 

@@ -11,6 +11,7 @@
     @include('includes.colors')
     @include('includes.login')
 </head>
+
 <body class="dark:bg-gray-800">
     @include('includes.navbar')
     <div class="section">
@@ -65,6 +66,16 @@
                                                     placeholder="ejemplo@hotmail.com" id="regemail" autocomplete="off">
                                                 <i class="input-icon uil uil-at"></i>
                                             </div>
+
+                                            <div class="form-group mt-2">
+                                                <select class="form-select" aria-label="Seleccionar pais">
+                                                    <option selected>Selecciona un pais</option>
+                                                    @foreach ($direcciones as $direccion)
+                                                    <option value="1">{{$direccion->pais}}</option>
+                                                    @endforeach
+                                                </select>
+                                                <i class="input-icon uil uil-at"></i>
+                                            </div>
                                             <div class="form-group mt-2">
                                                 <input type="password" name="password" class="form-style"
                                                     placeholder="*******" id="regpass" autocomplete="off">
@@ -84,4 +95,5 @@
     </div>
     @include('includes.footer')
 </body>
+
 </html>

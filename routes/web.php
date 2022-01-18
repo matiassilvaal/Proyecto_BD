@@ -17,9 +17,6 @@ Route::get('/create_game', function () {
     return view('create_game');
 });
 
-Route::get('/auth', function () {
-    return view('auth');
-});
 
 Route::get('/admin', function () {
     return view('admin');
@@ -45,12 +42,8 @@ Route::get('/pruebas', function () {
     return view('pruebas');
 });
 
-Route::get('/mostrardatos', function () {
-    return view('mostrardatos');
-});
-
-
-Route::get('/authenticate','UserController@authenticate');
+Route::get('/auth', 'UserController@login_register');
+Route::get('/authenticate', 'UserController@authenticate');
 
 Route::get('/', function () {
     return view('welcome');
@@ -94,14 +87,6 @@ Route::put('/comment/update/{id}', 'CommentController@update');
 Route::delete('/comment/delete/{id}', 'CommentController@destroy');
 Route::get('/comment/softdelete/{id}','CommentController@soft');
 Route::put('/comment/restore/{id}','CommentController@restore');
-
-Route::get('/countries', 'CountryController@index');
-Route::get('/country/{id}', 'CountryController@show');
-Route::post('/country/create', 'CountryController@store');
-Route::put('/country/update/{id}', 'CountryController@update');
-Route::delete('/country/delete/{id}', 'CountryController@destroy');
-Route::get('/country/softdelete/{id}','CountryController@soft');
-Route::put('/country/restore/{id}','CountryController@restore');
 
 Route::get('/currencies', 'CurrencyController@index');
 Route::get('/currency/{id}', 'CurrencyController@show');
