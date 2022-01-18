@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,56 +14,62 @@
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
     </script>
 </head>
+
 <body class="dark:bg-gray-800">
     @include('includes.navbar')
-    <div class="container-fluid w-50  dark:bg-gray-900 pb-50" style="opacity: 0.95">
         <div class="row text-center justify-content-center">
-            <form>
-                <div class="form-group">
-                    <label for="gameName" class="mt-3">Nombre videojuego</label>
-                    <input type="text" class="form-control" id="gameName" aria-describedby="gameHelp" placeholder="Ingresa nombre de tu videojuego">
-                    <small id="gameHelp" class="form-text text-muted">Máximo 500 caracteres</small>
+            <div class="card-3d-wrap mx-auto" style=" height: 850px !important;">
+                <div class="card-3d-wrapper">
+                    <div class="card-front">
+                        <div class="center-wrap">
+                            <form>
+                                <div class="form-group">
+                                    <label for="gameName" class="mt-3">Nombre videojuego</label>
+                                    <input type="text" class="form-control" id="gameName" aria-describedby="gameHelp"
+                                        placeholder="Ingresa nombre de tu videojuego">
+                                    <small id="gameHelp" class="form-text text-muted">Máximo 500 caracteres</small>
+                                </div>
+                                <div class="form-group">
+                                    <label for="gamePrice">Precio</label>
+                                    <input type="number" class="form-control" id="gamePrice" placeholder="29990">
+                                </div>
+                                <div class="form-group">
+                                    <label for="gameDate">Fecha de publicación</label>
+                                    <input type="date" class="form-control" id="gameDate">
+                                </div>
+                                <div class="form-group">
+                                    <label for="gameImage">Imagen</label>
+                                    <input type="url" class="form-control" id="gameImage"
+                                        placeholder="Ingresa url de tu imagen">
+                                </div>
+                                <div class="form-group mt-3">
+                                    <label for="gameDescription">Descripción</label>
+                                    <textarea rows="4" cols="46" name="gameDescription" form="usrform"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="gameDownload">Link de descarga juego</label>
+                                    <input type="url" class="form-control" id="gameDownload"
+                                        placeholder="Ingresa url de descarga">
+                                </div>
+                                <div class="form-group">
+                                    <label for="gameDemo">Link de descarga demo</label>
+                                    <input type="url" class="form-control" id="gameDemo"
+                                        placeholder="Ingresa url de la demo">
+                                </div>
+                                <select class="form-select" aria-label="Default select example">
+                                    <option selected>Open this select menu</option>
+                                    @foreach ($requisitos as $requisito)
+                                    <option value=" ">{{$requisito->CPU}} - {{$requisito->RAM}} GB</option>
+                                    @endforeach
+                                </select>
+                                <br>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="gamePrice">Precio</label>
-                    <input type="number" class="form-control" id="gamePrice" placeholder="29990">
-                </div>
-                <div class="form-group">
-                    <label for="gameDate">Fecha de publicación</label>
-                    <input type="date" class="form-control" id="gameDate">
-                </div>
-                <div class="form-group">
-                    <label for="gameImage">Imagen</label>
-                    <input type="url" class="form-control" id="gameImage" placeholder="Ingresa url de tu imagen">
-                </div>
-                <div class="form-group mt-3">
-                    <label for="gameDescription">Descripción</label>
-                    <textarea rows="4" cols="46" name="gameDescription" form="usrform"></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="gameDownload">Link de descarga juego</label>
-                    <input type="url" class="form-control" id="gameDownload" placeholder="Ingresa url de descarga">
-                </div>
-                <div class="form-group">
-                    <label for="gameDemo">Link de descarga demo</label>
-                    <input type="url" class="form-control" id="gameDemo" placeholder="Ingresa url de la demo">
-                </div>
-                <div class="form-group">
-                    <label for="gameRequirements">Requisitos</label>
-                </div>
-                //////ALOALALAOAAOAOAOL
-                    <select class="form-select" aria-label="Default select example">
-                        <option selected>Restricción de edad de tu juego</option>
-                        <option value="0">Para usuarios de 3 años o más</option>
-                        <option value="1">Para usuarios de 7 años o más</option>
-                        <option value="2">Para usuarios de 13 años o más</option>
-                        <option value="3">Para usuarios de 16 años o más</option>
-                        <option value="4">Para usuarios de 18 años o más</option>
-                    </select>  
-                <br>
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
-        </div>
+            </div>
     </div>
 </body>
+
 </html>

@@ -17,18 +17,23 @@
 
 <body>
     @include('includes.navbar')
-    <div class="container-fluid w-25  dark:bg-gray-900 pb-50" style="opacity: 0.95">
-        <div class="row text-center justify-content-center">
-        <a class="disabled btn btn-primary ">Administración de la pagina</a>
-        <ul class="list-group align-items-center">
-            <a href="create" class="list-group-item btn btn-primary mt-3 mb-3 w-50 ">Create</a>
-            <a href="read" class="list-group-item btn btn-primary mt-3 mb-3 w-50 ">Read</a>
-            <a href="update" class="list-group-item btn btn-primary mt-3 mb-3 w-50 ">Update</a>
-            <a href="delete" class="list-group-item btn btn-primary mt-3 mb-3 w-50 ">Delete</a>
-            </ul>
+    <div class="row text-center justify-content-center">
+        <div class="card-3d-wrap mx-auto" style=" height: 420px !important;">
+            <div class="card-3d-wrapper">
+                <div class="card-front">
+                    <div class="center-wrap">
+                        <a class="disabled btn btn-primary ">Administración de la pagina</a>
+                        <ul class="list-group align-items-center">
+                            <a href="create" class="list-group-item btn btn-primary mt-3 mb-3 w-50 ">Create</a>
+                            <a href="read" class="list-group-item btn btn-primary mt-3 mb-3 w-50 ">Read</a>
+                            <a href="update" class="list-group-item btn btn-primary mt-3 mb-3 w-50 ">Update</a>
+                            <a href="delete" class="list-group-item btn btn-primary mt-3 mb-3 w-50 ">Delete</a>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-
 
     @include('includes.footer')
 </body>

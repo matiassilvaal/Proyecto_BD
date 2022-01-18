@@ -18,19 +18,25 @@
 <body>
     @include('includes.navbar')
     @include('includes.volveradmin')
-    <div class="container-fluid w-25  dark:bg-gray-900" style="opacity: 0.95">
-        <div class="row text-center justify-content-center">
-            <a class="disabled btn btn-primary ">Administración de la pagina</a>
-            <ul class="list-group bottom-50 align-items-center">
-                <a class="list-group-item btn btn-primary mt-3 mb-3 w-50" data-bs-toggle="modal"
-                    data-bs-target="#gamesModal">Juegos</a>
-                <a class="list-group-item btn btn-primary mt-3 mb-3 w-50" data-bs-toggle="modal"
-                    data-bs-target="#usersModal">Usuarios</a>
-                <a class="list-group-item btn btn-primary mt-3 mb-3 w-50" data-bs-toggle="modal"
-                    data-bs-target="#commentsModal">Comentarios</a>
-                <a class="list-group-item btn btn-primary mt-3 mb-3 w-50" data-bs-toggle="modal"
-                    data-bs-target="#libraryModal">Biblioteca</a>
-            </ul>
+    <div class="row text-center justify-content-center">
+        <div class="card-3d-wrap mx-auto" style=" height: 420px !important;">
+            <div class="card-3d-wrapper">
+                <div class="card-front">
+                    <div class="center-wrap">
+                        <a class="disabled btn btn-primary ">Administración de la pagina</a>
+                        <ul class="list-group bottom-50 align-items-center">
+                            <a class="list-group-item btn btn-primary mt-3 mb-3 w-50" data-bs-toggle="modal"
+                                data-bs-target="#gamesModal">Juegos</a>
+                            <a class="list-group-item btn btn-primary mt-3 mb-3 w-50" data-bs-toggle="modal"
+                                data-bs-target="#usersModal">Usuarios</a>
+                            <a class="list-group-item btn btn-primary mt-3 mb-3 w-50" data-bs-toggle="modal"
+                                data-bs-target="#commentsModal">Comentarios</a>
+                            <a class="list-group-item btn btn-primary mt-3 mb-3 w-50" data-bs-toggle="modal"
+                                data-bs-target="#libraryModal">Biblioteca</a>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="modal fade" id="gamesModal" tabindex="-1" aria-labelledby="gamesModalLabel" aria-hidden="true">
