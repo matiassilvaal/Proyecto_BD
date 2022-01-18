@@ -47,12 +47,18 @@
                     <label for="gameDemo">Link de descarga demo</label>
                     <input type="url" class="form-control" id="gameDemo" placeholder="Ingresa url de la demo">
                 </div>
+                <div class="form-group">
+                    <label for="gameRequirements">Requisitos</label>
+                </div>
+                //////ALOALALAOAAOAOAOL
                     <select class="form-select" aria-label="Default select example">
-                        <option selected>Open this select menu</option>
-                        @foreach ($requisitos as $requisito)
-                        <option value=" ">{{$requisito->CPU}} - {{$requisito->RAM}} GB</option>
-                        @endforeach
-                    </select>   
+                        <option selected>Restricción de edad de tu juego</option>
+                        <option value="0">Para usuarios de 3 años o más</option>
+                        <option value="1">Para usuarios de 7 años o más</option>
+                        <option value="2">Para usuarios de 13 años o más</option>
+                        <option value="3">Para usuarios de 16 años o más</option>
+                        <option value="4">Para usuarios de 18 años o más</option>
+                    </select>  
                 <br>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
