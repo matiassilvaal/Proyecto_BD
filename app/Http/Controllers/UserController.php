@@ -19,10 +19,60 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function registrar(Request $request){
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'logname' => 'required|string|min:4',
+                'email' => 'required|string|unique:App\Models\User,email',
+                'password' => 'required|string|min:4',
+            ],
+            [
+                'logname.required' => 'Debe ingresar un nombre',
+                'logname.string' => 'El nombre debe ser un string',
+                'logname.min' => 'Nombre minimo 4 caracteres',
+                'email.required' => 'Debe ingresar un email',
+                'email.integer' => 'El email debe ser un string',
+                'email.unique' => 'El email es unico',
+                'password.required' => 'Debe ingresar una password',
+                'password.string' => 'La password debe ser un string',
+                'password.min' => 'La password debe tener almenos 4 caracteres',
+            ]
+        );
+        
+        if($validator->fails()){
+            return back()->withErrors([
+                'logname' => 'El nombre es incorrecto',
+                'email' => 'El correo es incorrecto',
+                'password' => 'La contrasena es incorrecto',
+            ]);
+        }
+        
+        $newUser = new User();
+        $newUser->id_direccion = $request->id_direccion; //
+        $newUser->id_rol = 1;
+        $newUser->id_moneda = 1;
+        $newWallet = new Wallet();
+        $newWallet->Cantidad = 0;
+        $newWallet->soft = false;
+        $newWallet->save();
+        $newUser->id_billetera = $newWallet->id; //
+        $newUser->nombre = $request->logname;
+        $newUser->fecha_de_nacimiento = $request->date;
+        $newUser->moneda = 0;
+        $newUser->email = $request->email;
+        $newUser->password = Hash::make($request->password);
+        $newUser->soft = false;
+        $newUser->save();
+        Auth::attempt(['email' => $request->email, 'password' => $request->password]);
+        return redirect()->intended('cuenta');
+    }
+
+    
     public function cuenta(){
         
         if(empty(User::find(Auth::id())) && empty(User::find(Auth::guard('admin')->id())) && empty(User::find(Auth::guard('publisher')->id()))){
-            return response()->json([], 404);
+            return redirect()->intended('auth');
         }
         if(!empty(User::find(Auth::id()))){
             $user = User::find(Auth::id());

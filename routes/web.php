@@ -44,6 +44,7 @@ Route::get('/pruebas', function () {
 
 Route::get('/auth', 'UserController@login_register');
 Route::get('/authenticate', 'UserController@authenticate');
+Route::post('/registrar', 'UserController@registrar');
 
 Route::get('/', function () {
     return view('welcome');

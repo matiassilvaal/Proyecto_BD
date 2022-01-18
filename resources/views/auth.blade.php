@@ -23,11 +23,9 @@
                         <input class="checkbox" type="checkbox" id="reg-log" name="reg-log" />
                         <label for="reg-log"></label>
                         <div class="card-3d-wrap mx-auto">
-
                             <div class="card-3d-wrapper">
                                 <div class="card-front">
                                     <div class="center-wrap">
-
                                         <form method="GET" action="{{action('UserController@authenticate')}}">
                                             <div class="section text-center">
                                                 <h4 class="mb-4 pb-3">Login</h4>
@@ -56,33 +54,42 @@
                                     <div class="center-wrap">
                                         <div class="section text-center">
                                             <h4 class="mb-4 pb-3">Registrarse</h4>
-                                            <div class="form-group">
-                                                <input type="text" name="logname" class="form-style"
-                                                    placeholder="Usuario" id="logname" autocomplete="off">
-                                                <i class="input-icon uil uil-user"></i>
-                                            </div>
-                                            <div class="form-group mt-2">
-                                                <input type="email" name="email" class="form-style"
-                                                    placeholder="ejemplo@hotmail.com" id="regemail" autocomplete="off">
-                                                <i class="input-icon uil uil-at"></i>
-                                            </div>
+                                            <form action="{{action('UserController@registrar')}}" method='POST'>
+                                                @if($errors->any())
+                                                <h6>{{$errors->first()}}</h6>
+                                                @endif
+                                                <div class="form-group">
+                                                    <input type="text" name="logname" class="form-style"
+                                                        placeholder="Usuario" id="logname" autocomplete="off">
+                                                    <i class="input-icon uil uil-user"></i>
+                                                </div>
+                                                <div class="form-group mt-2">
+                                                    <input type="email" name="email" class="form-style"
+                                                        placeholder="ejemplo@hotmail.com" id="email" autocomplete="off">
+                                                    <i class="input-icon uil uil-at"></i>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="date">Fecha de nacimiento</label>
+                                                    <input type="date" class="form-control" id="date" name="date">
+                                                </div>
+                                                <div class="form-group mt-2">
+                                                    <select class="form-select" name="id_direccion" id="id_direccion" aria-label="Seleccionar pais">
+                                                        <option value="0">Selecciona un pais</option>
+                                                        @foreach ($direcciones as $direccion)
+                                                        <option value="{{$direccion->id}}">{{$direccion->pais}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    <i class="input-icon uil uil-at"></i>
+                                                </div>
+                                                <div class="form-group mt-2">
 
-                                            <div class="form-group mt-2">
-                                                <select class="form-select" aria-label="Seleccionar pais">
-                                                    <option selected>Selecciona un pais</option>
-                                                    @foreach ($direcciones as $direccion)
-                                                    <option value="1">{{$direccion->pais}}</option>
-                                                    @endforeach
-                                                </select>
-                                                <i class="input-icon uil uil-at"></i>
-                                            </div>
-                                            <div class="form-group mt-2">
-                                                <input type="password" name="password" class="form-style"
-                                                    placeholder="*******" id="regpass" autocomplete="off">
-                                                <i class="input-icon uil uil-lock-alt"></i>
-                                            </div>
-                                            <a class="btn mt-4">ingresar</a>
+                                                    <input type="password" name="password" class="form-style"
+                                                        placeholder="*******" id="password" autocomplete="off">
+                                                    <i class="input-icon uil uil-lock-alt"></i>
+                                                </div>
+                                                <button type="submit" class="btn mt-4">ingresar</button>
                                         </div>
+                                        </form>
                                     </div>
                                 </div>
 

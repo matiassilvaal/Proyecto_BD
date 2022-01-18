@@ -90,7 +90,7 @@ h6 span{
   position: relative;
   width: 440px;
   max-width: 100%;
-  height: 400px;
+  height: 500px;
   -webkit-transform-style: preserve-3d;
   transform-style: preserve-3d;
   perspective: 800px;
@@ -202,6 +202,33 @@ h6 span{
 .form-select:active {
   border: none;
   outline: none;
+  box-shadow: 0 4px 8px 0 rgba(21,21,21,.2);
+}
+
+.form-control {
+  padding: 13px 20px;
+  padding-left: 55px;
+  height: 48px;
+  width: 100%;
+  font-weight: 500;
+  border-radius: 4px;
+  font-size: 14px;
+  line-height: 22px;
+  letter-spacing: 0.5px;
+  outline: none;
+  color: #c4c3ca;
+  background-color: #1f2029;
+  border: none;
+  -webkit-transition: all 200ms linear;
+  transition: all 200ms linear;
+  box-shadow: 0 4px 8px 0 rgba(21,21,21,.2);
+}
+.form-control:focus,
+.form-control:active {
+  border: none;
+  outline: none;
+  color: #c4c3ca;
+  background-color: #1f2029;
   box-shadow: 0 4px 8px 0 rgba(21,21,21,.2);
 }
 .input-icon {
