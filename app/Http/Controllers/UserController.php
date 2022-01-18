@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\User;
 use App\Models\Address;
 use App\Models\Role;
@@ -8,10 +9,12 @@ use App\Models\Currency;
 use App\Models\Wallet;
 use App\Models\Game;
 use App\Models\Comment;
+use App\Models\Library;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+
 class UserController extends Controller
 {
     /**
@@ -19,7 +22,18 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function registrar(Request $request){
+    public function datos(Request $request)
+    {
+        $usuarios = User::all();
+        $juegos = Game::all();
+        $comentarios = Comment::all();
+        $bibliotecas = Library::all();
+
+        return view('read', compact('usuarios', 'juegos', 'comentarios', 'bibliotecas'));
+    }
+
+    public function registrar(Request $request)
+    {
         $validator = Validator::make(
             $request->all(),
             [
@@ -39,15 +53,15 @@ class UserController extends Controller
                 'password.min' => 'La password debe tener almenos 4 caracteres',
             ]
         );
-        
-        if($validator->fails()){
+
+        if ($validator->fails()) {
             return back()->withErrors([
                 'logname' => 'El nombre es incorrecto',
                 'email' => 'El correo es incorrecto',
                 'password' => 'La contrasena es incorrecto',
             ]);
         }
-        
+
         $newUser = new User();
         $newUser->id_direccion = $request->id_direccion; //
         $newUser->id_rol = 1;
@@ -68,58 +82,57 @@ class UserController extends Controller
         return redirect()->intended('cuenta');
     }
 
-    
-    public function cuenta(){
-        
-        if(empty(User::find(Auth::id())) && empty(User::find(Auth::guard('admin')->id())) && empty(User::find(Auth::guard('publisher')->id()))){
+
+    public function cuenta()
+    {
+
+        if (empty(User::find(Auth::id())) && empty(User::find(Auth::guard('admin')->id())) && empty(User::find(Auth::guard('publisher')->id()))) {
             return redirect()->intended('auth');
         }
-        if(!empty(User::find(Auth::id()))){
+        if (!empty(User::find(Auth::id()))) {
             $user = User::find(Auth::id());
-        }
-        else if(!empty(User::find(Auth::guard('admin')->id()))){
+        } else if (!empty(User::find(Auth::guard('admin')->id()))) {
             $user = User::find(Auth::guard('admin')->id());
-        }
-        else if(!empty(User::find(Auth::guard('publisher')->id()))){
+        } else if (!empty(User::find(Auth::guard('publisher')->id()))) {
             $user = User::find(Auth::guard('publisher')->id());
         }
         $moneda = Currency::find($user->id_moneda);
         $comentarios = Comment::where('id_usuario', $user->id)->get();
-        
+
         $juegos = Game::all();
         return view('mostrardatos', compact('user', 'moneda', 'comentarios', 'juegos'));
     }
-    public function login_register(){
-        $direcciones = Address::orderBy('pais')->get(); 
+    public function login_register()
+    {
+        $direcciones = Address::orderBy('pais')->get();
         return view('auth', compact('direcciones'));
     }
     public function authenticate(Request $request)
     {
         $usuario = User::where('email', $request->email)->first();
-        if(empty($usuario)){
+        if (empty($usuario)) {
             return back()->withErrors([
                 'email' => 'El correo/contrasena es incorrecto',
             ]);
         }
-        if($usuario->id_rol == 3){
+        if ($usuario->id_rol == 3) {
             if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password])) {
                 $request->session()->regenerate();
-                    return redirect()->intended('');
+                return redirect()->intended('');
             }
         }
-        if($usuario->id_rol == 2){
+        if ($usuario->id_rol == 2) {
             if (Auth::guard('publisher')->attempt(['email' => $request->email, 'password' => $request->password])) {
                 $request->session()->regenerate();
-                    return redirect()->intended('');
+                return redirect()->intended('');
             }
-        }
-        else{
+        } else {
             if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
                 $request->session()->regenerate();
                 return redirect()->intended('dashboard');
             }
         }
-            
+
         return back()->withErrors([
             'email' => 'El correo/contrasena es incorrecto',
         ]);
@@ -127,7 +140,7 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
-        if($users->isEmpty()){
+        if ($users->isEmpty()) {
             return response()->json([], 204);
         }
         return view('pruebas', compact('users'));
@@ -189,7 +202,7 @@ class UserController extends Controller
             ]
         );
         //Caso falla la validación
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response($validator->errors(), 400);
         }
         $newUser = new User();
@@ -221,7 +234,7 @@ class UserController extends Controller
     {
         //
         $user = User::find($id);
-        if(empty($user)){
+        if (empty($user)) {
             return response()->json([], 204);
         }
         return response($user, 200);
@@ -277,71 +290,71 @@ class UserController extends Controller
             ]
         );
         //Caso falla la validación
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response($validator->errors(), 400);
         }
         $user = User::find($id);
-        if(empty($user)){
+        if (empty($user)) {
             return response()->json([], 204);
         }
 
-        if ($request->id_direccion == $user->id_direccion && $request->id_rol == $user->id_rol && $request->id_moneda == $user->id_moneda && $request->id_billetera == $user->id_billetera){
-          if($request->nombre == $user->nombre && $request->fecha_de_nacimiento == $user->fecha_de_nacimiento && $request->moneda == $user->moneda && $request->email == $user->email && $request->password == $user->password){
-            return response()->json([
-                "message" => "Los datos ingresados son iguales a los actuales."
-            ], 404);
-          }
+        if ($request->id_direccion == $user->id_direccion && $request->id_rol == $user->id_rol && $request->id_moneda == $user->id_moneda && $request->id_billetera == $user->id_billetera) {
+            if ($request->nombre == $user->nombre && $request->fecha_de_nacimiento == $user->fecha_de_nacimiento && $request->moneda == $user->moneda && $request->email == $user->email && $request->password == $user->password) {
+                return response()->json([
+                    "message" => "Los datos ingresados son iguales a los actuales."
+                ], 404);
+            }
         }
         //
-        if (!empty($request->id_direccion)){ // Foranea
+        if (!empty($request->id_direccion)) { // Foranea
             $address = Address::find($request->id_direccion);
-            if(empty($address)){
+            if (empty($address)) {
                 return response()->json([
                     "message" => "No se encontró el id_direccion"
                 ], 404);
             }
             $user->id_direccion = $request->id_direccion;
         }
-        if (!empty($request->id_rol)){ // Foranea
+        if (!empty($request->id_rol)) { // Foranea
             $role = Role::find($request->id_rol);
-            if(empty($role)){
+            if (empty($role)) {
                 return response()->json([
                     "message" => "No se encontró el id_rol"
                 ], 404);
             }
             $user->id_rol = $request->id_rol;
         }
-        if (!empty($request->id_moneda)){ // Foranea
+        if (!empty($request->id_moneda)) { // Foranea
             $currency = Currency::find($request->id_moneda);
-            if(empty($currency)){
+            if (empty($currency)) {
                 return response()->json([
                     "message" => "No se encontró el id_moneda"
                 ], 404);
             }
             $user->id_moneda = $request->id_moneda;
         }
-        if (!empty($request->id_billetera)){ // Foranea
+        if (!empty($request->id_billetera)) { // Foranea
             $wallet = Wallet::find($request->id_billetera);
-            if(empty($wallet)){
+            if (empty($wallet)) {
                 return response()->json([
                     "message" => "No se encontró el id_billetera"
                 ], 404);
             }
             $user->id_billetera = $request->id_billetera;
         }
-        if (!empty($request->nombre)){
+        if (!empty($request->nombre)) {
             $user->nombre = $request->nombre;
         }
-        if (!empty($request->fecha_de_nacimiento)){
+        if (!empty($request->fecha_de_nacimiento)) {
             $user->fecha_de_nacimiento = $request->fecha_de_nacimiento;
         }
-        if (!empty($request->moneda)){
+        if (!empty($request->moneda)) {
             $user->moneda = $request->moneda;
         }
-        if (!empty($request->email)){
+        if (!empty($request->email)) {
             $user->email = $request->email;
         }
-        if (!empty($request->password)){
+        if (!empty($request->password)) {
             $user->password = $request->password;
         }
         //
@@ -362,7 +375,7 @@ class UserController extends Controller
     {
         //
         $user = User::find($id);
-        if(empty($user)){
+        if (empty($user)) {
             return response()->json([], 204);
         }
         $user->delete();
@@ -374,14 +387,14 @@ class UserController extends Controller
     public function soft($id)
     {
         $user = User::find($id);
-        if(empty($user)){
+        if (empty($user)) {
             return response()->json([], 204);
         }
-        if($user->soft == true){
-          return response()->json([
-            'msg' => 'El user ya esta borrado (soft deleted)',
-            'id' => $user->id,
-          ], 200);
+        if ($user->soft == true) {
+            return response()->json([
+                'msg' => 'El user ya esta borrado (soft deleted)',
+                'id' => $user->id,
+            ], 200);
         }
 
         $user->soft = true;
@@ -394,14 +407,14 @@ class UserController extends Controller
     public function restore($id)
     {
         $user = User::find($id);
-        if(empty($user)){
+        if (empty($user)) {
             return response()->json([], 204);
         }
-        if($user->soft == false){
-          return response()->json([
-            'msg' => 'El user no esta borrado',
-            'id' => $user->id,
-          ], 200);
+        if ($user->soft == false) {
+            return response()->json([
+                'msg' => 'El user no esta borrado',
+                'id' => $user->id,
+            ], 200);
         }
 
         $user->soft = false;

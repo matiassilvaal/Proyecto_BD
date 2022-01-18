@@ -26,10 +26,6 @@ Route::get('/create', function () {
     return view('create');
 });
 
-Route::get('/read', function () {
-    return view('read');
-});
-
 Route::get('/update', function () {
     return view('update');
 });
@@ -45,6 +41,7 @@ Route::get('/pruebas', function () {
 Route::get('/auth', 'UserController@login_register');
 Route::get('/authenticate', 'UserController@authenticate');
 Route::post('/registrar', 'UserController@registrar');
+Route::get('/read', 'UserController@datos');
 
 Route::get('/', function () {
     return view('welcome');
