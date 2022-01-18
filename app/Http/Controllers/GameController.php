@@ -9,6 +9,8 @@ use App\Models\Address;
 use App\Models\Age_restriction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class GameController extends Controller
 {
@@ -17,6 +19,15 @@ class GameController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function fetch()
+    {
+        $requisitos = Requirement::all();
+        $direcciones = Address::all();
+        $restricciones = Age_restriction::all();
+        return view('create_game', compact('requisitos', 'direcciones', 'restricciones'));
+    }
+
     public function index()
     {
         $games = Game::all();

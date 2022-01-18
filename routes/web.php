@@ -13,8 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/create_game', function () {
-    return view('create_game');
+Route::get('/view_game', function() {
+    return view('view_game');
 });
 
 
@@ -120,6 +120,8 @@ Route::delete('/game_language/delete/{id}', 'Game_languageController@destroy');
 Route::get('/game_language/softdelete/{id}','Game_languageController@soft');
 Route::put('/game_language/restore/{id}','Game_languageController@restore');
 
+
+Route::get('/create_game', 'GameController@fetch');
 Route::get('/games', 'GameController@index');
 Route::get('/game/{id}', 'GameController@show');
 Route::post('/game/create', 'GameController@store');

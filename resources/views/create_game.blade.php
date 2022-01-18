@@ -14,9 +14,8 @@
     </script>
 </head>
 <body class="dark:bg-gray-800">
-@include('includes.navbar')
-
- <div class="container-fluid w-25  dark:bg-gray-900 pb-50" style="opacity: 0.95">
+    @include('includes.navbar')
+    <div class="container-fluid w-50  dark:bg-gray-900 pb-50" style="opacity: 0.95">
         <div class="row text-center justify-content-center">
             <form>
                 <div class="form-group">
@@ -48,6 +47,12 @@
                     <label for="gameDemo">Link de descarga demo</label>
                     <input type="url" class="form-control" id="gameDemo" placeholder="Ingresa url de la demo">
                 </div>
+                    <select class="form-select" aria-label="Default select example">
+                        <option selected>Open this select menu</option>
+                        @foreach ($requisitos as $requisito)
+                        <option value=" ">{{$requisito->CPU}} - {{$requisito->RAM}} GB</option>
+                        @endforeach
+                    </select>   
                 <br>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
