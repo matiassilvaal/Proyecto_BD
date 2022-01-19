@@ -118,18 +118,20 @@ class UserController extends Controller
         if ($usuario->id_rol == 3) {
             if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password])) {
                 $request->session()->regenerate();
-                return redirect()->intended('');
+                    return redirect()->intended('cuenta');
+                return redirect()->intended('cuenta');
             }
         }
         if ($usuario->id_rol == 2) {
             if (Auth::guard('publisher')->attempt(['email' => $request->email, 'password' => $request->password])) {
                 $request->session()->regenerate();
-                return redirect()->intended('');
+                    return redirect()->intended('cuenta');
+                return redirect()->intended('cuenta');
             }
         } else {
             if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
                 $request->session()->regenerate();
-                return redirect()->intended('dashboard');
+                return redirect()->intended('cuenta');
             }
         }
 
