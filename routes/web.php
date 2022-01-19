@@ -17,6 +17,9 @@ Route::get('/view_game', function() {
     return view('view_game');
 });
 
+Route::get('/edit_game', function(){
+    return view('editarjuego');
+});
 
 Route::get('/admin', function () {
     return view('admin');
