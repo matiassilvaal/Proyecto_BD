@@ -13,9 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/view_game', function() {
-    return view('view_game');
-});
 
 Route::get('/edit_game', function(){
     return view('editarjuego');
@@ -52,7 +49,7 @@ Route::post('/registrar', 'UserController@registrar');
 Route::get('/read', 'UserController@datos');
 Route::get('/create', 'GameController@datos_crear');
 Route::get('/', 'GameController@principal');
-
+Route::get('/logout', 'UserController@logout');
 Route::get('/addresses','AddressController@index');
 Route::get('/address/{id}','AddressController@show');
 Route::post('/address/create','AddressController@store');

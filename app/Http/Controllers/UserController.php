@@ -23,6 +23,13 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect('/');
+    }
     public function actualizaruser(Request $request)
     {
         //

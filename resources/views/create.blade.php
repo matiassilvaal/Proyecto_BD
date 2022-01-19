@@ -11,6 +11,7 @@
     </script>
     @include('includes.colors')
     @include('includes.login')
+    @include('includes.icon')
 </head>
 
 <body>

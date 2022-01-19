@@ -12,6 +12,7 @@
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
     </script>
     @include('includes.colors')
+    @include('includes.icon')
     @include('includes.login')
 </head>
 
@@ -46,38 +47,34 @@
 
                 <div class="py-4 px-4">
                     <div class="d-flex align-items-center justify-content-between mb-3">
-                        <h5 class="mb-0">Información personal</h5>
+                        <h5 class="mb-0 text-dark">Información personal</h5>
                     </div>
                     <div class="row">
-                        <p class="text-center">Usuario: {{$user->nombre}}</p>
-                        <p class="text-center">Correo: {{$user->email}}</p>
+                        <p class="text-center text-dark">Usuario: {{$user->nombre}}</p>
+                        <p class="text-center text-dark">Correo: {{$user->email}}</p>
                         @if ($user->id_rol == 1)
-                        <p class="text-center">Rol: Usuario</p>
+                        <p class="text-center text-dark">Rol: Usuario</p>
                         @elseif ($user->id_rol == 2)
-                        <p class="text-center">Rol: Publisher</p>
+                        <p class="text-center text-dark">Rol: Publisher</p>
                         @elseif ($user->id_rol == 3)
-                        <p class="text-center">Rol: Admin</p>
+                        <p class="text-center text-dark">Rol: Admin</p>
                         @endif
-                        <p class="text-center">Correo: {{$user->email}}</p>
-                        <p class="text-center">Fecha de nacimiento: {{$user->fecha_de_nacimiento}}</p>
-                        <p class="text-center">Divisa: {{$moneda->Nombre}}</p>
-                        <p class="text-center">Coins: {{$user->moneda}}</p>
+                        <p class="text-center text-dark">Correo: {{$user->email}}</p>
+                        <p class="text-center text-dark">Fecha de nacimiento: {{$user->fecha_de_nacimiento}}</p>
+                        <p class="text-center text-dark">Divisa: {{$moneda->Nombre}}</p>
+                        <p class="text-center text-dark">Coins: {{$user->moneda}}</p>
                     </div>
                     <div class="py-4">
-                        <h5 class="mb-3">Comentarios</h5>
+                        <h5 class="mb-3 text-dark">Comentarios</h5>
                         @foreach ($comentarios as $comentario)
                         <div class="p-4 bg-light rounded shadow-sm mt-3">
-                            <p class="font-italic mb-0 text-end">{{$comentario->fecha_de_creacion}}. </p>
+                            <p class="font-italic mb-0 text-end text-dark">{{$comentario->fecha_de_creacion}}. </p>
                             @foreach ($juegos as $juego)
                             @if ($comentario->id_juego == $juego->id)
-                            <p class="font-italic mb-0 text-end">{{$juego->nombre}}. </p>
+                            <p class="font-italic mb-0 text-end text-dark">{{$juego->nombre}}. </p>
                             @endif
                             @endforeach
-                            <p class="font-italic mb-0">{{$comentario->texto}}. </p>
-                            <!--<ul class="list-inline small text-muted mt-3 mb-0">
-                                <li class="list-inline-item"><i class="fa fa-comment-o mr-2"></i>12 Comentarios</li>
-                                <li class="list-inline-item"><i class="fa fa-heart-o mr-2"></i>200 Likes</li>
-                            </ul>-->
+                            <p class="font-italic mb-0 text-dark">{{$comentario->texto}}. </p>
                         </div>
                         @endforeach
                     </div>

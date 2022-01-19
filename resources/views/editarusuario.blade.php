@@ -29,7 +29,7 @@
                                 <input type="text" class="form-control" id="nombre" name="nombre"
                                     aria-describedby="gameHelp" placeholder="Ingresa nombre de tu videojuego"
                                     autocomplete="off">
-                                <small id="gameHelp" class="form-text text-muted">Minim 4 caracteres</small>
+                                <small id="gameHelp" class="form-text text-muted">Minimo 4 caracteres</small>
                             </div>
                             <div class="form-group">
                                 <label for="gamePrice">Correo</label>

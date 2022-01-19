@@ -53,7 +53,7 @@ class DatabaseSeeder extends Seeder
                  */
                 'descuento' => $faker->numberBetween($min = 1, $max = 100),
                 'imagen' => 'https://source.unsplash.com/random/200x200?sig='.$index,
-                'descripcion' => $faker->realText($maxNbChars = 600),
+                'descripcion' => $faker->realText($maxNbChars = 200),
                 'descarga' => $faker->url,
                 'demo' => $faker->url,
                 'soft' => false

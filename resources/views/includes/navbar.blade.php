@@ -14,6 +14,7 @@
                     <li class="nav-item">
                         <a class="nav-link text-gray-900 dark:text-white fw-bold" href="/cuenta">Mi cuenta</a>
                     </li>
+                    
                     @auth('admin')
                     <li class="nav-item">
                         <a class="nav-link text-gray-900 dark:text-white fw-bold" href="/admin">Administración</a>
@@ -29,6 +30,9 @@
                         <a class="nav-link text-gray-900 dark:text-white fw-bold" href="/edit_game">Editar juego</a>
                     </li>
                     @endauth
+                    <li class="nav-item">
+                        <a class="nav-link text-gray-900 dark:text-white fw-bold" href="/logout">Logout</a>
+                    </li>
                 </ul>
             </div>
         </div>

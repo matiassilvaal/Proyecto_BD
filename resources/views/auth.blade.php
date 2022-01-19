@@ -10,6 +10,7 @@
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     @include('includes.colors')
     @include('includes.login')
+    @include('includes.icon')
 </head>
 
 <body class="dark:bg-gray-800">

@@ -22,7 +22,11 @@ class GameController extends Controller
     public function principal(Request $request)
     {
         $juegos = Game::all();
-        return view('principal', compact('juegos'));
+        $usuarios = User::all();
+        $requisitos = Requirement::all();
+        $direcciones = Address::all();
+        $restricciones = Age_restriction::all();
+        return view('principal', compact('requisitos', 'direcciones', 'restricciones', 'juegos', 'usuarios'));
     }
     public function fetch()
     {
