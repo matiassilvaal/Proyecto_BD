@@ -28,6 +28,13 @@ class GameController extends Controller
         return view('create_game', compact('requisitos', 'direcciones', 'restricciones'));
     }
 
+    public function datos_crear()
+    {
+        $requisitos = Requirement::all();
+        $direcciones = Address::all();
+        $restricciones = Age_restriction::all();
+        return view('create', compact('requisitos', 'direcciones', 'restricciones'));
+    }
     public function index()
     {
         $games = Game::all();

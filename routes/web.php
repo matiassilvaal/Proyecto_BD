@@ -42,6 +42,7 @@ Route::get('/auth', 'UserController@login_register');
 Route::get('/authenticate', 'UserController@authenticate');
 Route::post('/registrar', 'UserController@registrar');
 Route::get('/read', 'UserController@datos');
+Route::get('/create', 'GameController@datos_crear');
 
 Route::get('/', function () {
     return view('welcome');
