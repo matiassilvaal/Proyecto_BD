@@ -14,12 +14,12 @@ class RequirementFactory extends Factory
     public function definition()
     {
         return [
-            'SO' => $this->faker->text($maxNbChars = 50),
-            'CPU' => $this->faker->text($maxNbChars = 50),
+            'SO' => $this->faker->stateAbbr,
+            'CPU' => $this->faker->company,
             'RAM' => $this->faker->numberBetween($min = 0, $max = 32),
-            'GPU' => $this->faker->text($maxNbChars = 100),
-            'DirectX' => $this->faker->randomDigitNotNull,
-            'RED' => $this->faker->text($maxNbChars = 100),
+            'GPU' => $this->faker->century,
+            'DirectX' => $this->faker->numberBetween($min = 9, $max = 15),
+            'RED' => $this->faker->numberBetween($min = 0, $max = 32),
             'Uso_de_disco' => $this->faker->numberBetween($min = 10, $max = 120),
             'soft' => false
         ];
