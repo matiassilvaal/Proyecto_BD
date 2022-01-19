@@ -19,7 +19,11 @@ class GameController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-
+    public function principal(Request $request)
+    {
+        $juegos = Game::all();
+        return view('principal', compact('juegos'));
+    }
     public function fetch()
     {
         $requisitos = Requirement::all();

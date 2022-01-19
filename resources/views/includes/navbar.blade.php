@@ -12,11 +12,23 @@
                         <a class="nav-link active text-gray-900 dark:text-white fw-bold" aria-current="page" href="/">Tienda</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-gray-900 dark:text-white fw-bold" href="/ingresarcurso">Biblioteca</a>
+                        <a class="nav-link text-gray-900 dark:text-white fw-bold" href="/cuenta">Mi cuenta</a>
                     </li>
+                    @auth('admin')
                     <li class="nav-item">
-                        <a class="nav-link text-gray-900 dark:text-white fw-bold" href="#">Mi cuenta</a>
+                        <a class="nav-link text-gray-900 dark:text-white fw-bold" href="/admin">Administración</a>
                     </li>
+                    @endauth
+                    @auth('publisher')
+                    <li class="nav-item">
+                        <a class="nav-link text-gray-900 dark:text-white fw-bold" href="/create_game">Crear juego</a>
+                    </li>
+                    @endauth
+                    @auth('publisher')
+                    <li class="nav-item">
+                        <a class="nav-link text-gray-900 dark:text-white fw-bold" href="/edit_game">Editar juego</a>
+                    </li>
+                    @endauth
                 </ul>
             </div>
         </div>

@@ -21,25 +21,25 @@
                 <div class="card-front">
                     <div class="center-wrap">
                         <form method="PUT" action="{{action('UserController@actualizaruser')}}">
-                        @if($errors->any())
-                                                <h6>{{$errors->first()}}</h6>
-                                                @endif
+                            @if($errors->any())
+                            <h6>{{$errors->first()}}</h6>
+                            @endif
                             <div class="form-group">
                                 <label for="gameName" class="mt-3">Nombre de usuario</label>
-                                <input type="text" class="form-control" id="nombre" name="nombre" 
-                                aria-describedby="gameHelp" placeholder="Ingresa nombre de tu videojuego" autocomplete="off">
+                                <input type="text" class="form-control" id="nombre" name="nombre"
+                                    aria-describedby="gameHelp" placeholder="Ingresa nombre de tu videojuego"
+                                    autocomplete="off">
                                 <small id="gameHelp" class="form-text text-muted">Minim 4 caracteres</small>
                             </div>
                             <div class="form-group">
                                 <label for="gamePrice">Correo</label>
-                                <input type="email" name="email" class="form-style"
-                                                        placeholder="ejemplo@hotmail.com" id="logemail"
-                                                        autocomplete="off" value="">
+                                <input type="email" name="email" class="form-style" placeholder="ejemplo@hotmail.com"
+                                    id="logemail" autocomplete="off" value="">
                             </div>
                             <div class="form-group">
                                 <label for="gameDate">Contraseña</label>
-                                <input type="password" name="password" class="form-style"
-                                                        placeholder="*******" id="logpass" autocomplete="off" value="">
+                                <input type="password" name="password" class="form-style" placeholder="*******"
+                                    id="logpass" autocomplete="off" value="">
                             </div>
                             <button type="submit" class="btn btn-primary mt-3">Submit</button>
                         </form>

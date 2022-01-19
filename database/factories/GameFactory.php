@@ -23,7 +23,7 @@ class GameFactory extends Factory
             'id_ubicacion' => Address::all()->random()->id,
             'id_restriccion' => Age_restriction::all()->random()->id,
             'nombre' => $this->faker->streetName,
-            'precio' => $this->faker->randomNumber,
+            'precio' => $this->faker->numberBetween($min = 5, $max = 100),
             /**
              * Tenía argumentos en el ejemplo,
              * no los puse
@@ -33,7 +33,7 @@ class GameFactory extends Factory
              * Saqué segundo argumento
              */
             'descuento' => $this->faker->numberBetween($min = 1, $max = 100),
-            'imagen' => $this->faker->imageUrl($width = 640, $height = 480),
+            'imagen' => 'https://source.unsplash.com/random/200x200?sig=1',
             'descripcion' => $this->faker->realText($maxNbChars = 600),
             'descarga' => $this->faker->url,
             'demo' => $this->faker->url,

@@ -2,7 +2,12 @@
 
 namespace Database\Seeders;
 use Illuminate\Database\Seeder;
-
+use Faker\Factory as Faker;
+use Illuminate\Support\Facades\DB;
+use App\Models\User;
+use App\Models\Requirement;
+use App\Models\Address;
+use App\Models\Age_restriction;
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -29,7 +34,31 @@ class DatabaseSeeder extends Seeder
         \App\Models\Invoice::factory(100)->create();
         \App\Models\User_method::factory(100)->create();
         \App\Models\Friend::factory(100)->create();
-        \App\Models\Game::factory(100)->create();
+        $faker = Faker::create();
+            foreach (range(1,100) as $index) {
+            DB::table('games')->insert([
+                'id_publisher' => User::all()->random()->id,
+                'id_requisito' => Requirement::all()->random()->id,
+                'id_ubicacion' => Address::all()->random()->id,
+                'id_restriccion' => Age_restriction::all()->random()->id,
+                'nombre' => $faker->streetName,
+                'precio' => $faker->numberBetween($min = 5, $max = 100),
+                /**
+                 * Tenía argumentos en el ejemplo,
+                 * no los puse
+                 */
+                'fecha_de_lanzamiento' => $faker->date($format = 'Y-m-d'),
+                /**
+                 * Saqué segundo argumento
+                 */
+                'descuento' => $faker->numberBetween($min = 1, $max = 100),
+                'imagen' => 'https://source.unsplash.com/random/200x200?sig='.$index,
+                'descripcion' => $faker->realText($maxNbChars = 600),
+                'descarga' => $faker->url,
+                'demo' => $faker->url,
+                'soft' => false
+            ]);
+        }
         \App\Models\Game_language::factory(100)->create();
         \App\Models\Game_genre::factory(100)->create();
         \App\Models\Comment::factory(100)->create();

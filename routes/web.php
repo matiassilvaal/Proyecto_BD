@@ -48,10 +48,8 @@ Route::get('/actualizaruser', 'UserController@actualizaruser');
 Route::post('/registrar', 'UserController@registrar');
 Route::get('/read', 'UserController@datos');
 Route::get('/create', 'GameController@datos_crear');
+Route::get('/', 'GameController@principal');
 
-Route::get('/', function () {
-    return view('welcome');
-});
 Route::get('/addresses','AddressController@index');
 Route::get('/address/{id}','AddressController@show');
 Route::post('/address/create','AddressController@store');
