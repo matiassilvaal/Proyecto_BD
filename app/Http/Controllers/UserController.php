@@ -9,6 +9,7 @@ use App\Models\Currency;
 use App\Models\Wallet;
 use App\Models\Game;
 use App\Models\Comment;
+use App\Models\Comment_type;
 use App\Models\Library;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -28,8 +29,10 @@ class UserController extends Controller
         $juegos = Game::all();
         $comentarios = Comment::all();
         $bibliotecas = Library::all();
+        $paises = Address::all();
+        $tipo_comentarios = Comment_type::all();
 
-        return view('read', compact('usuarios', 'juegos', 'comentarios', 'bibliotecas'));
+        return view('read', compact('usuarios', 'juegos', 'comentarios', 'bibliotecas', 'paises', 'tipo_comentarios'));
     }
 
     public function registrar(Request $request)
@@ -119,14 +122,12 @@ class UserController extends Controller
             if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password])) {
                 $request->session()->regenerate();
                     return redirect()->intended('cuenta');
-                return redirect()->intended('cuenta');
             }
         }
         if ($usuario->id_rol == 2) {
             if (Auth::guard('publisher')->attempt(['email' => $request->email, 'password' => $request->password])) {
                 $request->session()->regenerate();
                     return redirect()->intended('cuenta');
-                return redirect()->intended('cuenta');
             }
         } else {
             if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
