@@ -24,11 +24,9 @@
             <div class="bg-white shadow rounded overflow-hidden">
                 <div class="px-4 pt-0 pb-4 dark:bg-gray-900">
                     <div class="media align-items-end profile-header">
-                        <div class="profile mr-3"><img
-                                src="https://cdn.icon-icons.com/icons2/317/PNG/512/user-male-alt-icon_34333.png"
-                                alt="..." width="130" class="rounded mb-2 "><a data-bs-toggle="modal"
-                                data-bs-target="#editDatosModal"
-                                class="btn btn-dark btn-sm btn-block position-absolute top-0 end-0">Editar datos</a>
+                        <div class="profile mr-3"><img src="https://i.gyazo.com/bcdf65ea96a1bf49174bc28b3935cad6.png"
+                                alt="..." width="130" class="rounded mb-2 "><a 
+                                class="btn btn-dark btn-sm btn-block position-absolute top-0 end-0" href="/editarusuario">Editar datos</a>
                         </div>
                     </div>
                 </div>
@@ -86,23 +84,6 @@
                 </div>
             </div><!-- End profile widget -->
 
-        </div>
-    </div>
-    <div class="modal fade" id="editDatosModal" tabindex="-1" aria-labelledby="editDatosModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editDatosModalLabel">Crear usuario</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    Acá van los formularios pa crear usuarios
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-            </div>
         </div>
     </div>
     @include('includes.footer')

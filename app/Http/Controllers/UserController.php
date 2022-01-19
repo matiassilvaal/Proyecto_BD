@@ -23,6 +23,117 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function actualizaruser(Request $request)
+    {
+        //
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'id_direccion' => 'nullable|integer',
+                'id_rol' => 'nullable|integer',
+                'id_moneda' => 'nullable|integer',
+                'id_billetera' => 'nullable|integer',
+                'nombre' => 'nullable|string|min:4',
+                'fecha_de_nacimiento' => 'nullable|date',
+                'moneda' => 'nullable|integer|min:0',
+                'email' => 'nullable|string|unique:App\Models\User,email',
+                'password' => 'nullable|string|min:4',
+            ],
+            [
+                'id_direccion.integer' => 'id_direccion debe ser entero',
+                'id_rol.integer' => 'id_rol debe ser entero',
+                'id_moneda.integer' => 'id_moneda debe ser entero',
+                'id_billetera.integer' => 'id_billetera debe ser entero',
+                'nombre.string' => 'El nombre debe ser un string',
+                'nombre.min' => 'Nombre minimo 4 caracteres',
+                'fecha_de_nacimiento.date' => 'La fecha debe ser una date',
+                'moneda.integer' => 'La moneda debe ser entero',
+                'moneda.min' => 'El minimo de la moneda es 0',
+                'email.integer' => 'El email debe ser un string',
+                'password.string' => 'La password debe ser un string',
+                'password.min' => 'La password debe tener almenos 4 caracteres',
+                'email.unique' => 'El correo ya esta siendo ocupado',
+            ]
+        );
+        //Caso falla la validación
+        if ($validator->fails()) {
+            return back()->withErrors($validator->errors());
+        }
+        if (empty(User::find(Auth::id())) && empty(User::find(Auth::guard('admin')->id())) && empty(User::find(Auth::guard('publisher')->id()))) {
+            return redirect()->intended('');
+        }
+        if (!empty(User::find(Auth::id()))) {
+            $user = User::find(Auth::id());
+        } else if (!empty(User::find(Auth::guard('admin')->id()))) {
+            $user = User::find(Auth::guard('admin')->id());
+        } else if (!empty(User::find(Auth::guard('publisher')->id()))) {
+            $user = User::find(Auth::guard('publisher')->id());
+        }
+
+        if ($request->id_direccion == $user->id_direccion && $request->id_rol == $user->id_rol && $request->id_moneda == $user->id_moneda && $request->id_billetera == $user->id_billetera) {
+            if ($request->nombre == $user->nombre && $request->fecha_de_nacimiento == $user->fecha_de_nacimiento && $request->moneda == $user->moneda && $request->email == $user->email && $request->password == $user->password) {
+                return response()->json([
+                    "message" => "Los datos ingresados son iguales a los actuales."
+                ], 404);
+            }
+        }
+        //
+        if (!empty($request->id_direccion)) { // Foranea
+            $address = Address::find($request->id_direccion);
+            if (empty($address)) {
+                return response()->json([
+                    "message" => "No se encontró el id_direccion"
+                ], 404);
+            }
+            $user->id_direccion = $request->id_direccion;
+        }
+        if (!empty($request->id_rol)) { // Foranea
+            $role = Role::find($request->id_rol);
+            if (empty($role)) {
+                return response()->json([
+                    "message" => "No se encontró el id_rol"
+                ], 404);
+            }
+            $user->id_rol = $request->id_rol;
+        }
+        if (!empty($request->id_moneda)) { // Foranea
+            $currency = Currency::find($request->id_moneda);
+            if (empty($currency)) {
+                return response()->json([
+                    "message" => "No se encontró el id_moneda"
+                ], 404);
+            }
+            $user->id_moneda = $request->id_moneda;
+        }
+        if (!empty($request->id_billetera)) { // Foranea
+            $wallet = Wallet::find($request->id_billetera);
+            if (empty($wallet)) {
+                return response()->json([
+                    "message" => "No se encontró el id_billetera"
+                ], 404);
+            }
+            $user->id_billetera = $request->id_billetera;
+        }
+        if (!empty($request->nombre)) {
+            $user->nombre = $request->nombre;
+        }
+        if (!empty($request->fecha_de_nacimiento)) {
+            $user->fecha_de_nacimiento = $request->fecha_de_nacimiento;
+        }
+        if (!empty($request->moneda)) {
+            $user->moneda = $request->moneda;
+        }
+        if (!empty($request->email)) {
+            $user->email = $request->email;
+        }
+        if (!empty($request->password)) {
+            
+            $user->password = Hash::make($request->password);
+        }
+        //
+        $user->save();
+        return redirect()->intended('cuenta');
+    }
     public function datos(Request $request)
     {
         $usuarios = User::all();
@@ -31,7 +142,6 @@ class UserController extends Controller
         $bibliotecas = Library::all();
         $paises = Address::all();
         $tipo_comentarios = Comment_type::all();
-
         return view('read', compact('usuarios', 'juegos', 'comentarios', 'bibliotecas', 'paises', 'tipo_comentarios'));
     }
 
@@ -362,10 +472,7 @@ class UserController extends Controller
         }
         //
         $user->save();
-        return response()->json([
-            'msg' => 'User has been edited',
-            'id' => $user->id,
-        ], 200);
+        return redirect()->intended('cuenta');
     }
 
     /**

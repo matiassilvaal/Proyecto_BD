@@ -20,26 +20,31 @@ Route::get('/view_game', function() {
 
 Route::get('/admin', function () {
     return view('admin');
-});
+})->middleware('auth:admin');
 
 Route::get('/create', function () {
     return view('create');
-});
+})->middleware('auth:admin');
 
 Route::get('/update', function () {
     return view('update');
-});
+})->middleware('auth:admin');
 
 Route::get('/delete', function () {
     return view('delete');
-});
+})->middleware('auth:admin');
 
-Route::get('/pruebas', function () {
-    return view('pruebas');
-});
 
+Route::get('/editarusuario', function () {
+    return view('editarusuario');
+})->middleware('auth');
+
+Route::get('/editarusuario', function () {
+    return view('editarusuario');
+})->middleware('auth:admin,publisher,');
 Route::get('/auth', 'UserController@login_register');
 Route::get('/authenticate', 'UserController@authenticate');
+Route::get('/actualizaruser', 'UserController@actualizaruser');
 Route::post('/registrar', 'UserController@registrar');
 Route::get('/read', 'UserController@datos');
 Route::get('/create', 'GameController@datos_crear');
