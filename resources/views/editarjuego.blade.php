@@ -48,7 +48,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="gameImage">Imagen</label>
-                                <input type="url" class="form-control" id="gameImage" name="gameDate"
+                                <input type="url" class="form-control" id="gameImage" name="gameImage"
                                     placeholder="Ingresa url de tu imagen">
                             </div>
                             <div class="form-group">

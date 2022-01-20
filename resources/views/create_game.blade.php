@@ -22,7 +22,7 @@
                     <div class="center-wrap">
                         <form action="{{action('GameController@crearjuego')}}" method='POST'>
                         @if($errors->any())
-                                                <h6>{{$errors->first()}}</h6>
+                                                <h6 style="color:#FF0000">{{$errors->first()}}</h6>
                                                 @endif
                             <div class="form-group">
                                 <label for="gameName" class="mt-3">Nombre videojuego</label>
@@ -107,9 +107,8 @@
                             <label for="ageRes">Restricción de edad</label>
                             <select class="form-select" name="id_restriccion" id="id_restriccion" aria-label="Default select example">
                                 <option selected value="-1">Restricción de edad de tu juego</option>
-                                <option value="0">Para usuarios de 3 años o más</option>
-                                <option value="1">Para usuarios de 7 años o más</option>
-                                <option value="2">Para usuarios de 13 años o más</option>
+                                <option value="1">Para usuarios de 3 años o más</option>
+                                <option value="2">Para usuarios de 7 años o más</option>
                                 <option value="3">Para usuarios de 16 años o más</option>
                                 <option value="4">Para usuarios de 18 años o más</option>
                             </select> 
