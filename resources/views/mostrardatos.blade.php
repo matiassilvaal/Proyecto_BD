@@ -51,7 +51,7 @@
                     </div>
                     <div class="row">
                         <p class="text-center text-dark">Usuario: {{$user->nombre}}</p>
-                        <p class="text-center text-dark">Correo: {{$user->email}}</p>
+
                         @if ($user->id_rol == 1)
                         <p class="text-center text-dark">Rol: Usuario</p>
                         @elseif ($user->id_rol == 2)
