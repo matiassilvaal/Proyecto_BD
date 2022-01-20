@@ -2,7 +2,7 @@
 <header class="mb-5">
     <nav class="navbar navbar-expand-lg bg-gray-100 dark:bg-gray-900" style="opacity: 0.85 !important;">
         <div class="container-fluid">
-            <a href="#"><img class="img-fluid" src="https://i.gyazo.com/3d9ff47e2a0b3eb28b1615f2f901f5e0.png" ></a>
+            <img class="img-fluid" src="https://i.gyazo.com/3d9ff47e2a0b3eb28b1615f2f901f5e0.png" >
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
