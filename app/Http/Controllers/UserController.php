@@ -160,6 +160,7 @@ class UserController extends Controller
                 'logname' => 'required|string|min:4',
                 'email' => 'required|string|unique:App\Models\User,email',
                 'password' => 'required|string|min:4',
+                'id_direccion' => 'required|exists:App\Models\Address,id',
             ],
             [
                 'logname.required' => 'Debe ingresar un nombre',
@@ -171,6 +172,8 @@ class UserController extends Controller
                 'password.required' => 'Debe ingresar una password',
                 'password.string' => 'La password debe ser un string',
                 'password.min' => 'La password debe tener almenos 4 caracteres',
+                'id_direccion.required' => 'Debe ingresar un direccion',
+                'id_direccion.exists' => 'La direccion no existe',
             ]
         );
 

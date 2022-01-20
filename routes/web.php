@@ -14,9 +14,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::get('/edit_game', function(){
-    return view('editarjuego');
-});
 
 Route::get('/admin', function () {
     return view('admin');
@@ -37,13 +34,11 @@ Route::get('/delete', function () {
 
 Route::get('/editarusuario', function () {
     return view('editarusuario');
-})->middleware('auth');
-
-Route::get('/editarusuario', function () {
-    return view('editarusuario');
 })->middleware('auth:admin,publisher,');
 Route::get('/auth', 'UserController@login_register');
 Route::get('/authenticate', 'UserController@authenticate');
+Route::post('/crearjuego', 'GameController@crearjuego')->middleware('auth:publisher');
+Route::get('/editarjuego', 'GameController@editarjuego')->middleware('auth:publisher');
 Route::get('/actualizaruser', 'UserController@actualizaruser');
 Route::post('/registrar', 'UserController@registrar');
 Route::get('/read', 'UserController@datos');
@@ -123,7 +118,8 @@ Route::get('/game_language/softdelete/{id}','Game_languageController@soft');
 Route::put('/game_language/restore/{id}','Game_languageController@restore');
 
 
-Route::get('/create_game', 'GameController@fetch');
+Route::get('/create_game', 'GameController@fetch')->middleware('auth:publisher');
+Route::get('/edit_game', 'GameController@fetchagain')->middleware('auth:publisher');
 Route::get('/games', 'GameController@index');
 Route::get('/game/{id}', 'GameController@show');
 Route::post('/game/create', 'GameController@store');

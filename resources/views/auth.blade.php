@@ -75,7 +75,7 @@
                                                 </div>
                                                 <div class="form-group mt-2">
                                                     <select class="form-select" name="id_direccion" id="id_direccion" aria-label="Seleccionar pais">
-                                                        <option value="0">Selecciona un pais</option>
+                                                        <option selected value="-1">Selecciona un pais</option>
                                                         @foreach ($direcciones as $direccion)
                                                         <option value="{{$direccion->id}}">{{$direccion->pais}}</option>
                                                         @endforeach

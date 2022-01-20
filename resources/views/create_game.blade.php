@@ -13,15 +13,17 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
     </script>
 </head>
-
 <body class="dark:bg-gray-800">
     @include('includes.navbar')
     <div class="row text-center justify-content-center">
-        <div class="card-3d-wrap mx-auto" style=" height: 1500px !important;">
+        <div class="card-3d-wrap mx-auto" style="height: 1500px !important;">
             <div class="card-3d-wrapper">
                 <div class="card-front">
                     <div class="center-wrap">
-                        <form>
+                        <form action="{{action('GameController@crearjuego')}}" method='POST'>
+                        @if($errors->any())
+                                                <h6>{{$errors->first()}}</h6>
+                                                @endif
                             <div class="form-group">
                                 <label for="gameName" class="mt-3">Nombre videojuego</label>
                                 <input type="text" class="form-control" id="gameName" name="gameName" 
@@ -31,7 +33,7 @@
                             <div class="form-group">
                                 <label for="gamePrice">Precio</label>
                                 <input type="number" class="form-control" id="gamePrice" name="gamePrice"
-                                placeholder="29990">
+                                placeholder="Ingresa un precio">
                             </div>
                             <div class="form-group">
                                 <label for="gameDate">Fecha de publicación</label>
@@ -39,12 +41,13 @@
                             </div>
                             <div class="form-group">
                                 <label for="gameImage">Imagen</label>
-                                <input type="url" class="form-control" id="gameImage" name="gameDate"
+                                <input type="url" class="form-control" id="gameImage" name="gameImage"
                                 placeholder="Ingresa url de tu imagen">
                             </div>
                             <div class="form-group mt-3">
                                 <label for="gameDescription">Descripción</label>
-                                <textarea rows="4" cols="46" name="gameDescription" form="usrform"></textarea>
+                                <input type="text" class="form-control" id="gameDescription" name="gameDescription"
+                                placeholder="Ingresa la descripcion del juego">
                             </div>
                             <div class="form-group">
                                 <label for="gameDownload">Link de descarga juego</label>
@@ -94,16 +97,16 @@
                                 placeholder="Ingresa tamaño del juego">
                             </div>
                             <br>
-                            <label for="direccion">País del juego</label>
-                            <select class="form-select" aria-label="Default select example">
-                                <option selected>Seleccionar región a la que pertenece el juego</option>
+                            <label for="id_direccion">País del juego</label>
+                            <select class="form-select" name="id_direccion" id="id_direccion" aria-label="Default select example">
+                                <option selected value="-1">Seleccionar región a la que pertenece el juego</option>
                                 @foreach ($direcciones as $direccion)
                                 <option value="{{$direccion->id}}">{{$direccion->pais}}</option>
                                 @endforeach
                             </select>
                             <label for="ageRes">Restricción de edad</label>
-                            <select class="form-select" aria-label="Default select example">
-                                <option selected>Restricción de edad de tu juego</option>
+                            <select class="form-select" name="id_restriccion" id="id_restriccion" aria-label="Default select example">
+                                <option selected value="-1">Restricción de edad de tu juego</option>
                                 <option value="0">Para usuarios de 3 años o más</option>
                                 <option value="1">Para usuarios de 7 años o más</option>
                                 <option value="2">Para usuarios de 13 años o más</option>
@@ -117,6 +120,7 @@
             </div>
         </div>
     </div>
+    @include('includes.footer')
 </body>
 
 </html>

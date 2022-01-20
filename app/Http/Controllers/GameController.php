@@ -19,6 +19,157 @@ class GameController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function editarjuego(Request $request){
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'id_publisher' => 'nullable|integer',
+                'id_requisito' => 'nullable|integer',
+                'id_ubicacion' => 'nullable|integer',
+                'id_restriccion' => 'nullable|integer',
+                'nombre' => 'nullable|string',
+                'precio' => 'nullable|integer|min:0',
+                'fecha_de_lanzamiento' => 'nullable|date',
+                'descuento' => 'nullable|integer|between:0,100',
+                'imagen' => 'nullable|string|max:500|url',
+                'descripcion' => 'nullable|string|max:600',
+                'descarga' => 'nullable|string|max:600|url',
+                'demo' => 'nullable|string|max:600|url'
+            ],
+            [
+                'id_publisher.integer' => 'La id publisher debe ser entera',
+                'id_requisito.integer' => 'La id requisito debe ser entera',
+                'id_ubicacion.integer' => 'La id ubicacion debe ser entera',
+                'id_restriccion.integer' => 'La id restriccion debe ser entera',
+                'nombre.string' => 'Nombre debe ser un string',
+                'precio.integer' => 'Precio debe ser un entero',
+                'precio.min' => 'Precio no puede ser menor a 0',
+                'fecha_de_lanzamiento.date' => 'Fecha de lanzamiento debe tener formato date',
+                'descuento.integer' => 'Descuento debe ser un entero',
+                'descuento.between' => 'Descuento debe estar entre 0 y 100',
+                'imagen.string' => 'Imagen debe ser un string',
+                'imagen.max' => 'Largo maximo de imagen es 500',
+                'imagen.url' => 'Imagen debe ser una url',
+                'descripcion.string' => 'La descripcion debe ser un string',
+                'descripcion.max' => 'El maximo de caracteres es 600',
+                'descarga.string' => 'Descarga debe ser un string',
+                'descarga.max' => 'El maximo de caracteres es 600',
+                'descarga.url' => 'Descarga es un enlace url',
+                'demo.string' => 'Demo debe ser un string',
+                'demo.max' => 'El maximo de caracteres es 600',
+                'demo.url' => 'Demo es un enlace url'
+            ]
+        );
+        if($validator->fails()){
+            return back()->withErrors($validator->errors());
+        }
+        if($request->id_juego != -1){
+            $game = Game::find($request->id_juego); 
+        }
+        else{
+            return back()->withErrors([
+                'msg' => 'Tienes que seleccionar un juego'
+            ]);
+        }
+
+        if(!empty($request->gamePrice)){
+            $game->precio = $request->gamePrice;
+        }
+        if(!empty($request->gameDiscount)){
+            $game->descuento = $request->gameDiscount;
+        }
+        if(!empty($request->gameImage)){
+            $game->imagen = $request->gameImage;
+        }
+        if(!empty($request->gameDescription)){
+            $game->descripcion = $request->gameDescription;
+        }
+        if(!empty($request->gameDownload)){
+            $game->descarga = $request->gameDownload;
+        }
+        if(!empty($request->gameDemo)){
+            $game->demo = $request->gameDemo;
+        }
+        $game->save();
+        return redirect()->intended('');
+    }
+    public function crearjuego(Request $request){
+        if (empty(User::find(Auth::guard('publisher')->id()))) {
+            return redirect()->intended('');
+        }
+        if (!empty(User::find(Auth::guard('publisher')->id()))) {
+            $user = User::find(Auth::guard('publisher')->id());
+        }
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'id_direccion' => 'required|exists:App\Models\Address,id',
+                'id_restriccion' => 'required|exists:App\Models\Age_restriction,id',
+                'gameName' => 'required|string',
+                'gamePrice' => 'required|integer|min:0',
+                'gameDate' => 'required|date',
+                'gameImage' => 'required|string|max:500|url',
+                'gameDownload' => 'required|string|max:600|url',
+                'gameDemo' => 'required|string|max:600|url'
+            ],
+            [
+                'id_direccion.required' => 'Debes ingresar una ubicacion',
+                'id_direccion.exists' => 'La ubicacion no existe',
+                'id_restriccion.required' => 'Debes ingresar una restriccion',
+                'id_restriccion.exists' => 'La restriccion no existe',
+                'gameName.required' => 'Debes ingresar un nombre',
+                'gameName.string' => 'Nombre debe ser un string',
+                'gamePrice.required' => 'Debes ingresar un precio',
+                'gamePrice.integer' => 'Precio debe ser un entero',
+                'gamePrice.min' => 'Precio no puede ser menor a 0',
+                'gameDate.required' => 'Debes ingresar una fecha de lanazmiento',
+                'gameDate.date' => 'Fecha de lanzamiento debe tener formato date',
+                'gameImage.required' => 'Debes ingresar una imagen',
+                'gameImage.string' => 'Imagen debe ser un string',
+                'gameImage.max' => 'Largo maximo de imagen es 500',
+                'gameImage.url' => 'Imagen debe ser una url',
+
+                'gameDownload.required' => 'Debes ingresar un link de descarga',
+                'gameDownload.string' => 'Descarga debe ser un string',
+                'gameDownload.max' => 'El maximo de caracteres es 600',
+                'gameDownload.url' => 'Descarga es un enlace url',
+                'gameDemo.required' => 'Denes ingresar un link de demo',
+                'gameDemo.string' => 'Demo debe ser un string',
+                'gameDemo.max' => 'El maximo de caracteres es 600',
+                'gameDemo.url' => 'Demo es un enlace url'
+            ]
+        );
+        if($validator->fails()){
+            return back()->withErrors($validator->errors());
+        }
+        $newGame = new Game();
+        $newRequirement = new Requirement();
+        $newRequirement->SO = $request->reqOS;
+        $newRequirement->CPU = $request->reqCPU;
+        $newRequirement->RAM = $request->reqRAM;
+        $newRequirement->GPU = $request->reqGPU;
+        $newRequirement->DirectX = $request->reqDX;
+        $newRequirement->RED = $request->reqRED;
+        $newRequirement->Uso_de_disco = $request->reqHDD;
+        $newRequirement->soft = false;
+        $newRequirement->save();
+        $newGame->id_publisher = $user->id;
+        $newGame->id_requisito = $newRequirement->id;
+        $newGame->id_ubicacion = $request->id_direccion;
+        $newGame->id_restriccion = $request->id_restriccion;
+        $newGame->nombre = $request->gameName;
+        $newGame->precio = $request->gamePrice;
+        $newGame->fecha_de_lanzamiento = $request->gameDate;
+        $newGame->descuento = 0;
+        $newGame->imagen = $request->gameImage;
+        $newGame->descripcion = $request->gameDescription;
+        $newGame->descarga = $request->gameDownload;
+        $newGame->demo = $request->gameDemo;
+        $newGame->soft = false;
+        $newGame->save();
+
+        return redirect()->intended('');
+    }
     public function principal(Request $request)
     {
         $juegos = Game::all();
@@ -34,6 +185,17 @@ class GameController extends Controller
         $direcciones = Address::all();
         $restricciones = Age_restriction::all();
         return view('create_game', compact('requisitos', 'direcciones', 'restricciones'));
+    }
+    public function fetchagain()
+    {
+        $juegos = Game::all();
+        if (empty(User::find(Auth::guard('publisher')->id()))) {
+            return redirect()->intended('');
+        }
+        if (!empty(User::find(Auth::guard('publisher')->id()))) {
+            $user = User::find(Auth::guard('publisher')->id());
+        }
+        return view('editarjuego', compact('juegos', 'user'));
     }
 
     public function datos_crear()
