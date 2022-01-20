@@ -61,7 +61,7 @@
                                                 @endif
                                                 <div class="form-group">
                                                     <input type="text" name="logname" class="form-style"
-                                                        placeholder="Usuario" id="logname" autocomplete="off">
+                                                        placeholder="Nombre de Usuario" id="logname" autocomplete="off">
                                                     <i class="input-icon uil uil-user"></i>
                                                 </div>
                                                 <div class="form-group mt-2">

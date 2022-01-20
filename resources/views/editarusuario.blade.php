@@ -27,7 +27,7 @@
                             <div class="form-group">
                                 <label for="gameName" class="mt-3">Nombre de usuario</label>
                                 <input type="text" class="form-control" id="nombre" name="nombre"
-                                    aria-describedby="gameHelp" placeholder="Ingresa nombre de tu videojuego"
+                                    aria-describedby="gameHelp" placeholder="Ingresa nuevo nombre de usuario"
                                     autocomplete="off">
                                 <small id="gameHelp" class="form-text text-muted">Minimo 4 caracteres</small>
                             </div>
